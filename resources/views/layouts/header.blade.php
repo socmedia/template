@@ -367,6 +367,13 @@
                             <i class="bx bx-user"></i><span>Profile</span>
                         </a>
                     </li>
+                    @role('Developer')
+                    <li>
+                        <a class="dropdown-item" href="javascript:;">
+                            <i class="bx bx-cog"></i><span>Settings Manager</span>
+                        </a>
+                    </li>
+                    @endrole
                     <li>
                         <a class="dropdown-item" href="javascript:;">
                             <i class="bx bx-cog"></i><span>Settings</span>

@@ -25,7 +25,9 @@
     <link rel="stylesheet" href="{{asset('assets/app/css/dark-theme.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/app/css/semi-dark.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/app/css/header-colors.css')}}" />
-    <title>Rocker - Bootstrap 5 Admin Dashboard Template</title>
+
+    @livewireStyles
+    <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
 </head>
 
 <body>
@@ -147,6 +149,7 @@
     <script src="{{asset('assets/app/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
     <!--app JS-->
     <script src="{{asset('assets/app/js/app.js')}}"></script>
+    @livewireScripts
     @stack("script")
 </body>
 
