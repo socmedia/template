@@ -2,9 +2,11 @@
 
 namespace Modules\Dashboard\Http\Controllers;
 
+use App\Services\LoginService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -12,8 +14,11 @@ class DashboardController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(LoginService $loginService)
     {
+        return $loginService->checkExistingUserLoginInfo();
+        // return $loginService->getLoginInfo();
+
         return view('dashboard::index');
     }
 
