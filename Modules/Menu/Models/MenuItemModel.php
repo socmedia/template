@@ -9,9 +9,9 @@ use Modules\Menu\Models\Entities\MenuItem;
 class MenuItemModel
 {
     /**
-     * Define general variable
+     * Define variable
      *
-     * @var mixed
+     * @var MenuItem $menuItem
      */
     public $menuItem;
 
@@ -65,5 +65,83 @@ class MenuItemModel
         }
 
         return $menu->firstOrFail();
+    }
+
+    /**
+     * Find menu item from resource by using slug
+     *
+     * @param  int $slug
+     * @param  Closure $condition
+     * @return MenuItem
+     */
+    public function findBySlug($slug, Closure $condition = null): MenuItem
+    {
+        $menu = $this->menuItem->where('slug', $slug);
+
+        // additional condition
+        if ($condition) {
+            call_user_func($condition, $menu);
+        }
+
+        return $menu->firstOrFail();
+    }
+
+    /**
+     * Store menu item to resource
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return MenuItem
+     */
+    public function store($request): MenuItem
+    {
+        return $this->menuItem->create([
+            'menu_id' => $request->menu,
+            'title' => $request->title,
+            'slug' => slug($request->title),
+            'url' => $request->url,
+            'target' => $request->target,
+            'icon' => $request->icon,
+            'additional_class' => $request->additional_class,
+            'color' => $request->color,
+            'parent_id' => $request->parent,
+            'order' => $request->order,
+        ]);
+    }
+
+    /**
+     * Update exisisting menu item from resource
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return MenuItem
+     */
+    public function update($request, $id): MenuItem
+    {
+        $menu = $this->menuItem->find($id);
+
+        return $menu->update([
+            'menu_id' => $request->menu,
+            'title' => $request->title,
+            'slug' => slug($request->title),
+            'url' => $request->url,
+            'target' => $request->target,
+            'icon' => $request->icon,
+            'additional_class' => $request->additional_class,
+            'color' => $request->color,
+            'parent_id' => $request->parent,
+            'order' => $request->order,
+        ]);
+    }
+
+    /**
+     * Remove exisisting menu item from resource
+     *
+     * @param  int $id
+     * @return MenuItem
+     */
+    public function delete($id): MenuItem
+    {
+        $menu = $this->menuItem->find($id);
+        return $menu->delete();
     }
 }
