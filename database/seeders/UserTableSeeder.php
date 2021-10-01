@@ -15,14 +15,40 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = [
+        $dev = User::create([
             'id' => Generate::ID(32),
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
+            'name' => 'Developer',
+            'email' => 'developer@app.com',
             'password' => bcrypt('password'),
             'email_verified_at' => now()->toDateTimeString(),
-        ];
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString(),
+        ]);
 
-        return User::insert($user);
+        $dev->assignRole('Developer');
+
+        $admin = User::create([
+            'id' => Generate::ID(32),
+            'name' => 'Admin',
+            'email' => 'admin@app.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now()->toDateTimeString(),
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString(),
+        ]);
+
+        $admin->assignRole('Admin');
+
+        $user = User::create([
+            'id' => Generate::ID(32),
+            'name' => 'User',
+            'email' => 'user@app.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now()->toDateTimeString(),
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString(),
+        ]);
+
+        $user->assignRole('User');
     }
 }
