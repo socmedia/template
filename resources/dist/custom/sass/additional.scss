@@ -1,0 +1,45 @@
+.avatar {
+    display: block;
+    height: 42px;
+    width: 42px;
+    overflow: hidden;
+    border-radius: 50%;
+    text-align: center;
+
+    img {
+        height: 100%;
+    }
+
+    &.md {
+        height: 75px;
+        width: 75px;
+    }
+
+    &.lg {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+
+.list-group.sidebar {
+    background: transparent;
+
+    .list-group-item {
+        border-radius: .25rem;
+        border: none;
+        background: transparent;
+
+        a {
+            color: #212529;
+        }
+
+        &.active {
+            background: white;
+        }
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
