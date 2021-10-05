@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
 
             // information
-            $table->string('place_of_brith')->nullable();
-            $table->date('date_of_brith')->nullable();
+            $table->string('place_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->text('bio')->nullable();
             $table->string('gender')->nullable();
             $table->char('area_code', 4)->default('+62')->nullable();
