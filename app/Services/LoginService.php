@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Jenssegers\Agent\Agent;
 use Stevebauman\Location\Facades\Location;
 
 class LoginService
 {
     public $agent;
-    public $user;
 
     /**
      * Class constructor.
@@ -70,26 +70,29 @@ class LoginService
         );
     }
 
-    public function checkExistingUserLoginInfo()
+    public function checkExistingUserLoginInfo(User $user)
     {
-        if ($this->user->login_info) {
-            $info = unserialize($this->user->login_info);
+        if ($user->login_info) {
+            $info = unserialize($user->login_info);
 
             if (count($info) >= 1) {
                 $duplicate = $this->checkDuplicateInfo($info);
 
                 if (!$duplicate) {
                     array_push($info, $this->generateLoginInfo());
-                    $this->user->login_info = serialize($info);
+                    return $user->login_info = serialize($info);
                 }
             }
 
-        } else {
-            $this->user->login_info = serialize([$this->generateLoginInfo()]);
         }
 
-        $this->user->save();
-        return unserialize($this->user->login_info);
+        return $user->login_info = serialize([$this->generateLoginInfo()]);
+    }
+
+    public function updateUserLoginInfo(User $user)
+    {
+        $this->checkExistingUserLoginInfo($user);
+        return $user->save();
     }
 
     public function checkIp()
@@ -102,8 +105,8 @@ class LoginService
         $duplicateIp = false;
         $loginIp = request()->ip() == '127.0.0.1' ? 'unknown' : request()->ip();
 
-        foreach ($info as $value) {
-            if ($value['ip'] == $loginIp) {
+        foreach ($info as $i => $value) {
+            if ($value == $loginIp) {
                 $duplicateIp = true;
             }
         }

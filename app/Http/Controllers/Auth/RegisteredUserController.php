@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function __construct(LoginService $loginService)
     {
-        $this->service = $loginService;
+        $this->loginService = $loginService;
     }
 
     /**
@@ -56,8 +56,10 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'login_info' => $this->loginService->generateLoginInfo(),
+            'login_info' => serialize($this->loginService->generateLoginInfo()),
         ]);
+
+        $user->assignRole('User');
 
         event(new Registered($user));
 
