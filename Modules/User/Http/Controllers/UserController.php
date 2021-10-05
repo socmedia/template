@@ -38,12 +38,11 @@ class UserController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function show()
     {
-        return view('user::show');
+        return view('user::profile');
     }
 
     /**
