@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\User\Models\Entities\UsersSetting;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -15,6 +16,10 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     public $incrementing = false;
+
+    protected $with = [
+        'preferences',
+    ];
 
     protected $keyType = 'string';
 
@@ -78,4 +83,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function preferences()
+    {
+        return $this->hasOne(UsersSetting::class, 'user_id', 'id');
+    }
 }

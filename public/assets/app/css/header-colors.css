@@ -1,85 +1,110 @@
 html.color-header .topbar .navbar-nav .nav-link {
-	color: #fff
+    color: #fff
 }
+
 html.color-header .search-bar input {
-	color: #413f3f;
-	background-color: #fff!important;
-	border: 1px solid rgb(241 241 241 / 15%)!important;
-	box-shadow: inset 0 1px 2px rgb(0 0 0 / 0%)
+    color: #413f3f;
+    background-color: #fff !important;
+    border: 1px solid rgb(241 241 241 / 15%) !important;
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0%)
 }
+
 html.color-header .search-bar input:focus {
-	box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25)
+    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25)
 }
+
 html.color-header .search-bar input::placeholder {
-	color: #08090a!important;
-	opacity: .5!important
+    color: #08090a !important;
+    opacity: .5 !important
 }
+
 html.color-header::placeholder {
-	color: #08090a!important;
-	opacity: .5!important
+    color: #08090a !important;
+    opacity: .5 !important
 }
+
 html.color-header .search-show {
-	color: #221f1f
+    color: #221f1f
 }
+
 html.color-header .user-info .user-name {
-	color: #fff
+    color: #fff
 }
+
 html.color-header .user-info .designattion {
-	color: #fff
+    color: #fff
 }
+
 html.color-header .user-box {
-	border-left: 1px solid rgb(255 255 255 / .35)!important
+    border-left: 1px solid rgb(255 255 255 / .35) !important
 }
+
 html.color-header .mobile-toggle-menu {
-	color: #fff
+    color: #fff
 }
+
 .switcher-body .headercolor1 {
-	background: #0727d7!important
+    background: #0727d7 !important
 }
+
 .switcher-body .headercolor2 {
-	background: #23282c!important
+    background: #23282c !important
 }
+
 .switcher-body .headercolor3 {
-	background: #e10a1f!important
+    background: #e10a1f !important
 }
+
 .switcher-body .headercolor4 {
-	background: #157d4c!important
+    background: #157d4c !important
 }
+
 .switcher-body .headercolor5 {
-	background: #673ab7!important
+    background: #673ab7 !important
 }
+
 .switcher-body .headercolor6 {
-	background: #795548!important
+    background: #795548 !important
 }
+
 .switcher-body .headercolor7 {
-	background: #d3094e!important
+    background: #d3094e !important
 }
+
 .switcher-body .headercolor8 {
-	background: #ff9800!important
+    background: #ff9800 !important
 }
+
 html.headercolor1 .topbar {
-	background: #0727d7
+    background: #0727d7
 }
+
 html.headercolor2 .topbar {
-	background: #23282c
+    background: #23282c
 }
+
 html.headercolor3 .topbar {
-	background: #e10a1f
+    background: #e10a1f
 }
+
 html.headercolor4 .topbar {
-	background: #157d4c
+    background: #157d4c
 }
+
 html.headercolor5 .topbar {
-	background: #673ab7
+    background: #673ab7
 }
+
 html.headercolor6 .topbar {
-	background: #795548
+    background: #795548
 }
+
 html.headercolor7 .topbar {
-	background: #d3094e
+    background: #d3094e
 }
+
 html.headercolor8 .topbar {
-	background: #ff9800
+    background: #ff9800
 }
 
 
@@ -87,22 +112,24 @@ html.headercolor8 .topbar {
 /* sidebar color */
 
 
-html.color-sidebar .sidebar-wrapper{
-	background-color: #171717;
+html.color-sidebar .sidebar-wrapper {
+    background-color: #171717;
     border-right: 1px solid rgb(228 228 228 / 0%);
 }
-html.color-sidebar .sidebar-header{
-	background-color: transparent;
+
+html.color-sidebar .sidebar-header {
+    background-color: transparent;
     border-right: 1px solid #e4e4e400;
     border-bottom: 1px solid rgb(255 255 255 / 15%);
-	position: absolute;
+    position: absolute;
 }
+
 html.color-sidebar .logo-icon {
     filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-html.color-sidebar .menu-label{
-	color: rgb(255 255 255 / 65%);
+html.color-sidebar .menu-label {
+    color: rgb(255 255 255 / 65%);
 }
 
 html.color-sidebar .sidebar-wrapper .sidebar-header .logo-text {
@@ -114,10 +141,13 @@ html.color-sidebar .sidebar-wrapper .sidebar-header .toggle-icon {
 }
 
 html.color-sidebar .simplebar-scrollbar:before {
-	background: rgba(255, 255, 255, .4)
+    background: rgba(255, 255, 255, .4)
 }
 
-html.color-sidebar .sidebar-wrapper .metismenu .mm-active>a, html.color-sidebar .sidebar-wrapper .metismenu a:active, html.color-sidebar .sidebar-wrapper .metismenu a:focus, html.color-sidebar .sidebar-wrapper .metismenu a:hover {
+html.color-sidebar .sidebar-wrapper .metismenu .mm-active>a,
+html.color-sidebar .sidebar-wrapper .metismenu a:active,
+html.color-sidebar .sidebar-wrapper .metismenu a:focus,
+html.color-sidebar .sidebar-wrapper .metismenu a:hover {
     color: #fff;
     text-decoration: none;
     background: rgb(255 255 255 / 18%);
@@ -141,29 +171,36 @@ html.color-sidebar .sidebar-wrapper {
 }
 
 
-.switcher-wrapper .sidebarcolor1 {
-	background-image: url(../images/bg-themes/1.png);
+.header-colors-indigators .sidebarcolor1 {
+    background-image: url(../images/bg-themes/1.png);
 }
-.switcher-wrapper .sidebarcolor2 {
-	background-image: url(../images/bg-themes/2.png);
+
+.header-colors-indigators .sidebarcolor2 {
+    background-image: url(../images/bg-themes/2.png);
 }
-.switcher-wrapper .sidebarcolor3 {
-	background-image: url(../images/bg-themes/3.png);
+
+.header-colors-indigators .sidebarcolor3 {
+    background-image: url(../images/bg-themes/3.png);
 }
-.switcher-wrapper .sidebarcolor4 {
-	background-image: url(../images/bg-themes/4.png);
+
+.header-colors-indigators .sidebarcolor4 {
+    background-image: url(../images/bg-themes/4.png);
 }
-.switcher-wrapper .sidebarcolor5 {
-	background-image: url(../images/bg-themes/5.png);
+
+.header-colors-indigators .sidebarcolor5 {
+    background-image: url(../images/bg-themes/5.png);
 }
-.switcher-wrapper .sidebarcolor6 {
-	background-image: url(../images/bg-themes/6.png);
+
+.header-colors-indigators .sidebarcolor6 {
+    background-image: url(../images/bg-themes/6.png);
 }
-.switcher-wrapper .sidebarcolor7 {
-	background-image: url(../images/bg-themes/7.png);
+
+.header-colors-indigators .sidebarcolor7 {
+    background-image: url(../images/bg-themes/7.png);
 }
-.switcher-wrapper .sidebarcolor8 {
-	background-image: url(../images/bg-themes/8.png);
+
+.header-colors-indigators .sidebarcolor8 {
+    background-image: url(../images/bg-themes/8.png);
 }
 
 
@@ -201,9 +238,26 @@ html.color-sidebar.sidebarcolor8 .sidebar-wrapper {
     background-image: url(../images/bg-themes/8.png);
 }
 
+.indigator {
+    position: relative;
+}
 
+.indigator.active::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(255,255,255,1);transform: ;msFilter: ;"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path></svg>');
+    position: absolute;
+    height: 24px;
+    top: 50%;
+    width: 24px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-
-
-
-
+.indigator.reset::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(111, 111, 111, 1);transform: ;msFilter:;"><path d="M16.242 17.242a6.04 6.04 0 0 1-1.37 1.027l.961 1.754a8.068 8.068 0 0 0 2.569-2.225l-1.6-1.201a5.938 5.938 0 0 1-.56.645zm1.743-4.671a5.975 5.975 0 0 1-.362 2.528l1.873.701a7.977 7.977 0 0 0 .483-3.371l-1.994.142zm1.512-2.368a8.048 8.048 0 0 0-1.841-2.859l-1.414 1.414a6.071 6.071 0 0 1 1.382 2.146l1.873-.701zm-8.128 8.763c-.047-.005-.094-.015-.141-.021a6.701 6.701 0 0 1-.468-.075 5.923 5.923 0 0 1-2.421-1.122 5.954 5.954 0 0 1-.583-.506 6.138 6.138 0 0 1-.516-.597 5.91 5.91 0 0 1-.891-1.634 6.086 6.086 0 0 1-.247-.902c-.008-.043-.012-.088-.019-.131A6.332 6.332 0 0 1 6 13.002V13c0-1.603.624-3.109 1.758-4.242A5.944 5.944 0 0 1 11 7.089V10l5-4-5-4v3.069a7.917 7.917 0 0 0-4.656 2.275A7.936 7.936 0 0 0 4 12.999v.009c0 .253.014.504.037.753.007.076.021.15.03.227.021.172.044.345.076.516.019.1.044.196.066.295.032.142.065.283.105.423.032.112.07.223.107.333.026.079.047.159.076.237l.008-.003A7.948 7.948 0 0 0 5.6 17.785l-.007.005c.021.028.049.053.07.081.211.272.433.538.681.785a8.236 8.236 0 0 0 .966.816c.265.192.537.372.821.529l.028.019.001-.001a7.877 7.877 0 0 0 2.136.795l-.001.005.053.009c.201.042.405.071.61.098.069.009.138.023.207.03a8.038 8.038 0 0 0 2.532-.137l-.424-1.955a6.11 6.11 0 0 1-1.904.102z"></path></svg>');
+    position: absolute;
+    height: 24px;
+    top: 50%;
+    width: 24px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

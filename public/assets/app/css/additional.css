@@ -28,11 +28,92 @@
 }
 .list-group.sidebar .list-group-item a {
   color: #212529;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+}
+.list-group.sidebar .list-group-item p {
+  margin: 0;
+}
+.list-group.sidebar .list-group-item small {
+  color: #6c757d;
 }
 .list-group.sidebar .list-group-item.active {
-  background: white;
+  background: rgba(13, 110, 253, 0.12);
+}
+.list-group.sidebar .list-group-item.active a {
+  text-decoration: none;
+  color: #008cff;
+}
+
+html.dark-theme .list-group.sidebar {
+  background: transparent;
+}
+html.dark-theme .list-group.sidebar .list-group-item {
+  border-radius: 0.25rem;
+  border: none;
+  background: transparent;
+}
+html.dark-theme .list-group.sidebar .list-group-item a {
+  color: #ffffffc0;
+}
+html.dark-theme .list-group.sidebar .list-group-item small {
+  color: #ffffff8e;
+}
+html.dark-theme .list-group.sidebar .list-group-item.active {
+  background: rgba(255, 255, 255, 0.18);
+}
+html.dark-theme .list-group.sidebar .list-group-item.active a {
+  text-decoration: none;
+  color: #fff;
 }
 
 .form-group {
   margin-bottom: 1rem;
+}
+
+.input-group label:nth-child(1),
+.form-group label:nth-child(1) {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.form-control {
+  padding: 0.375rem 0.5rem !important;
+}
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.input-group .input-group-prepend .input-group-text {
+  padding: 0.375rem 0 0.375rem 0.5rem;
+  background: none;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group .input-group-prepend ~ .form-control {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group .input-group-append .input-group-text {
+  padding: 0.375rem 0.5rem 0.375rem 0;
+  background: none;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group .input-group-append ~ .form-control {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group:focus-within .input-group-text {
+  border-color: #86b7fe !important;
+}
+
+.input-group-text .lni {
+  font-size: 1rem;
+  line-height: 1.5;
 }

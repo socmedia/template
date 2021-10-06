@@ -29,3 +29,14 @@
 @push('style')
 <link rel="stylesheet" href="{{asset('assets/app/css/additional.css')}}">
 @endpush
+
+@push('script')
+
+@endpush
+<script>
+    document.addEventListener('preferences', function (e) {
+        const className = `${e.detail.theme}`;
+        const html = document.querySelector('html');
+        html.className = className
+    })
+</script>

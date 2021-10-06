@@ -21,7 +21,6 @@
     }
 }
 
-
 .list-group.sidebar {
     background: transparent;
 
@@ -32,14 +31,118 @@
 
         a {
             color: #212529;
+            line-height: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        small {
+            color: #6c757d;
         }
 
         &.active {
-            background: white;
+            background: rgb(13 110 253 / .12);
+
+            a {
+                text-decoration: none;
+                color: #008cff;
+            }
         }
     }
 }
 
+html.dark-theme .list-group.sidebar {
+    background: transparent;
+
+    .list-group-item {
+        border-radius: .25rem;
+        border: none;
+        background: transparent;
+
+        a {
+            color: #ffffffc0;
+        }
+
+
+        small {
+            color: #ffffff8e;
+        }
+
+        &.active {
+            background: rgb(255 255 255 / 18%);
+
+            a {
+                text-decoration: none;
+                color: #fff;
+            }
+        }
+    }
+}
+
+
 .form-group {
     margin-bottom: 1rem;
+}
+
+.input-group label:nth-child(1),
+.form-group label:nth-child(1) {
+    font-weight: 500;
+    margin-bottom: .25rem;
+}
+
+.form-control {
+    padding: .375rem .5rem !important;
+
+    &:focus {
+        box-shadow: none !important
+    }
+}
+
+.input-group {
+    .input-group-prepend {
+        .input-group-text {
+            padding: .375rem 0 .375rem .5rem;
+            background: none;
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        ~.form-control {
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    .input-group-append {
+        .input-group-text {
+            padding: .375rem .5rem .375rem 0;
+            background: none;
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        ~.form-control {
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    &:focus-within {
+        .input-group-text {
+            border-color: #86b7fe !important;
+        }
+    }
+}
+
+.input-group-text .lni {
+    font-size: 1rem;
+    line-height: 1.5;
 }

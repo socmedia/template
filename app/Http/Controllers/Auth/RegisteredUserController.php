@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Modules\User\Models\Entities\UsersSetting;
 
 class RegisteredUserController extends Controller
 {
@@ -51,12 +52,19 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'min:8', 'max:191', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $id = Generate::ID(32);
+
         $user = User::create([
-            'id' => Generate::ID(32),
+            'id' => $id,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'login_info' => serialize($this->loginService->generateLoginInfo()),
+        ]);
+
+        UsersSetting::create([
+            'user_id' => $id,
+            'lang' => 'en',
         ]);
 
         $user->assignRole('User');

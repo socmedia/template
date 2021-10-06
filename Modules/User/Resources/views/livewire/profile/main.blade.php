@@ -16,6 +16,22 @@
                     @if ($active === 'information')
                     <livewire:user::profile.information />
                     @endif
+
+                    @if ($active === 'account')
+                    <livewire:user::profile.account />
+                    @endif
+
+                    @if ($active === 'settings')
+                    <livewire:user::profile.setting />
+                    @endif
+
+                    @if ($active === 'preferences')
+                    <livewire:user::profile.preference />
+                    @endif
+
+                    @if ($active === 'security')
+                    <livewire:user::profile.security />
+                    @endif
                 </div>
             </div>
 
