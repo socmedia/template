@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\User\Models\Entities\UsersActivity;
 use Modules\User\Models\Entities\UsersSetting;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -87,5 +88,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function preferences()
     {
         return $this->hasOne(UsersSetting::class, 'user_id', 'id');
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(UsersActivity::class, 'user_id', 'id');
     }
 }
