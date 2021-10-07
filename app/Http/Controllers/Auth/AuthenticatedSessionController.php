@@ -43,6 +43,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $this->loginService->updateUserLoginInfo(auth()->user());
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -59,8 +61,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-        $this->loginService->updateUserLoginInfo(auth()->user());
 
         return redirect('/');
     }
