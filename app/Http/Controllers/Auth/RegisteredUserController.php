@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules;
 use Modules\User\Models\Entities\UsersSetting;
 
@@ -23,7 +24,7 @@ class RegisteredUserController extends Controller
      */
     public function __construct(ActivityService $activityService)
     {
-        $this->ActivityService = $activityService;
+        $this->activityService = $activityService;
     }
 
     /**
@@ -53,13 +54,14 @@ class RegisteredUserController extends Controller
         ]);
 
         $id = Generate::ID(32);
+        $img = Http::get('https://ui-avatars.com/api/?format=png&name=' . $request->name . '&background=f1f1f1&color=636363');
 
         $user = User::create([
             'id' => $id,
             'name' => $request->name,
             'email' => $request->email,
+            'avatar_url' => 'data:image/png;base64,' . base64_encode($img),
             'password' => Hash::make($request->password),
-            'login_info' => serialize($this->ActivityService->generateLoginInfo()),
         ]);
 
         UsersSetting::create([

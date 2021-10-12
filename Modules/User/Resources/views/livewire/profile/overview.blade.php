@@ -3,11 +3,12 @@
         <div class="row">
             <div class="col-md-4 text-center mb-3 mb-md-0">
                 <div class="avatar lg mb-3 mx-auto">
-                    {{-- <img
-                        src="{{ auth()->user()->avatar_url ?: 'https://ui-avatars.com/api/?format=svg&name='. auth()->user()->name .'&background=f1f1f1&color=636363' }}">
-                    --}}
-                    <img
-                        src="https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80">
+                    @if ($avatar)
+                    <img src="{{ $avatar->temporaryUrl() }}">
+                    @else
+                    <img src="{{ auth()->user()->avatar_url }}">
+                    @endif
+
                 </div>
                 <x-dropdown icon="bx bx-caret-down" iconSize="fs-6" color="text-white" text="Change Avatar"
                     additionalClass="btn btn-primary btn-sm">

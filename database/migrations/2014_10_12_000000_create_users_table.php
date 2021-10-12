@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->text('address')->nullable();
 
             // settings
-            $table->string('avatar_url')->nullable();
+            $table->text('avatar_url')->nullable();
             $table->boolean('allow_shares')->nullable();
             $table->boolean('private_mode')->nullable();
 
