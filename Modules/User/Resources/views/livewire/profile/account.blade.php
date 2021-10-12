@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
 
         <h6 class="text-uppercase text-secondary">Your Account</h6>
         <hr>

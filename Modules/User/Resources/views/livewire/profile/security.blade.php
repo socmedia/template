@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <h6 class="text-uppercase text-secondary">Change Password</h6>
         <hr>
         <div class="card">
@@ -41,24 +41,24 @@
         <div class="card">
             <div class="card-body p-4">
                 <div class="row">
-                    @foreach ($info as $item)
+                    @foreach ($activities as $item)
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-md-5 mb-3 mb-md-0">
+                            <div class="col-md-6 mb-3 mb-md-0">
                                 <div class="card radius-10 border shadow-none">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="col-8">
-                                                <h5 class="mb-0">{{$item['browser']}}</h5>
-                                                <small class="my-1">IP: {{$item['ip']}}</small> <br>
+                                                <h5 class="mb-0">{{$item->browser}}</h5>
+                                                <small class="my-1">IP: {{$item->ip_address}}</small> <br>
                                                 <hr class="my-2">
                                                 <small>
                                                     <i class="bx bx-time"></i>
-                                                    {{date_format(date_create($item['loginDate']), 'D, d M y. H:i a')}}
+                                                    {{date_format(date_create($item->login_date), 'D, d M y. H:i a')}}
                                                 </small>
                                             </div>
                                             <div class="col font-35 text-end"><i
-                                                    class="bx bx-{{$item['deviceType']}}"></i></div>
+                                                    class="bx bx-{{$item->device_type}}"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,9 +99,7 @@
 
             <div class="text-end">
                 @if ($agreement)
-                <button class="btn btn-sm btn-danger">
-                    Remove My Account
-                </button>
+                <livewire:confirm-password-modal text="Remove My Account" />
                 @else
                 <div class="btn btn-sm btn-danger disabled">
                     Remove My Account

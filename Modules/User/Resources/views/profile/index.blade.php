@@ -21,7 +21,7 @@
         </div>
         <!--end breadcrumb-->
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col">
                 <x-widget state="danger" title="Revenue" icon="user" text="50%" />
             </div>
@@ -198,9 +198,9 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        {{-- <livewire:user::profile.main /> --}}
+        <livewire:user::profile.main />
     </div>
 </div>
 @endsection

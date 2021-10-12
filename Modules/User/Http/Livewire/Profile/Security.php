@@ -6,12 +6,16 @@ use Livewire\Component;
 
 class Security extends Component
 {
-    public $info, $agreement;
+    public $activities, $agreement;
 
     public function mount()
     {
         if (auth()->user()) {
-            $this->info = auth()->user()->login_info ? unserialize(auth()->user()->login_info) : null;
+
+            $loginActivities = auth()->user()->activities()->where(['activity' => 'login'])->get();
+            if ($loginActivities->count() > 0) {
+                $this->activities = $loginActivities;
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <h6 class="text-uppercase text-secondary">Privacy</h6>
         <hr>
         <div class="alert border-0 border-start border-5 border-primary alert-dismissible fade show pt-2 pb-4 ">

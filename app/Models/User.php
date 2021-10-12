@@ -46,7 +46,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'regency_id',
         'district_id',
         'address',
-        'login_info',
 
         // settings
         'avatar_url',
