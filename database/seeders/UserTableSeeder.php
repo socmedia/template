@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Utillities\Generate;
 use Illuminate\Database\Seeder;
+use Modules\User\Models\Entities\UsersSetting;
 
 class UserTableSeeder extends Seeder
 {
@@ -26,6 +27,9 @@ class UserTableSeeder extends Seeder
         ]);
 
         $dev->assignRole('Developer');
+        UsersSetting::create([
+            'user_id' => $dev->id,
+        ]);
 
         $admin = User::create([
             'id' => Generate::ID(32),
@@ -38,6 +42,9 @@ class UserTableSeeder extends Seeder
         ]);
 
         $admin->assignRole('Admin');
+        UsersSetting::create([
+            'user_id' => $admin->id,
+        ]);
 
         $user = User::create([
             'id' => Generate::ID(32),
@@ -50,5 +57,9 @@ class UserTableSeeder extends Seeder
         ]);
 
         $user->assignRole('User');
+        UsersSetting::create([
+            'user_id' => $user->id,
+        ]);
+
     }
 }

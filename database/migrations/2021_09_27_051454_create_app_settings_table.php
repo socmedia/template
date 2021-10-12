@@ -15,16 +15,15 @@ class CreateAppSettingsTable extends Migration
     {
         Schema::create('app_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('key');
-            $table->string('value');
+            $table->text('value')->nullable();
             $table->timestamps();
         });
 
         Schema::table('app_settings', function (Blueprint $table) {
             $table->index('name');
             $table->index('key');
-            $table->index('value');
         });
     }
 

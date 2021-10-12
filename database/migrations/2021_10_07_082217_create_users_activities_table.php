@@ -15,14 +15,15 @@ class CreateUsersActivitiesTable extends Migration
     {
         Schema::create('users_activities', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignUuid('user_id')->nullable()->index();
+            $table->string('activity')->nullable()->default('login');
             $table->string('ip_address', 45)->nullable()->index();
             $table->text('user_agent')->nullable();
-            $table->string('country_name')->nullable();
-            $table->string('country_code')->nullable();
-            $table->string('region_code')->nullable();
-            $table->string('region_name')->nullable();
-            $table->string('city_name')->nullable();
+            $table->string('country_name')->nullable()->default('unknown');
+            $table->string('country_code')->nullable()->default('unknown');
+            $table->string('region_code')->nullable()->default('unknown');
+            $table->string('region_name')->nullable()->default('unknown');
+            $table->string('city_name')->nullable()->default('unknown');
             $table->string('zip_code')->nullable();
             $table->string('iso_code')->nullable();
             $table->string('postal_code')->nullable();

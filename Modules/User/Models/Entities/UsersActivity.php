@@ -9,8 +9,14 @@ class UsersActivity extends Model
 {
     public $table = 'users_activities';
 
+    public $keyType = 'string';
+
+    public $timestamps = false;
+
     protected $fillable = [
+        'id',
         'user_id',
+        'activity',
         'ip_address',
         'user_agent',
         'country_name',

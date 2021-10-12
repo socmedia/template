@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Services\LoginService;
+use App\Services\ActivityService;
 use App\Utillities\Generate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -16,14 +16,14 @@ use Modules\User\Models\Entities\UsersSetting;
 
 class RegisteredUserController extends Controller
 {
-    public $loginService;
+    public $activityService;
 
     /**
      * Class constructor.
      */
-    public function __construct(LoginService $loginService)
+    public function __construct(ActivityService $activityService)
     {
-        $this->loginService = $loginService;
+        $this->ActivityService = $activityService;
     }
 
     /**
@@ -59,7 +59,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'login_info' => serialize($this->loginService->generateLoginInfo()),
+            'login_info' => serialize($this->ActivityService->generateLoginInfo()),
         ]);
 
         UsersSetting::create([
@@ -72,6 +72,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        $this->activityService->generateUserActivity(auth()->user(), 'login');
 
         return redirect(RouteServiceProvider::HOME);
     }

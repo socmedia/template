@@ -32,7 +32,6 @@ class CreateUsersTable extends Migration
             $table->char('regency_id', 4)->nullable(); // kota/kab
             $table->char('district_id', 7)->nullable(); // kecamatan
             $table->text('address')->nullable();
-            $table->text('login_info')->nullable(); // json array or php array
 
             // settings
             $table->string('avatar_url')->nullable();
