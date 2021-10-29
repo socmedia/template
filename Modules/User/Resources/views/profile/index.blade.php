@@ -206,16 +206,59 @@
 @endsection
 
 @push('style')
-<link rel="stylesheet" href="{{asset('assets/app/css/additional.css')}}">
+<script src="{{asset('assets/app/js/tinymce.min.js')}}"></script>
 @endpush
 
 @push('script')
+<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+{{-- <script type="text/javascript" src="{{ asset('assets/app/js/editor.js') }}">
+</script> --}}
+{{-- <script>
+    const removeEditor = async (el) => {
+        return tinyMCE.execCommand('mceRemoveEditor', false, el);
+    }
 
-@endpush
+    const init = async (el) => {
+        tinymce.init({
+            selector: el,
+            setup : function(editor) {
+                editor.on('blur', function(e) {
+                    Livewire.emit('updatedBio', e.target.getContent())
+                });
+            },
+        });
+
+        setTimeout(() => {
+            $('.tox.tox-silver-sink.tox-tinymce-aux').remove();
+        }, 500);
+    }
+
+    Livewire.hook('component.initialized', function (component) {
+        if(component.fingerprint.name == "user::profile.information"){
+            init('#editor')
+        }
+    })
+
+    $(document).ready(function() {
+        document.addEventListener('init-editor', () => {
+            init('#editor')
+        })
+    })
+</script> --}}
 <script>
-    document.addEventListener('preferences', function (e) {
-        const className = `${e.detail.theme}`;
-        const html = document.querySelector('html');
-        html.className = className
+    $(function () {
+        document.addEventListener('preferences', function (e) {
+            const className = `${e.detail.theme}`;
+            const html = document.querySelector('html');
+            html.className = className
+        })
+
+        document.addEventListener('avatar-changed', function(e) {
+            const url = e.detail.url;
+            console.log(url)
+            const headerAvatar = document.querySelector('header .avatar img');
+            headerAvatar.src = url;
+        })
     })
 </script>
+@endpush

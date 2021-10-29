@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/dist/default/js/app.js', 'public/assets/default/js')
     .js('resources/dist/custom/js/additional.js', 'public/assets/app/js')
+    .js('resources/dist/custom/js/editor.js', 'public/assets/app/js')
     .sass('resources/dist/custom/sass/additional.scss', 'public/assets/app/css')
     .postCss('resources/dist/default/css/app.css', 'public/assets/default/css', [
         require('postcss-import'),

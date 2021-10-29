@@ -4,32 +4,31 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Dropdown extends Component
+class Button extends Component
 {
-    public $withIcon, $icon, $iconSize, $color, $text, $additionalClass, $loadingState, $wireTarget;
+    public $state, $type, $text, $loadingState, $wireTarget, $additionalClass, $disabled;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
     public function __construct(
-        $withIcon = 'true',
-        $icon = 'bx bx-dots-horizontal-rounded',
-        $iconSize = 'font-22',
-        $color = 'text-option',
+        $state = 'dark',
+        $type = 'submit',
         $text = '',
+        $loadingState = 'false',
+        $wireTarget = '',
         $additionalClass = '',
-        $loadingState = '',
-        $wireTarget = ''
+        $disabled = 'false'
     ) {
-        $this->withIcon = $withIcon;
-        $this->icon = $icon;
-        $this->iconSize = $iconSize;
-        $this->color = $color;
+        $this->state = $state;
+        $this->type = $type;
         $this->text = $text;
-        $this->additionalClass = $additionalClass;
         $this->loadingState = $loadingState;
         $this->wireTarget = $wireTarget;
+        $this->additionalClass = $additionalClass;
+        $this->disabled = $disabled;
     }
 
     /**
@@ -39,6 +38,6 @@ class Dropdown extends Component
      */
     public function render()
     {
-        return view('components.dropdown');
+        return view('components.button');
     }
 }

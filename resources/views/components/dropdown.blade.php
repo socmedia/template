@@ -3,8 +3,17 @@
         aria-expanded="true">
         {{ $text }}
 
+        @if ($loadingState == 'true' && $withIcon != 'false')
+        <div class="spinner-grow spinner-grow-sm" role="status" wire:loading wire:loading.target="{{$wireTarget}}">
+            <span class='visually-hidden'>Loading...</span>
+        </div>
+
+        <i class="{{ $icon }} {{ $iconSize }} {{ $color }}" wire:loading.target="{{$wireTarget}}"
+            wire:loading.class="d-none"></i>
+        @else
         @if ($withIcon != 'false')
         <i class="{{ $icon }} {{ $iconSize }} {{ $color }}"></i>
+        @endif
         @endif
     </a>
     <ul class="dropdown-menu"

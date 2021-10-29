@@ -1,6 +1,7 @@
 {
     "/assets/default/js/app.js": "/assets/default/js/app.js",
     "/assets/app/js/additional.js": "/assets/app/js/additional.js",
+    "/assets/app/js/editor.js": "/assets/app/js/editor.js",
     "/assets/default/css/app.css": "/assets/default/css/app.css",
     "/assets/app/css/additional.css": "/assets/app/css/additional.css"
 }

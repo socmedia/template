@@ -28,7 +28,6 @@
     <!--favicon-->
     <link rel="icon" href="{{asset('assets/app/images/favicon-32x32.png')}}" type="image/png" />
     <!--plugins-->
-    @stack("style")
     <link href="{{asset('assets/app/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/app/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/app/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
@@ -45,8 +44,10 @@
     <link rel="stylesheet" href="{{asset('assets/app/css/dark-theme.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/app/css/semi-dark.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/app/css/header-colors.css')}}" />
-
+    <link rel="stylesheet" href="{{asset('assets/app/css/additional.css')}}">
     @livewireStyles
+
+    @stack("style")
     <title>{{ config('app.name', 'Laravel') }} | @yield(' title')</title>
 </head>
 

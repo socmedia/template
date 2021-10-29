@@ -169,6 +169,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -238,6 +239,7 @@ return [
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

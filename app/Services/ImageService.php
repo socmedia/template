@@ -9,6 +9,14 @@ use Intervention\Image\Facades\Image;
 
 class ImageService
 {
+    /**
+     * Converting image by get request
+     * Return new converted image
+     *
+     * @param  url $resource (url without origin)
+     * @param  \Illuminate\Http\Request $data ($request->w || $request->h in array)
+     * @return void
+     */
     public function convertWhileFetch($resource, $data = [])
     {
         $h = 600;
@@ -37,17 +45,16 @@ class ImageService
     }
 
     /**
-     * Handle thumbnail upload
+     * Upload image to storage
      *
-     * @param  Illuminate\Http\Request $request
+     * @param  Illuminate\Http\Request $fileInput ($request->file('input_name'))
      * @return string Image Url
      */
-    public function storeImage($request): string
+    public function storeImage($fileInput): string
     {
-        $tmp = $request->file('thumbnail');
         $file = [
             'path' => 'app/public/images/' . now()->toDateString(),
-            'name' => Generate::ID() . '.' . $tmp->extension(),
+            'name' => Generate::ID() . '.' . $fileInput->extension(),
         ];
 
         $path = storage_path($file['path'] . '/' . $file['name']);
@@ -56,15 +63,22 @@ class ImageService
             Storage::disk('images')->makeDirectory(now()->toDateString());
         }
 
-        $thumbnail = Image::make($tmp->getRealPath());
-        $thumbnail->resize(600, null, function ($constraint) {
+        $image = Image::make($fileInput->getRealPath());
+        $image->resize(600, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
-        $thumbnail->save($path, 90);
+        $image->save($path, 90);
         return '/storage/images/' . now()->toDateString() . '/' . $file['name'];
     }
 
+    /**
+     * Find exsisting image at storage
+     *
+     * @param  string $disk
+     * @param  string $shortPath
+     * @return void
+     */
     public function findImage($disk, $shortPath)
     {
         $path = storage_path('app/public/' . $disk . '/' . $shortPath);
@@ -74,5 +88,23 @@ class ImageService
         }
 
         return File::get($path);
+    }
+
+    /**
+     * Remove image from storage
+     *
+     * @param  string $disk
+     * @param  string $shortPath (date/filename.jpg)
+     * @return void
+     */
+    public function removeImage($disk, $shortPath)
+    {
+        $path = storage_path('app/public/' . $disk . '/' . $shortPath);
+
+        if (!File::exists($path)) {
+            return false;
+        }
+
+        return File::delete($path);
     }
 }

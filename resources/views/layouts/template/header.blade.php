@@ -356,7 +356,7 @@
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="" class="user-img" alt="user avatar">
                     <div class="user-info ps-3">
-                        <p class="user-name mb-0">{{auth()->user()->name}}</p>
+                        <p class="user-name mb-0">NO USER</p>
                         <p class="designattion mb-0">Web Designer</p>
                     </div>
                 </a>
