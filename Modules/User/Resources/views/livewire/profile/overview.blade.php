@@ -37,13 +37,16 @@
                     <h4 class="text-center text-md-start">{{user('name')}}</h4>
                     <p class="text-center text-md-start mb-0"><a class="text-secondary"
                             href="mailto:{{user('email')}}">{{user('email')}}</a></p>
+                    <p class="text-secondary">
+                        {{ user('gender') == '-' || null ? '' : user('gender') . ', ' }}
+                        {{ age(user('date_of_birth')) . ' Tahun.' }}
+                    </p>
 
                     <p class="my-3">
                         {!! user('bio') !!}
                     </p>
 
-                    <span class="text-secondary">{{user('gender')}},
-                        {{age(user('date_of_birth'))}}</span>
+
 
                     <p class="text-secondary font-size-sm">{{user('address')}}</p>
 

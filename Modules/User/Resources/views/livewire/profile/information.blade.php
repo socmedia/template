@@ -148,9 +148,9 @@
 
     </div>
     <script>
-        const init = (el) => {
+        const editor = async () => {
             ClassicEditor
-                .create(document.querySelector(el))
+                .create(document.querySelector('#editor'))
                 .then(editor => {
                     editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
                         if ( !isFocused ) {
@@ -159,17 +159,23 @@
                         }
                     });
                 })
+                .then(() => {
+                    if($('.ck.ck-editor').length > 1){
+                        $('.ck.ck-editor')[0].remove()
+                    }
+                })
                 .catch(error => {
                     console.error(error);
                 });
         }
 
+        // const
 
         $(document).ready(function() {
-            init('#editor')
+            editor()
 
             document.addEventListener('init-editor', () => {
-                init('#editor')
+                editor()
             })
         })
     </script>

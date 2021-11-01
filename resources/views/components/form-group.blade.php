@@ -1,3 +1,3 @@
-<div class="form group row">
+<div class="form-group {{ $class }}">
     {{$slot}}
 </div>

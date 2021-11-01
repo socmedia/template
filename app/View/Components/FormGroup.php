@@ -6,14 +6,16 @@ use Illuminate\View\Component;
 
 class FormGroup extends Component
 {
+    public $class;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($class = '')
     {
-        //
+        $this->class = $class;
     }
 
     /**
