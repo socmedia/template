@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae7a36f006114555aa69581276f9f7cd",
+    "content-hash": "f540990bb1ca8225f7e5636220505220",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,55 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "bastinald/laravel-bootstrap-components",
+            "version": "2.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bastinald/laravel-bootstrap-components.git",
+                "reference": "f8d669ea1933795df0ad2cd471a4856ef309a608"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bastinald/laravel-bootstrap-components/zipball/f8d669ea1933795df0ad2cd471a4856ef309a608",
+                "reference": "f8d669ea1933795df0ad2cd471a4856ef309a608",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bastinald\\LaravelBootstrapComponents\\Providers\\LaravelBootstrapComponentsProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bastinald\\LaravelBootstrapComponents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Dion",
+                    "email": "bastinald@icloud.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Bootstrap Blade components.",
+            "homepage": "https://github.com/bastinald/laravel-bootstrap-components",
+            "support": {
+                "issues": "https://github.com/bastinald/laravel-bootstrap-components/issues",
+                "source": "https://github.com/bastinald/laravel-bootstrap-components/tree/2.3.3"
+            },
+            "time": "2021-08-29T02:07:16+00:00"
         },
         {
             "name": "brick/math",
@@ -9509,5 +9558,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -20,6 +20,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $with = [
         'preferences',
+        'province',
+        'regency',
+        'district',
     ];
 
     protected $keyType = 'string';
@@ -87,6 +90,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function preferences()
     {
         return $this->hasOne(UsersSetting::class, 'user_id', 'id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_id', 'id');
+    }
+
+    public function regency()
+    {
+        return $this->belongsTo(Regency::class, 'regency_id', 'id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
     public function activities()

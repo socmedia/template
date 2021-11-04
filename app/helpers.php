@@ -25,7 +25,7 @@ function xssFilter($text)
 
 function age($date)
 {
-    return Carbon::parse($date)->age;
+    return Carbon::parse($date)->age . ' y.o';
 }
 
 function user($column = null)

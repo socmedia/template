@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-body p-4">
                 <form>
-                    <div class="form-group">
+                    <x-form-group>
                         <label for="fullname">Facebook</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -40,9 +40,9 @@
                         @error('fullname')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
-                    </div>
+                    </x-form-group>
 
-                    <div class="form-group">
+                    <x-form-group>
                         <label for="fullname">Instagram</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -56,9 +56,9 @@
                         @error('fullname')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
-                    </div>
+                    </x-form-group>
 
-                    <div class="form-group">
+                    <x-form-group>
                         <label for="fullname">Facebook</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -72,9 +72,9 @@
                         @error('fullname')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
-                    </div>
+                    </x-form-group>
 
-                    <div class="form-group">
+                    <x-form-group>
                         <label for="fullname">TikTok</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -100,7 +100,7 @@
                         @error('fullname')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
-                    </div>
+                    </x-form-group>
 
                     <div class="text-end">
                         <button class="btn btn-dark">Save changes</button>

@@ -148,7 +148,7 @@
 
     </div>
     <script>
-        const init = (el) => {
+        const init = async (el) => {
             ClassicEditor
                 .create(document.querySelector(el))
                 .then(editor => {
@@ -158,6 +158,11 @@
                             console.log( editor.getData() );
                         }
                     });
+                })
+                .then(() => {
+                    if($('.ck.ck-editor').length > 1){
+                        $('.ck.ck-editor')[0].remove()
+                    }
                 })
                 .catch(error => {
                     console.error(error);

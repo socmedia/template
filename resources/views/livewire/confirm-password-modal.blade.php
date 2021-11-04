@@ -18,14 +18,14 @@
                         <div class="my-4">
                             <label for="password" class="form-label">Password</label>
                             <input class="form-control" id="password" class="block mt-1 w-full" type="password"
-                                wire:model.defer="password" />
+                                wire:model.defer="password" autofocus />
                             @if($error)
                             <small class="text-danger">{{$error}}</small>
                             @endif
                         </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                            <button class="btn btn-dark">Confirm</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+                            <x-button state="dark" loadingState="true" wireTarget="confirm" text="Confirm" />
                         </div>
                     </div>
                 </form>

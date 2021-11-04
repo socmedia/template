@@ -35,17 +35,21 @@
                 </div>
                 <div class="col">
                     <h4 class="text-center text-md-start">{{user('name')}}</h4>
-                    <p class="text-center text-md-start mb-0"><a class="text-secondary"
+                    <p class="text-center text-md-start"><a class="text-secondary"
                             href="mailto:{{user('email')}}">{{user('email')}}</a></p>
+
+                    <p class="text-secondary">
+                        {{user('gender') != '-' ? user('gender') . ', ' : ''}}
+                        {{age(user('date_of_birth'))}}
+                    </p>
 
                     <p class="my-3">
                         {!! user('bio') !!}
                     </p>
 
-                    <span class="text-secondary">{{user('gender')}},
-                        {{age(user('date_of_birth'))}}</span>
-
-                    <p class="text-secondary font-size-sm">{{user('address')}}</p>
+                    <p class="txext-light text-capitalize font-size-sm">
+                        {{ !user('regency') ?: user('regency')->name }}
+                    </p>
 
                     <hr>
                     <div class="row">
