@@ -49,12 +49,14 @@ class Information extends Component
     {
         $this->reset('regencies', 'districts');
         $this->regencies = Regency::where('province_id', $val)->get(['id', 'name']);
+        $this->dispatchBrowserEvent('init-editor');
     }
 
     public function updatedRegency($val)
     {
         $this->reset('districts');
         $this->districts = District::where('regency_id', $val)->get(['id', 'name']);
+        $this->dispatchBrowserEvent('init-editor');
     }
 
     public function updatedBio($val)

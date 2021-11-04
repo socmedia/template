@@ -148,9 +148,9 @@
 
     </div>
     <script>
-        const init = async (el) => {
+        const editor = async () => {
             ClassicEditor
-                .create(document.querySelector(el))
+                .create(document.querySelector('#editor'))
                 .then(editor => {
                     editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
                         if ( !isFocused ) {
@@ -169,12 +169,13 @@
                 });
         }
 
+        // const
 
         $(document).ready(function() {
-            init('#editor')
+            editor()
 
             document.addEventListener('init-editor', () => {
-                init('#editor')
+                editor()
             })
         })
     </script>
