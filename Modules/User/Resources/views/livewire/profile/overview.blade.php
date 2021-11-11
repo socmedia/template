@@ -47,15 +47,13 @@
                         {!! user('bio') !!}
                     </p>
 
-                    <p class="txext-light text-capitalize font-size-sm">
-                        {{ !user('regency') ?: user('regency')->name }}
-                    </p>
 
                     <hr>
                     <div class="row">
-                        <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="col-md-6 mb-3 mb-md-0 align-self-center">
+                            <x-user-social-media :user="user()" />
                         </div>
-                        <div class="col-md-6 align-self-end">
+                        <div class="col-md-6 align-self-center">
                             <p class="text-end mb-0">
                                 Joined at,
                                 <span class="text-muted">
