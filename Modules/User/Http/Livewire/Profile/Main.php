@@ -6,15 +6,19 @@ use Livewire\Component;
 
 class Main extends Component
 {
-    public $active = 'overview';
+    public $sub = 'overview';
 
     protected $listeners = [
         'activeSidebar',
     ];
 
+    protected $queryString = [
+        'sub',
+    ];
+
     public function activeSidebar($sidebar)
     {
-        $this->active = $sidebar;
+        $this->sub = $sidebar;
     }
 
     public function render()

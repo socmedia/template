@@ -3,11 +3,20 @@
 namespace App\Services;
 
 use App\Actions\ActivityActions;
+use App\Models\User;
 use Modules\User\Models\Entities\UsersActivity;
 
 class ActivityService extends ActivityActions
 {
-    public function generateUserActivity($user, $activity)
+    /**
+     * Tracking user activity when user
+     * Already login or logout
+     *
+     * @param  \App\Models\User $user
+     * @param  string $activity
+     * @return void
+     */
+    public function generateUserActivity($user, string $activity): UsersActivity
     {
         $existingActivity = $this->checkDuplicateActivity($user, $activity);
 
@@ -18,14 +27,28 @@ class ActivityService extends ActivityActions
         return $this->updateActivity($existingActivity, $activity);
     }
 
-    public function createNewActivity($user, $activity)
+    /**
+     * Create new activity by specific user
+     *
+     * @param  \App\Models\User $user
+     * @param  string $activity
+     * @return void
+     */
+    public function createNewActivity($user, $activity): UsersActivity
     {
         return UsersActivity::create(
             $this->mergedActivity($user->id, $activity)
         );
     }
 
-    public function updateActivity($existingActivity, $activity)
+    /**
+     * Update exsisting activity by specific user
+     *
+     * @param  \App\Models\User $user->activities $existingActivity
+     * @param  string $activity
+     * @return void
+     */
+    public function updateActivity($existingActivity, string $activity): User
     {
         if ($activity == 'login') {
             $existingActivity->update([

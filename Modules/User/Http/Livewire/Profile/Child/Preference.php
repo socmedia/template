@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use Livewire\Component;
 use Modules\User\Models\Entities\UsersSetting;
@@ -63,6 +63,6 @@ class Preference extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.preference');
+        return view('user::livewire.profile.child.preference');
     }
 }

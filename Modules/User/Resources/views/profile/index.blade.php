@@ -234,7 +234,7 @@
     }
 
     Livewire.hook('component.initialized', function (component) {
-        if(component.fingerprint.name == "user::profile.information"){
+        if(component.fingerprint.name == "user::profile.child.information"){
             init('#editor')
         }
     })

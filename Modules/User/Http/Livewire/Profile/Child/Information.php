@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use App\Models\District;
 use App\Models\Province;
@@ -111,7 +111,7 @@ class Information extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.information', [
+        return view('user::livewire.profile.child.information', [
             'provinces' => Province::get(['id', 'name']),
         ]);
     }

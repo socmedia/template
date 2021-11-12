@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use Livewire\Component;
 
@@ -34,6 +34,6 @@ class Setting extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.setting');
+        return view('user::livewire.profile.child.setting');
     }
 }

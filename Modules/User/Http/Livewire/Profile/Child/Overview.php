@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Http;
@@ -45,6 +45,6 @@ class Overview extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.overview');
+        return view('user::livewire.profile.child.overview');
     }
 }

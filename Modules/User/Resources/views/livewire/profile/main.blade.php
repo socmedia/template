@@ -5,32 +5,32 @@
         <div class="card-body bg-transparent">
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
-                    <livewire:user::profile.sidebar :active="$active" />
+                    <livewire:user::profile.child.sidebar :active="$sub" />
                 </div>
                 <div class="col align-self-stretch ">
 
-                    @if ($active === 'overview')
-                    <livewire:user::profile.overview />
+                    @if ($sub === 'overview')
+                    <livewire:user::profile.child.overview />
                     @endif
 
-                    @if ($active === 'information')
-                    <livewire:user::profile.information />
+                    @if ($sub === 'information')
+                    <livewire:user::profile.child.information />
                     @endif
 
-                    @if ($active === 'account')
-                    <livewire:user::profile.account />
+                    @if ($sub === 'account')
+                    <livewire:user::profile.child.account />
                     @endif
 
-                    @if ($active === 'settings')
-                    <livewire:user::profile.setting />
+                    @if ($sub === 'settings')
+                    <livewire:user::profile.child.setting />
                     @endif
 
-                    @if ($active === 'preferences')
-                    <livewire:user::profile.preference />
+                    @if ($sub === 'preferences')
+                    <livewire:user::profile.child.preference />
                     @endif
 
-                    @if ($active === 'security')
-                    <livewire:user::profile.security />
+                    @if ($sub === 'security')
+                    <livewire:user::profile.child.security />
                     @endif
                 </div>
             </div>

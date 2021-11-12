@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use Livewire\Component;
 
@@ -21,6 +21,6 @@ class Security extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.security');
+        return view('user::livewire.profile.child.security');
     }
 }

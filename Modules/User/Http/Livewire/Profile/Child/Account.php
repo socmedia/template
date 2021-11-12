@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Http\Livewire\Profile;
+namespace Modules\User\Http\Livewire\Profile\Child;
 
 use Livewire\Component;
 
@@ -28,6 +28,6 @@ class Account extends Component
 
     public function render()
     {
-        return view('user::livewire.profile.account');
+        return view('user::livewire.profile.child.account');
     }
 }

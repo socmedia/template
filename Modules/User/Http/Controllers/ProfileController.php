@@ -2,7 +2,6 @@
 
 namespace Modules\User\Http\Controllers;
 
-use App\Constants\AdminAvaMenus;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -16,8 +15,6 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return AdminAvaMenus::whereName('setting');
-
         return view('user::profile.index');
     }
 
