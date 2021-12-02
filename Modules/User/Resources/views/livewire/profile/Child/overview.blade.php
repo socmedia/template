@@ -39,8 +39,19 @@
                             href="mailto:{{user('email')}}">{{user('email')}}</a></p>
 
                     <p class="text-secondary">
-                        {{user('gender') != '-' ? user('gender') . ', ' : ''}}
-                        {{age(user('date_of_birth'))}}
+
+                        @if (user('gender') && user('gender') !== '-' && user('date_of_birth'))
+                        {{ user('gender') . ', ' .age(user('date_of_birth')) }}
+                        @endif
+
+                        @if (user('gender') && user('gender') !== '-' && !user('date_of_birth'))
+                        {{ user('gender') }}
+                        @endif
+
+                        @if (!user('gender') && user('gender') !== '-' && user('date_of_birth'))
+                        {{ age(user('date_of_birth')) }}
+                        @endif
+
                     </p>
 
                     <p class="my-3">

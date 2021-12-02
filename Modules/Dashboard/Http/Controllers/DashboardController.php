@@ -13,7 +13,7 @@ class DashboardController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('dashboard::index');
     }

@@ -7,7 +7,7 @@
                 <div class="col-md-3 mb-3 mb-md-0">
                     <livewire:user::profile.child.sidebar :active="$sub" />
                 </div>
-                <div class="col align-self-stretch ">
+                <div class="col-md-8 align-self-stretch ">
 
                     @if ($sub === 'overview')
                     <livewire:user::profile.child.overview />

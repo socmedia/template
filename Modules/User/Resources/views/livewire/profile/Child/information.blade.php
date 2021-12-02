@@ -147,6 +147,7 @@
         </x-form-card>
 
     </div>
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
     <script>
         const editor = async () => {
             ClassicEditor
@@ -155,7 +156,6 @@
                     editor.ui.focusTracker.on( 'change:isFocused', ( evt, name, isFocused ) => {
                         if ( !isFocused ) {
                             @this.set('bio', editor.getData());
-                            console.log( editor.getData() );
                         }
                     });
                 })
@@ -169,11 +169,9 @@
                 });
         }
 
-        // const
+        editor()
 
         $(document).ready(function() {
-            editor()
-
             document.addEventListener('init-editor', () => {
                 editor()
             })

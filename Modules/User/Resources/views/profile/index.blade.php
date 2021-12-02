@@ -210,41 +210,6 @@
 @endpush
 
 @push('script')
-<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
-{{-- <script type="text/javascript" src="{{ asset('assets/app/js/editor.js') }}">
-</script> --}}
-{{-- <script>
-    const removeEditor = async (el) => {
-        return tinyMCE.execCommand('mceRemoveEditor', false, el);
-    }
-
-    const init = async (el) => {
-        tinymce.init({
-            selector: el,
-            setup : function(editor) {
-                editor.on('blur', function(e) {
-                    Livewire.emit('updatedBio', e.target.getContent())
-                });
-            },
-        });
-
-        setTimeout(() => {
-            $('.tox.tox-silver-sink.tox-tinymce-aux').remove();
-        }, 500);
-    }
-
-    Livewire.hook('component.initialized', function (component) {
-        if(component.fingerprint.name == "user::profile.child.information"){
-            init('#editor')
-        }
-    })
-
-    $(document).ready(function() {
-        document.addEventListener('init-editor', () => {
-            init('#editor')
-        })
-    })
-</script> --}}
 <script>
     $(function () {
         document.addEventListener('preferences', function (e) {
@@ -255,7 +220,6 @@
 
         document.addEventListener('avatar-changed', function(e) {
             const url = e.detail.url;
-            console.log(url)
             const headerAvatar = document.querySelector('header .avatar img');
             headerAvatar.src = url;
         })

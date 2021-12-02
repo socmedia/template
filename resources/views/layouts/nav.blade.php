@@ -1,16 +1,12 @@
-<!--sidebar wrapper -->
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{{ asset('assets/app/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
-        </div>
-        <div>
-            <h4 class="logo-text">Rocker</h4>
+            <img src="{{ $default_logo_16_9 }}" height="50" alt="logo icon">
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
         </div>
     </div>
-    <!--navigation-->
+
     <ul class="metismenu" id="menu">
         <li class="mm-active">
             <a href="javascript:;">
@@ -18,6 +14,7 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
+
         <li class="menu-label">UI Elements</li>
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -55,7 +52,19 @@
                 </li>
             </ul>
         </li>
+
+        <li class="menu-label">Access Level</li>
+        <li class="">
+            <a href="{{ route('adm.access-level.user.index') }}">
+                <div class="parent-icon"><i class='bx bx-user'></i></div>
+                <div class="menu-title">Users</div>
+            </a>
+        </li>
+        <li class="">
+            <a href="{{ route('adm.access-level.role.index') }}">
+                <div class="parent-icon"><i class='bx bx-shield'></i></div>
+                <div class="menu-title">Roles</div>
+            </a>
+        </li>
     </ul>
-    <!--end navigation-->
 </div>
-<!--end sidebar wrapper -->

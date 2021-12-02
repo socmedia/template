@@ -19,7 +19,7 @@ class AppSetting extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'group',
         'key',
         'value',
     ];

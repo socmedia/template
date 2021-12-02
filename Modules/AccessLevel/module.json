@@ -1,0 +1,13 @@
+{
+    "name": "AccessLevel",
+    "alias": "accesslevel",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AccessLevel\\Providers\\AccessLevelServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

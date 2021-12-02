@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Main extends Component
 {
-    public $step = '', $sidebars = [];
+    public $step = '', $sidebars = [], $active;
 
     public function mount()
     {

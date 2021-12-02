@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
-    public $activityService;
-
-    /**
-     * Class constructor.
-     */
-    public function __construct(ActivityService $activityService)
-    {
-        $this->activityService = $activityService;
-    }
-
     /**
      * Display the login view.
      *
@@ -37,13 +27,13 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request, ActivityService $activityService)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        $this->activityService->generateUserActivity(auth()->user(), 'login');
+        $activityService->generateUserActivity(user(), 'login');
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -54,9 +44,9 @@ class AuthenticatedSessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, ActivityService $activityService)
     {
-        $this->activityService->generateUserActivity(auth()->user(), 'logout');
+        $activityService->generateUserActivity(user(), 'logout');
 
         Auth::guard('web')->logout();
 

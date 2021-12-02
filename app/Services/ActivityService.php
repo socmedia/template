@@ -48,7 +48,7 @@ class ActivityService extends ActivityActions
      * @param  string $activity
      * @return void
      */
-    public function updateActivity($existingActivity, string $activity): User
+    public function updateActivity($existingActivity, string $activity): UsersActivity
     {
         if ($activity == 'login') {
             $existingActivity->update([
@@ -66,6 +66,6 @@ class ActivityService extends ActivityActions
             ]);
         }
 
-        return $existingActivity->save();
+        return $existingActivity;
     }
 }

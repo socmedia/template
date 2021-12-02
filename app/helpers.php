@@ -25,7 +25,7 @@ function xssFilter($text)
 
 function age($date)
 {
-    return Carbon::parse($date)->age . ' y.o';
+    return $date ? Carbon::parse($date)->age . ' y.o' : null;
 }
 
 function socialMedia($type = null, $socialMediaValue)
@@ -61,5 +61,6 @@ function user($column = null)
     if ($user && $column) {
         return $user->$column;
     }
+
     return $user ? $user : null;
 }
