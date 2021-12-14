@@ -17,6 +17,8 @@ Route::group([
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
     Route::get('/', 'UserController@index')->name('index');
+    Route::get('/tambah', 'UserController@create')->name('create');
+    Route::get('/edit/{id}', 'UserController@edit')->name('edit');
 });
 
 Route::group([
@@ -25,4 +27,6 @@ Route::group([
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
     Route::get('/', 'RoleController@index')->name('index');
+    Route::get('/tambah', 'RoleController@create')->name('create');
+    Route::get('/edit/{id}', 'RoleController@edit')->name('edit');
 });

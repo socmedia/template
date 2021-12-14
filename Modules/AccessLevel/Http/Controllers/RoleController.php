@@ -3,8 +3,8 @@
 namespace Modules\AccessLevel\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -23,27 +23,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('accesslevel::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('accesslevel::show');
+        return view('accesslevel::role.create');
     }
 
     /**
@@ -51,29 +31,11 @@ class RoleController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Role $role, $id)
     {
-        return view('accesslevel::edit');
+        return view('accesslevel::role.edit', [
+            'role' => $role->findOrFail($id),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

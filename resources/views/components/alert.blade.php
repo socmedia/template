@@ -9,8 +9,9 @@
 
         <div class="ms-3">
             <h6 class="mb-0 text-{{ $color }}">{{ $title }}</h6>
-            <div class="text-{{ $color }}">{{ $message }}</div>
+            <div class="text-{{ $color }}">{{ $message ?: $slot }}</div>
         </div>
     </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+    <x-button-close data-bs-dismiss="alert" aria-label="Close" />
 </div>
