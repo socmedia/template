@@ -305,3 +305,21 @@ html.dark-theme .list-group.sidebar {
 .btn.btn-outline-success:focus {
     box-shadow: none;
 }
+
+.delete-modal {
+    .modal-content {
+        border: none;
+    }
+
+    .modal-header {
+        background-color: #fd3550;
+
+        .modal-title {
+            color: white;
+        }
+    }
+
+    .modal-footer {
+        border: none;
+    }
+}

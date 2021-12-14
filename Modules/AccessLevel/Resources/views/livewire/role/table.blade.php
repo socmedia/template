@@ -1,4 +1,12 @@
 <div>
+    @if (session()->has('success'))
+    <x-alert state="primary" color="white" title="Sukses !" :message="session('success')" />
+    @endif
+
+    @if (session()->has('failed'))
+    <x-alert state="warning" color="white" title="Upsss..." :message="session('failed')" />
+    @endif
+
     <x-form-card title="Daftar Roles">
         <x-filter :filters="$filters" class="justify-content-end">
             <div class="col-md-4 mb-3">
@@ -29,9 +37,7 @@
                             <x-action-button href="{{ route('adm.access-level.role.edit', $role->id) }}">
                                 <i class="bx bx-pencil"></i>
                             </x-action-button>
-                            <x-action-button href="javascript:void(0)">
-                                <i class="bx bx-trash"></i>
-                            </x-action-button>
+                            <x-remove.button wire:click="$set('destroyId',{{$role->id}})" />
                         </div>
                     </x-table.cell>
                 </x-table.row>
@@ -42,6 +48,8 @@
                 @endforelse
             </x-table.body>
         </x-table>
+
+        <x-remove.modal />
 
         <x-pagination :table="$roles" />
     </x-form-card>

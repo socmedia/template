@@ -2,6 +2,7 @@
 
 namespace Modules\AccessLevel\Http\Controllers;
 
+use App\Exports\RoleExport;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Spatie\Permission\Models\Role;
@@ -38,4 +39,20 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * Download roles data from database
+     *
+     * @param  string $type
+     * @return void
+     */
+    public function download($type)
+    {
+        $formats = ['xlsx', 'csv'];
+
+        if (in_array($type, $formats)) {
+            return (new RoleExport)->download('roles_' . date('dmyhis') . '.' . $type);
+        }
+
+        abort(404);
+    }
 }

@@ -52,7 +52,7 @@ class Table extends Component
      *
      * @var mixed
      */
-    public $sort, $order, $search;
+    public $destroyId, $sort, $order, $search;
 
     /**
      * Define livewire query string
@@ -80,6 +80,21 @@ class Table extends Component
             'reset_method' => 'resetFilter',
         ],
     ];
+
+    /**
+     * Define props before component rendered
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->sort = request('sort');
+        $this->order = request('order');
+        $this->search = request('search');
+
+        $this->filters['search']['query'] = request('search');
+        $this->filters['sort']['query'] = [request('sort'), request('order')];
+    }
 
     /**
      * Handling query string
@@ -182,6 +197,28 @@ class Table extends Component
         }
 
         return $role->paginate();
+    }
+
+    /**
+     * Remove existing data from database at roles table
+     *
+     * @return void
+     */
+    public function destroy()
+    {
+        $role = Role::find($this->destroyId);
+
+        if ($role) {
+            $role->delete();
+
+            // Flash message
+            $this->reset('destroyId');
+            return session()->flash('success', 'Role berhasil dihapus.');
+        }
+
+        // Flash message
+        $this->reset('destroyId');
+        return session()->flash('failed', 'Penghapusan role gagal, karena tole tidak ditemukan.');
     }
 
     public function render()

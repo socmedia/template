@@ -75,8 +75,21 @@
     <script src="{{asset('assets/app/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
     <!--app JS-->
     <script src="{{asset('assets/app/js/app.js')}}"></script>
+    <script src="{{asset('assets/app/js/additional.js')}}"></script>
     @livewireScripts
     @stack("script")
+
+    <script>
+        $(function () {
+            var removeModal = new bootstrap.Modal(document.getElementById('remove-modal'), {
+                keyboard: false
+            })
+
+            $('#remove-button').click(function () {
+                removeModal.toggle()
+            })
+        })
+    </script>
 </body>
 
 </html>

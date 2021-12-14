@@ -29,4 +29,5 @@ Route::group([
     Route::get('/', 'RoleController@index')->name('index');
     Route::get('/tambah', 'RoleController@create')->name('create');
     Route::get('/edit/{id}', 'RoleController@edit')->name('edit');
+    Route::get('/download/{type}', 'RoleController@download')->name('download');
 });

@@ -235,3 +235,16 @@ html.dark-theme .list-group.sidebar .list-group-item.active a {
 .btn.btn-outline-success:focus {
   box-shadow: none;
 }
+
+.delete-modal .modal-content {
+  border: none;
+}
+.delete-modal .modal-header {
+  background-color: #fd3550;
+}
+.delete-modal .modal-header .modal-title {
+  color: white;
+}
+.delete-modal .modal-footer {
+  border: none;
+}

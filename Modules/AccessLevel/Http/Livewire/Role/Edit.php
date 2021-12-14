@@ -56,7 +56,7 @@ class Edit extends Component
         ]);
 
         // Flash message
-        session()->flash('success', 'Role berhasil ditambahkan.');
+        session()->flash('success', 'Role berhasil diperbarui.');
     }
     public function render()
     {

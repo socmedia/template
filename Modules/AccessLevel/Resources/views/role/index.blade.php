@@ -20,8 +20,14 @@
                             Export
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdown">
-                            <li><a class="dropdown-item" href="#">Excel</a></li>
-                            <li><a class="dropdown-item" href="#">Csv</a></li>
+                            <li>
+                                <a class="dropdown-item" target="_blank"
+                                    href="{{ route('adm.access-level.role.download', 'xlsx') }}">Excel</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" target="_blank"
+                                    href="{{ route('adm.access-level.role.download', 'csv') }}">CSV</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
