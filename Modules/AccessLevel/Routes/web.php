@@ -17,8 +17,11 @@ Route::group([
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
     Route::get('/', 'UserController@index')->name('index');
+    Route::get('/sampah', 'UserController@trash')->name('trash');
     Route::get('/tambah', 'UserController@create')->name('create');
+    Route::get('/{id}', 'UserController@show')->name('show');
     Route::get('/edit/{id}', 'UserController@edit')->name('edit');
+    Route::get('/download/{type}', 'UserController@download')->name('download');
 });
 
 Route::group([

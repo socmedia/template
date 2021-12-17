@@ -2,8 +2,9 @@
 
 namespace Modules\AccessLevel\Http\Controllers;
 
+use App\Exports\UserExport;
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class UserController extends Controller
@@ -14,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('accesslevel::index');
+        return view('accesslevel::user.index', [
+            'countTrash' => numberShortner(User::onlyTrashed()->count()),
+        ]);
     }
 
     /**
@@ -23,17 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('accesslevel::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('accesslevel::user.create');
     }
 
     /**
@@ -51,29 +44,37 @@ class UserController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(User $user, $id)
     {
-        return view('accesslevel::edit');
+        return view('accesslevel::user.edit', [
+            'user' => $user->where('id', $id)->withTrashed()->first(),
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * Show trashed user from database
+     *
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function trash()
     {
-        //
+        return view('accesslevel::user.trash');
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * Downlaod excel from database
+     *
+     * @param  string $type
+     * @return void
      */
-    public function destroy($id)
+    public function download($type)
     {
-        //
+        $formats = ['xlsx', 'csv'];
+
+        if (in_array($type, $formats)) {
+            return (new UserExport)->download('users_' . date('dmyhis') . '.' . $type);
+        }
+
+        abort(404);
     }
 }

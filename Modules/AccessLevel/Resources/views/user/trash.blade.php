@@ -6,17 +6,17 @@
         <!--breadcrumb-->
         <x-breadcrumb pageTitle="User">
             <x-slot name="link">
-                <x-breadcrumb.link active="true" pageTitle="User" />
+                <x-breadcrumb.link href="{{ route('adm.access-level.user.index')}}" pageTitle="User" />
+                <x-breadcrumb.link active="true" pageTitle="Sampah" />
             </x-slot>
 
             <x-slot name="button">
                 <div class="btn-group">
                     <a href="{{ route('adm.access-level.user.create') }}"
-                        class="btn btn-dark btn-sm ms-auto px-3">Tambah
-                        User</a>
+                        class="btn btn-dark btn-sm ms-auto px-3">Tambah User</a>
 
-                    <a href="{{ route('adm.access-level.user.trash') }}" class="btn btn-dark btn-sm ms-auto px-3">Sampah
-                        ({{$countTrash}})</a>
+                    <a href="{{ route('adm.access-level.user.index') }}"
+                        class="btn btn-dark btn-sm ms-auto px-3">Kembali</a>
 
                     <div class="btn-group" role="group">
                         <button id="dropdown" type="button" class="btn btn-secondary btn-sm dropdown-toggle"
