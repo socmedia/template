@@ -4,24 +4,21 @@
 <div class="page-wrapper">
     <div class="page-content">
         <!--breadcrumb-->
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Apps</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item">
-                            <a href="{{route('adm.user.index')}}">
-                                <i class="bx bx-home-alt"></i>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Settings</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+        <x-breadcrumb pageTitle="Site Settings">
+            <x-slot name="link">
+                <x-breadcrumb.link active="true" pageTitle="Site Settings" />
+            </x-slot>
 
+            <x-slot name="button">
+                <div class="btn-group">
+                    <a href="{{ route('adm.access-level.user.create') }}"
+                        class="btn btn-dark btn-sm ms-auto px-3">Tambah
+                        User</a>
+                </div>
+            </x-slot>
+        </x-breadcrumb>
 
-        <livewire:appsetting::settings.main />
+        <livewire:appsetting::settings.table />
     </div>
 </div>
 @endsection

@@ -13,7 +13,7 @@
 
 Route::group([
     'as' => 'adm.user.apps.',
-    'prefix' => 'admin/apps',
+    'prefix' => 'admin/site-settings',
     'middleware' => ['auth', 'verified', 'role:Developer|Admin|User'],
 ], function () {
     Route::get('/', 'AppSettingController@index')->name('index');
