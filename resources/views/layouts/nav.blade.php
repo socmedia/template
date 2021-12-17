@@ -8,8 +8,8 @@
     </div>
 
     <ul class="metismenu" id="menu">
-        <li class="mm-active">
-            <a href="javascript:;">
+        <li class="{{ activeRouteIs('adm.index') }}">
+            <a href="{{ route('adm.index') }}">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i></div>
                 <div class="menu-title">Dashboard</div>
             </a>
@@ -54,13 +54,13 @@
         </li>
 
         <li class="menu-label">Access Level</li>
-        <li class="">
+        <li class="{{ activeRouteIs('adm.access-level.user.*') }}">
             <a href="{{ route('adm.access-level.user.index') }}">
                 <div class="parent-icon"><i class='bx bx-user'></i></div>
                 <div class="menu-title">Users</div>
             </a>
         </li>
-        <li class="">
+        <li class="{{ activeRouteIs('adm.access-level.role.*') }}">
             <a href="{{ route('adm.access-level.role.index') }}">
                 <div class="parent-icon"><i class='bx bx-shield'></i></div>
                 <div class="menu-title">Roles</div>
