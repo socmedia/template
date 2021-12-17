@@ -9,8 +9,18 @@ class Regency extends Model
 {
     use HasFactory;
 
+    /**
+     * Define table name
+     *
+     * @var string
+     */
     public $table = 'id_regencies';
 
+    /**
+     * Define fillable columns
+     *
+     * @var array
+     */
     protected $fillable = [
         'province_id', 'name',
     ];

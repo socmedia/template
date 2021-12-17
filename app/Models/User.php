@@ -16,8 +16,25 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
+    /**
+     * Define id column in not auto increment
+     *
+     * @var bool
+     */
     public $incrementing = false;
 
+    /**
+     * Define primary key type
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Default fetch with relation
+     *
+     * @var array
+     */
     protected $with = [
         'preferences',
         'province',
@@ -25,12 +42,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'district',
     ];
 
-    protected $keyType = 'string';
+    /**
+     * Define dates column
+     *
+     * @var array
+     */
+    protected $dates = [
+        'date_of_birth',
+        'approved_at',
+        'deactivated_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array
      */
     protected $fillable = [
         'id',
@@ -87,26 +113,51 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * User preferences relation
+     *
+     * @return void
+     */
     public function preferences()
     {
         return $this->hasOne(UsersSetting::class, 'user_id', 'id');
     }
 
+    /**
+     * Province relation
+     *
+     * @return void
+     */
     public function province()
     {
         return $this->belongsTo(Province::class, 'province_id', 'id');
     }
 
+    /**
+     * Regency relation
+     *
+     * @return void
+     */
     public function regency()
     {
         return $this->belongsTo(Regency::class, 'regency_id', 'id');
     }
 
+    /**
+     * District Relation
+     *
+     * @return void
+     */
     public function district()
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
+    /**
+     * Activities relation
+     *
+     * @return void
+     */
     public function activities()
     {
         return $this->hasMany(UsersActivity::class, 'user_id', 'id');
