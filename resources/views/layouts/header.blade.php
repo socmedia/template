@@ -1,3 +1,7 @@
+@php
+use App\Constants\AdminAvaMenus;
+@endphp
+
 <!--start header -->
 <header>
     <div class="topbar d-flex align-items-center">
@@ -363,33 +367,19 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
+                    @foreach (AdminAvaMenus::getAll() as $menu)
+
+                    @if ($menu['visible'])
+                    @role($menu['role'])
                     <li>
-                        <a class="dropdown-item" href="{{route('adm.user.profile.index')}}">
-                            <i class="bx bx-user"></i><span>Profile</span>
-                        </a>
-                    </li>
-                    @role('Developer')
-                    <li>
-                        <a class="dropdown-item" href="javascript:;">
-                            <i class="bx bx-cog"></i><span>Settings Manager</span>
+                        <a class="dropdown-item" href="{{ $menu['path'] }}">
+                            <i class="{{ $menu['icon'] }}"></i><span>{{ $menu['display_name'] }}</span>
                         </a>
                     </li>
                     @endrole
-                    <li>
-                        <a class="dropdown-item" href="javascript:;">
-                            <i class="bx bx-cog"></i><span>Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:;">
-                            <i class='bx bx-layer'></i><span>Menus</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ url('template') }}">
-                            <i class='bx bx-devices'></i><span>Template</span>
-                        </a>
-                    </li>
+                    @endif
+
+                    @endforeach
                     <li>
                         <div class="dropdown-divider mb-0"></div>
                     </li>

@@ -10,20 +10,36 @@ class AdminAvaMenus
     {
         return [
             'profile' => [
+                'display_name' => 'Profile',
                 'path' => route('adm.user.profile.index'),
                 'route_name' => 'adm.user.profile.index',
+                'visible' => true,
+                'role' => 'Developer|Admin|User|Dealer',
+                'icon' => 'bx bx-user',
             ],
-            'settings' => [
-                'path' => '',
-                'route' => '',
+            'site_settings' => [
+                'display_name' => 'Site Settings',
+                'path' => route('adm.user.apps.index'),
+                'route_name' => 'adm.user.apps.index',
+                'visible' => true,
+                'role' => 'Developer|Admin',
+                'icon' => 'bx bx-cog',
             ],
             'menu_manager' => [
-                'path' => '',
-                'route' => '',
+                'display_name' => 'Menu Manager',
+                'path' => 'javascript:void(0)',
+                'route_name' => null,
+                'visible' => true,
+                'role' => 'Developer|Admin',
+                'icon' => 'bx bx-layer',
             ],
             'template' => [
-                'path' => '',
-                'route' => '',
+                'display_name' => 'Template',
+                'path' => url('/template'),
+                'route_name' => null,
+                'visible' => true,
+                'role' => 'Developer|Admin',
+                'icon' => 'bx bx-devices',
             ],
         ];
     }
