@@ -7,12 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class UsersActivity extends Model
 {
+    /**
+     * Define table name
+     *
+     * @var string
+     */
     public $table = 'users_activities';
 
+    /**
+     * Define primary key type is equal to string
+     *
+     * @var string
+     */
     public $keyType = 'string';
 
+    /**
+     * Define created_at and updated_at are not available in user_activities table
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
+    /**
+     * fDefine illable columns
+     *
+     * @var array
+     */
     protected $fillable = [
         'id',
         'user_id',
@@ -40,6 +60,11 @@ class UsersActivity extends Model
         'last_activity',
     ];
 
+    /**
+     * Users relation
+     *
+     * @return void
+     */
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -15,6 +15,11 @@ class Menu extends Model
         'name',
     ];
 
+    /**
+     * Items relation
+     *
+     * @return void
+     */
     public function items()
     {
         return $this->hasMany(MenuItem::class, 'menu_id', 'id');

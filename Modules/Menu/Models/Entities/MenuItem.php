@@ -27,6 +27,11 @@ class MenuItem extends Model
         'order',
     ];
 
+    /**
+     * Menu relation
+     *
+     * @return void
+     */
     public function menu()
     {
         return $this->belongsTo(Menu::class, 'menu_id', 'id');
