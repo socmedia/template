@@ -2,6 +2,7 @@
 
 namespace App\Constants;
 
+use Illuminate\Support\Facades\Schema;
 use Modules\AppSetting\Models\Entities\AppSetting;
 
 class DefaultAppSettings
@@ -275,11 +276,11 @@ class DefaultAppSettings
      */
     public static function groupedSettings(): array
     {
-        $settingsData = AppSetting::all()->toArray();
+        $settingsData = Schema::hasTable('app_settings') ? AppSetting::all()->toArray() : [];
 
         // Check default app settings
         // If $settingsData is null, then static::allSettings will be share to the views
-        $settings = $settingsData ?: static::allSettings();
+        $settings = count($settingsData) > 0 ?: static::allSettings();
 
         // Define variable as empty array
         $groupbBySettings = [];
