@@ -280,7 +280,7 @@ class DefaultAppSettings
 
         // Check default app settings
         // If $settingsData is null, then static::allSettings will be share to the views
-        $settings = count($settingsData) > 0 ?: static::allSettings();
+        $settings = count($settingsData) > 0 ? $settingsData : static::allSettings();
 
         // Define variable as empty array
         $groupbBySettings = [];
