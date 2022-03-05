@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 function activeRouteIs($routeName, $active = 'mm-active')
@@ -90,4 +92,48 @@ function numberShortner($n)
     }
 
     return !empty($n_format . $suffix) ? $n_format . $suffix : 0;
+}
+
+function number($number, $decimals)
+{
+    try {
+        return number_format(str_replace(',', '', str_replace('.', '', $number)), $decimals, ',', '.');
+    } catch (Exception $exeception) {
+        return null;
+    }
+}
+
+function dateTimeTranslated($date, $format = 'D d, M Y', $locale = 'id')
+{
+    try {
+        return Carbon::parse($date)->locale($locale)->translatedFormat($format);
+    } catch (Exception $exeception) {
+        return null;
+    }
+}
+
+function cacheQuery($key, $value = null, $time = null)
+{
+    if (Cache::has($key)) {
+        return Cache::get($key);
+    }
+
+    Cache::put($key, $value, $time ?: now()->addHours(1));
+    return Cache::get($key);
+}
+
+function removeFromStorage($disk = '', $filename = '')
+{
+    $path = storage_path('app/public/' . $disk . '/' . $filename);
+
+    if (!File::exists($path)) {
+        return false;
+    }
+
+    return File::delete($path);
+}
+
+function phone($number)
+{
+    return substr($number, 0, 1) == 0 ? substr($number, 1) : $number;
 }

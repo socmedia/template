@@ -9,14 +9,38 @@ class AdminAvaMenus
     protected static function menus()
     {
         return [
+            // 'front.profile' => [
+            //     'display_name' => 'Profile',
+            //     'path' => route('front.profile'),
+            //     'route_name' => 'front.profile',
+            //     'visible' => true,
+            //     'role' => 'Dealer|Dealer Group',
+            //     'icon' => 'bx bx-user',
+            // ],
             'profile' => [
                 'display_name' => 'Profile',
                 'path' => route('adm.user.profile.index'),
                 'route_name' => 'adm.user.profile.index',
                 'visible' => true,
-                'role' => 'Developer|Admin|User|Dealer',
+                'role' => 'Developer|Admin',
                 'icon' => 'bx bx-user',
             ],
+            'admin-preferences' => [
+                'display_name' => 'Preferences',
+                'path' => route('adm.user.theme.index'),
+                'route_name' => 'adm.user.theme.index',
+                'visible' => true,
+                'role' => 'Developer|Admin',
+                'icon' => 'bx bx-paint',
+            ],
+            // 'preferences' => [
+            //     'display_name' => 'Preferences',
+            //     'path' => route('front.theme'),
+            //     'route_name' => 'front.theme',
+            //     'visible' => true,
+            //     'role' => 'Dealer|Dealer Group',
+            //     'icon' => 'bx bx-paint',
+            // ],
             'site_settings' => [
                 'display_name' => 'Site Settings',
                 'path' => route('adm.user.apps.index'),
@@ -29,7 +53,7 @@ class AdminAvaMenus
                 'display_name' => 'Menu Manager',
                 'path' => 'javascript:void(0)',
                 'route_name' => null,
-                'visible' => true,
+                'visible' => false,
                 'role' => 'Developer|Admin',
                 'icon' => 'bx bx-layer',
             ],

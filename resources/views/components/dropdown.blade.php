@@ -1,4 +1,4 @@
-<div class="dropdown ms-auto">
+<div class="dropdown">
     <a class="dropdown-toggle dropdown-toggle-nocaret {{ $additionalClass }}" href="#" data-bs-toggle="dropdown"
         aria-expanded="true">
         {{ $text }}

@@ -20,7 +20,7 @@
             </div>
 
             <div class="text-end">
-                <x-button state="dark" loadingState="true" wireTarget="store" text="Save changes" />
+                <x-button state="dark" loadingState="true" wireTarget="store" text="Simpan" />
             </div>
         </form>
     </x-form-card>

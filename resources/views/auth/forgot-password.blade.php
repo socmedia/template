@@ -21,11 +21,11 @@
 @section('content')
 <form method="POST" action="{{ route('password.email') }}">
     @csrf
-    <div class="text-left">
+    <div class="text-left mb-3">
         <img src="{{asset('assets/app/images/icons/forgot-2.png')}}" width="80" alt="" />
     </div>
-    <h4 class="mt-5 font-weight-bold">Forgot Password?</h4>
-    <p class="text-muted">Enter your registered email ID to reset the password</p>
+    <h4 class="font-weight-bold">{{ $forgot_password_title }}</h4>
+    <p class="text-muted">{{ $forgot_password_caption }}</p>
     <div class="my-4">
         <label class="form-label">Email Address</label>
         <input type="text" class="form-control form-control-lg" placeholder="example@user.com" name="email" />

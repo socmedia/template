@@ -218,7 +218,7 @@ class Table extends Component
 
         // Flash message
         $this->reset('destroyId');
-        return session()->flash('failed', 'Penghapusan role gagal, karena tole tidak ditemukan.');
+        return session()->flash('failed', 'Penghapusan role gagal, karena role tidak ditemukan.');
     }
 
     public function render()

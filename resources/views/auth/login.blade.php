@@ -22,6 +22,11 @@
 <form class="row g-3" method="POST" action="{{ route('login') }}">
     @csrf
     <div class="col-12">
+        <h4 class="font-weight-bold">{{ $login_title }}</h4>
+        <p class="text-muted">{{ $login_caption }}</p>
+    </div>
+
+    <div class="col-12">
         <label for="email" class="form-label">Email Address</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
             value="{{old('email')}}">

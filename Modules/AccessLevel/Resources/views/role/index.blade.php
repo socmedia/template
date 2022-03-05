@@ -11,25 +11,15 @@
 
             <x-slot name="button">
                 <div class="btn-group">
-                    <a href="{{ route('adm.access-level.role.create') }}"
-                        class="btn btn-dark btn-sm ms-auto px-3">Tambah
-                        Role</a>
-                    <div class="btn-group" role="group">
-                        <button id="dropdown" type="button" class="btn btn-secondary btn-sm dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Export
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown">
-                            <li>
-                                <a class="dropdown-item" target="_blank"
-                                    href="{{ route('adm.access-level.role.download', 'xlsx') }}">Excel</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" target="_blank"
-                                    href="{{ route('adm.access-level.role.download', 'csv') }}">CSV</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <x-button.create text="Role" href="{{ route('adm.access-level.role.create') }}" />
+                    <x-button.export>
+                        <x-dropdown.item target="_blank" href="{{ route('adm.access-level.role.download', 'xlsx') }}">
+                            Excel
+                        </x-dropdown.item>
+                        <x-dropdown.item target="_blank" href="{{ route('adm.access-level.role.download', 'csv') }}">
+                            CSV
+                        </x-dropdown.item>
+                    </x-button.export>
                 </div>
             </x-slot>
         </x-breadcrumb>

@@ -37,16 +37,16 @@
                         @foreach ($settings as $settingIndex => $setting)
 
                         @if ($setting['type'] == 'image')
+                        @endif
+
+                        @if ($setting['type'] == 'image')
+                        <figure>
+                            <img src="{{$setting['value']}}" height="60px" />
+                        </figure>
+                        @endif
+
                         <form
                             wire:submit.prevent="update('{{$setting['id']}}', 'settingsByGroup.{{ $index }}.{{ $settingIndex }}.value', 'images.{{ $index }}.{{ $settingIndex }}.value')">
-                            @endif
-
-                            @if ($setting['type'] == 'image')
-                            <figure>
-                                <img src="{{$setting['value']}}" height="60px" />
-                            </figure>
-                            @endif
-
                             <div class="form-group">
 
                                 <label for="{{ $setting['key'] }}" class="text-capitalize">{{ str_replace('_', ' ',

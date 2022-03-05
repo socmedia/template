@@ -251,7 +251,7 @@ class Table extends Component
 
         // Check if props below is true/not empty
         if ($this->sort && $this->order) {
-            $columns = $this->getTableColumns('Users');
+            $columns = $this->getTableColumns('users');
 
             // Check if column is exist in database table column
             // Handle errors column not found
@@ -335,7 +335,7 @@ class Table extends Component
 
         // Flash message
         $this->reset('destroyId');
-        return session()->flash('failed', 'Penghapusan User gagal, karena tole tidak ditemukan.');
+        return session()->flash('failed', 'Penghapusan User gagal, karena user tidak ditemukan.');
     }
 
     public function render()

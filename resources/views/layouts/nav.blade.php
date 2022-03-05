@@ -52,6 +52,34 @@
                 </li>
             </ul>
         </li>
+        {{--
+        <li class="menu-label">Master</li>
+        <li class="{{ activeRouteIs('adm.master.*') }}">
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class="bx bx-data"></i>
+                </div>
+                <div class="menu-title">Master Data</div>
+            </a>
+            <ul>
+                <li class="{{ activeRouteIs('adm.master.category.*') }}">
+                    <a href="{{ route('adm.master.category.index') }}">
+                        <i class="bx bx-right-arrow-alt"></i>Kategori
+                    </a>
+                </li>
+                <li class="{{ activeRouteIs('adm.master.sub-category.*') }}">
+                    <a href="{{ route('adm.master.sub-category.index') }}">
+                        <i class="bx bx-right-arrow-alt"></i>Sub Kategori
+                    </a>
+                </li>
+            </ul>
+        </li> --}}
+
+        <li class="{{ activeRouteIs('adm.post.index') }}">
+            <a href="{{ route('adm.post.index') }}">
+                <div class="parent-icon"><i class='bx bx-news'></i></div>
+                <div class="menu-title">Postingan</div>
+            </a>
+        </li>
 
         <li class="menu-label">Access Level</li>
         <li class="{{ activeRouteIs('adm.access-level.user.*') }}">

@@ -13,11 +13,47 @@ use Spatie\Permission\Models\Role;
 class Create extends Component
 {
     /**
-     * Define form props in this component
+     * Define personal props in this component
      *
      * @var mixed
      */
-    public $name, $email, $password, $password_confirmation, $role;
+    public $personal = [
+        'name' => null,
+        'gender' => null,
+        'place_of_birth' => null,
+        'date_of_birth' => null,
+        'address' => null,
+    ];
+
+    /**
+     * Define role props in this component
+     *
+     * @var array
+     */
+    public $access = [
+        'role' => null,
+    ];
+
+    /**
+     * Define account props in this component
+     *
+     * @var array
+     */
+    public $account = [
+        'email' => null,
+        'phone' => null,
+        'verified' => false,
+    ];
+
+    /**
+     * Define security props in this component
+     *
+     * @var array
+     */
+    public $security = [
+        'password' => null,
+        'password_confirmation' => null,
+    ];
 
     /**
      * Define data props
@@ -44,19 +80,9 @@ class Create extends Component
         $this->pluckRoles = implode(',', $pluckRoles);
     }
 
-    /**
-     * Form validation rules
-     *
-     * @return void
-     */
-    protected function rules()
+    public function updated($component, $value)
     {
-        return [
-            'name' => 'required|min:3|max:191',
-            'email' => 'required|email|max:191|' . Rule::unique('users', 'email'),
-            'password' => 'required|min:8|max:191|confirmed',
-            'role' => 'required|in:' . $this->pluckRoles,
-        ];
+        //
     }
 
     /**
@@ -66,21 +92,50 @@ class Create extends Component
      */
     public function store()
     {
-        $this->validate();
+        $rules = [
+            'personal.name' => 'required|min:3|max:191',
+            'personal.gender' => 'nullable|max:191|in:Male,Female,-',
+            'personal.place_of_birth' => 'nullable|max:191',
+            'personal.date_of_birth' => 'nullable|date',
+            'personal.address' => 'nullable|max:500',
+            'account.email' => 'required|email|max:191|' . Rule::unique('users', 'email'),
+            'account.phone' => 'nullable|regex:/^[0-9]+$/|max:15',
+            'security.password' => 'required|min:8|max:191|confirmed',
+            'access.role' => 'required|in:' . $this->pluckRoles,
+        ];
+
+        $attributes = [
+            'personal.name' => 'name',
+            'personal.gender' => 'gender',
+            'personal.place_of_birth' => 'place of birth',
+            'personal.date_of_birth' => 'date of birth',
+            'personal.address' => 'address',
+            'account.email' => 'email',
+            'account.phone' => 'phone',
+            'security.password' => 'password',
+            'access.role' => 'role',
+        ];
+
+        $this->validate($rules, [], $attributes);
 
         $id = Generate::ID(32);
 
         // Get user avatar by initial
-        $img = Http::get('https://ui-avatars.com/api/?format=png&name=' . $this->name . '&background=f1f1f1&color=636363');
+        $img = Http::get('https://ui-avatars.com/api/?format=png&name=' . $this->personal['name'] . '&background=f1f1f1&color=636363');
 
         // Create new user
         $user = User::create([
             'id' => $id,
-            'name' => $this->name,
-            'email' => $this->email,
+            'name' => $this->personal['name'],
+            'email' => $this->account['email'],
+            'gender' => $this->personal['gender'],
+            'place_of_birth' => $this->personal['place_of_birth'],
+            'date_of_birth' => $this->personal['date_of_birth'],
+            'address' => $this->personal['address'],
+            'phone' => '+62' . phone($this->account['phone']),
             'email_verified_at' => now()->toDateTimeString(),
             'avatar_url' => 'data:image/png;base64,' . base64_encode($img),
-            'password' => bcrypt($this->password),
+            'password' => bcrypt($this->security['password']),
         ]);
 
         // Create  default user setting
@@ -90,13 +145,13 @@ class Create extends Component
         ]);
 
         // Set user role
-        $user->assignRole($this->role);
+        $user->assignRole($this->access['role']);
 
         // Reset all props
-        $this->reset('name', 'email', 'password', 'role');
+        $this->reset('personal', 'access', 'account', 'security');
 
         // Flash message
-        session()->flash('success', 'Role berhasil ditambahkan.');
+        session()->flash('success', 'User berhasil ditambahkan.');
     }
 
     public function render()

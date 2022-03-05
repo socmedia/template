@@ -248,3 +248,145 @@ html.dark-theme .list-group.sidebar .list-group-item.active a {
 .delete-modal .modal-footer {
   border: none;
 }
+
+article.vertical {
+  position: relative;
+  overflow: hidden;
+}
+article.vertical figure {
+  position: relative;
+  display: grid;
+  place-content: center;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.vertical figure img {
+  height: 250px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 8px;
+}
+article.vertical figure .dropdown {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+}
+article.vertical figure .dropdown i {
+  font-size: 1rem;
+}
+article.vertical figure .badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+}
+article.vertical figcaption {
+  text-align: left;
+  padding: 1rem;
+}
+article.vertical figcaption .info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+article.vertical figcaption .info small {
+  font-size: 0.675rem;
+  color: #676767;
+}
+article.vertical figcaption .info small.with-icon {
+  display: flex;
+  align-items: center;
+}
+article.vertical figcaption .info small.with-icon i {
+  font-size: 1rem;
+  margin-right: 0.2rem;
+}
+article.vertical figcaption .info.top {
+  justify-content: space-between;
+}
+article.vertical figcaption .info.bottom {
+  justify-content: flex-end;
+}
+article.vertical figcaption h5 {
+  font-size: 1rem;
+}
+article.vertical figcaption p {
+  font-size: 0.875rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.archive:before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 8px;
+}
+.archive:after {
+  position: absolute;
+  content: "Diarsipkan";
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffffd7;
+  background: #2b2929;
+  padding: 0.5rem 1.75rem;
+  border-radius: 10px;
+  z-index: 3;
+}
+
+.trix-button-group {
+  border: none !important;
+}
+
+.trix-button {
+  border: none !important;
+}
+.trix-button.trix-active {
+  background: #f0f0f0 !important;
+}
+.trix-button.trix-active:before {
+  filter: opacity(0.6) !important;
+}
+
+.custom-badge {
+  max-height: 22px;
+  align-self: center;
+}
+
+.dropdown-searchable .dropdown-menu.show {
+  left: -20px;
+  width: 250px;
+}
+.dropdown-searchable .dropdown-menu.show .dropdown-result {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+.dropdown-searchable .dropdown-menu.show .dropdown-result::-webkit-scrollbar {
+  width: 5px;
+  background: #f9fafb;
+  border-radius: 5px;
+}
+.dropdown-searchable .dropdown-menu.show .dropdown-result::-webkit-scrollbar-thumb {
+  background: #eeeeee;
+}
+.dropdown-searchable .dropdown-menu.show .dropdown-item a {
+  padding: 0.25rem 0;
+  word-break: break-word;
+  white-space: normal;
+}
+.dropdown-searchable .dropdown-menu.show .dropdown-item:focus, .dropdown-searchable .dropdown-menu.show .dropdown-item:active, .dropdown-searchable .dropdown-menu.show .dropdown-item.active {
+  background: #f9fafb;
+}

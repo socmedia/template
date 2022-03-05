@@ -11,10 +11,7 @@
             </x-slot>
 
             <x-slot name="button">
-                <div class="ms-auto">
-                    <a class="btn btn-dark btn-sm ms-auto px-3"
-                        href="{{route('adm.access-level.role.index')}}">Kembali</a>
-                </div>
+                <x-button.back href="{{ route('adm.access-level.role.index') }}" />
             </x-slot>
         </x-breadcrumb>
 

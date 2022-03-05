@@ -5,6 +5,12 @@
 @section('content')
 <form class="row g-3" action="{{ route('register') }}" method="POST">
     @csrf
+
+    <div class="col-12">
+        <h4 class="font-weight-bold">{{ $register_title }}</h4>
+        <p class="text-muted">{{ $register_caption }}</p>
+    </div>
+
     <div class="col-12">
         <label for="name" class="form-label">Full Name</label>
         <input type="text" class="form-control" id="name" placeholder="Your name" name="name" value="{{old('name')}}">

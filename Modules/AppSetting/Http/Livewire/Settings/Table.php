@@ -99,10 +99,10 @@ class Table extends Component
             ]);
         } else {
             $this->validate([
-                $pattern => 'required|max:191',
+                $pattern => 'required|max:500',
             ], [
                 'required' => 'This field is required.',
-                'max' => 'Allowed character length is 191.',
+                'max' => 'Allowed character length is 500.',
             ]);
         }
 

@@ -11,7 +11,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-outline-danger btn-sm" id="remove-button"
+                <button type="button" class="btn btn-outline-danger btn-sm" id="remove-button" data-bs-dismiss="modal"
                     wire:click="destroy">Hapus</button>
             </div>
         </div>

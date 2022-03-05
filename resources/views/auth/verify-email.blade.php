@@ -22,9 +22,8 @@
 
 @section('content')
 <div class="p-5">
-    <h4 class="font-weight-bold">Verify Your Email</h4>
-    <p class="text-muted">Thanks for signing up! Before getting started, could you verify your email address by clicking
-        on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.</p>
+    <h4 class="font-weight-bold">{{ $verify_email_title }}</h4>
+    <p class="text-muted">{{ $verify_email_caption }}</p>
     <div class="row">
         <div class="col-12 mb-3">
             <form method="POST" class="d-flex" action="{{ route('verification.send') }}">

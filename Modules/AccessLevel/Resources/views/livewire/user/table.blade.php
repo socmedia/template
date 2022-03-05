@@ -46,7 +46,7 @@
                         <x-badge state="warning" icon="bx bx-info-circle">Belum</x-badge>
                         @endif
                     </x-table.cell>
-                    <x-table.cell :cell="$user->roles->first()->name" />
+                    <x-table.cell :cell="$user->roles->first() ? $user->roles->first()->name : '-'" />
                     <x-table.cell :cell="$user->created_at->format('D, d M Y')" />
                     <x-table.cell>
                         <div class="btn-group" role="group">

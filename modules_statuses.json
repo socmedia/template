@@ -3,5 +3,6 @@
     "User": true,
     "AppSetting": true,
     "Menu": true,
-    "AccessLevel": true
+    "AccessLevel": true,
+    "Post": true
 }

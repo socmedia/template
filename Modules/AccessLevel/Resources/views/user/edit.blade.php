@@ -1,26 +1,23 @@
 @extends("layouts.master")
 
-@section("wrapper")
-<div class="page-wrapper">
-    <div class="page-content">
-        <!--breadcrumb-->
-        <x-breadcrumb pageTitle="User">
-            <x-slot name="link">
-                <x-breadcrumb.link href="{{ route('adm.access-level.user.index')}}" pageTitle="User" />
-                <x-breadcrumb.link active="true" pageTitle="edit" />
-            </x-slot>
+@section('wrapper')
+    <div class="page-wrapper">
+        <div class="page-content">
+            <!--breadcrumb-->
+            <x-breadcrumb pageTitle="User">
+                <x-slot name="link">
+                    <x-breadcrumb.link href="{{ route('adm.access-level.user.index') }}" pageTitle="User" />
+                    <x-breadcrumb.link active="true" pageTitle="edit" />
+                </x-slot>
 
-            <x-slot name="button">
-                <div class="ms-auto">
-                    <a class="btn btn-dark btn-sm ms-auto px-3"
-                        href="{{route('adm.access-level.user.index')}}">Kembali</a>
-                </div>
-            </x-slot>
-        </x-breadcrumb>
+                <x-slot name="button">
+                    <x-button.back href="{{ route('adm.access-level.user.index') }}" />
+                </x-slot>
+            </x-breadcrumb>
 
-        <x-blank-container class="justify-content-center" md="8" lg="8">
-            <livewire:accesslevel::user.edit :user="$user" />
-        </x-blank-container>
+            <x-blank-container class="justify-content-center">
+                <livewire:accesslevel::user.edit :user="$user" />
+            </x-blank-container>
+        </div>
     </div>
-</div>
 @endsection

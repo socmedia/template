@@ -6,8 +6,8 @@
 <form method="POST" action="{{ route('password.update') }}">
     @csrf
     <div class="p-5">
-        <h4 class="font-weight-bold">Generate New Password</h4>
-        <p class="text-muted">We received your reset password request. Please enter your new password!</p>
+        <h4 class="font-weight-bold">{{ $reset_password_title }}</h4>
+        <p class="text-muted">{{ $reset_password_caption }}</p>
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
         <div class="mb-3 mt-5">
             <label for="email" class="form-label">Email Address</label>

@@ -11,14 +11,11 @@
             </x-slot>
 
             <x-slot name="button">
-                <div class="ms-auto">
-                    <a class="btn btn-dark btn-sm ms-auto px-3"
-                        href="{{route('adm.access-level.user.index')}}">Kembali</a>
-                </div>
+                <x-button.back href="{{ route('adm.access-level.user.index') }}" />
             </x-slot>
         </x-breadcrumb>
 
-        <x-blank-container class="justify-content-center" md="8" lg="8">
+        <x-blank-container class="justify-content-center">
             <livewire:accesslevel::user.create />
         </x-blank-container>
     </div>
