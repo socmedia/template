@@ -6,8 +6,14 @@
 <form method="POST" action="{{ route('password.update') }}">
     @csrf
     <div class="p-5">
+        @if ($reset_password_title)
         <h4 class="font-weight-bold">{{ $reset_password_title }}</h4>
+        @endif
+
+        @if ($reset_password_caption)
         <p class="text-muted">{{ $reset_password_caption }}</p>
+        @endif
+
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
         <div class="mb-3 mt-5">
             <label for="email" class="form-label">Email Address</label>

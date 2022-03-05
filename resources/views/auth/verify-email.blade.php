@@ -22,8 +22,15 @@
 
 @section('content')
 <div class="p-5">
+
+    @if ($verify_email_title)
     <h4 class="font-weight-bold">{{ $verify_email_title }}</h4>
+    @endif
+
+    @if ($verify_email_caption)
     <p class="text-muted">{{ $verify_email_caption }}</p>
+    @endif
+
     <div class="row">
         <div class="col-12 mb-3">
             <form method="POST" class="d-flex" action="{{ route('verification.send') }}">

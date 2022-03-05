@@ -24,8 +24,15 @@
     <div class="text-left mb-3">
         <img src="{{asset('assets/app/images/icons/forgot-2.png')}}" width="80" alt="" />
     </div>
+
+    @if ($forgot_password_title)
     <h4 class="font-weight-bold">{{ $forgot_password_title }}</h4>
+    @endif
+
+    @if ($forgot_password_caption)
     <p class="text-muted">{{ $forgot_password_caption }}</p>
+    @endif
+
     <div class="my-4">
         <label class="form-label">Email Address</label>
         <input type="text" class="form-control form-control-lg" placeholder="example@user.com" name="email" />

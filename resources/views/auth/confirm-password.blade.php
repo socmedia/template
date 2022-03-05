@@ -21,8 +21,15 @@
 @section('content')
 <form method="POST" action="{{ route('password.confirm') }}">
     @csrf
+
+    @if ($confirm_password_title)
     <h4 class="font-weight-bold">{{ $confirm_password_title }}</h4>
+    @endif
+
+    @if ($confirm_password_caption)
     <p class="text-muted">{{ $confirm_password_caption }}</p>
+    @endif
+
     <div class="my-4">
         <label for="password" class="form-label">Password</label>
         <input class="form-control" id="password" class="block mt-1 w-full" type="password" name="password" />
