@@ -7,12 +7,12 @@
     @csrf
 
     <div class="col-12">
-        @if ($register_title)
-        <h4 class="font-weight-bold">{{ $register_title }}</h4>
+        @if (cache('register_title'))
+        <h4 class="font-weight-bold">{{ cache('register_title') }}</h4>
         @endif
 
-        @if ($register_caption)
-        <p class="text-muted">{{ $register_caption }}</p>
+        @if (cache('register_caption'))
+        <p class="text-muted">{{ cache('register_caption') }}</p>
         @endif
     </div>
 

@@ -16,7 +16,7 @@
         $theme['sidebar'] = $preferences->sidebar_theme;
     }
 ?>
-<html lang="en" class="{{implode(' ', $theme)}}">
+<html lang="en" class="{{ implode(' ', $theme) }}">
 @else
 <html lang="en">
 @endauth
@@ -26,7 +26,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
-    <link rel="icon" href="{{$favicon}}" type="image/png" />
+    <link rel="icon" href="{{cache('favicon')}}" type="image/png" />
     <!--plugins-->
     <link href="{{asset('assets/app/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/app/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
@@ -48,7 +48,7 @@
     @livewireStyles
 
     @stack("style")
-    <title>{{ $name }} | @yield(' title')</title>
+    <title>{{ cache('app_name') }} | @yield(' title')</title>
 </head>
 
 <body>
@@ -63,7 +63,7 @@
 
         <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
         <footer class="page-footer">
-            <p class="mb-0">{{ $copyright }}</p>
+            <p class="mb-0">{{ cache('copyright') }}</p>
         </footer>
     </div>
 

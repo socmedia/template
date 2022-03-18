@@ -22,12 +22,12 @@
 <form class="row g-3" method="POST" action="{{ route('login') }}">
     @csrf
     <div class="col-12">
-        @if ($login_title)
-        <h4 class="font-weight-bold">{{ $login_title }}</h4>
+        @if (cache('login_title'))
+        <h4 class="font-weight-bold">{{ cache('login_title') }}</h4>
         @endif
 
-        @if ($login_caption)
-        <p class="text-muted">{{ $login_caption }}</p>
+        @if (cache('login_caption'))
+        <p class="text-muted">{{ cache('login_caption') }}</p>
         @endif
     </div>
 

@@ -19,6 +19,8 @@ trait PostQueriesService
     public static function getPopularPosts(string $postTypeName = '', string $time = '')
     {
         $query = static::query()
+            ->whereNotNull('published_at')
+            ->whereNull('archived_at')
             ->where(function ($post) {
                 $post->where('number_of_views', '>', 50)
                     ->orWhere('number_of_shares', '>', 20);
@@ -47,9 +49,7 @@ trait PostQueriesService
             });
         }
 
-        return $query->whereHas('status', function ($status) {
-            return $status->where('name', 'like', '%publish%');
-        })->orderBy('number_of_views', 'desc');
+        return $query->orderBy('number_of_views', 'desc');
     }
 
     /**
@@ -61,7 +61,9 @@ trait PostQueriesService
      */
     public static function publicPosts($request)
     {
-        $posts = static::query();
+        $posts = static::query()->with('writer')
+            ->whereNotNull('published_at')
+            ->whereNull('archived_at');
 
         // Check if props below is true/not empty
         if ($request['search']) {
@@ -99,10 +101,6 @@ trait PostQueriesService
             });
         }
 
-        $posts->whereHas('status', function ($status) {
-            $status->where('name', 'like', '%publish%');
-        });
-
         return $posts->orderBy('created_at', 'desc');
     }
 
@@ -117,9 +115,9 @@ trait PostQueriesService
     {
         return static::query()
             ->where('slug_title', $slug_title)
-            ->whereHas('status', function ($status) {
-                $status->where('name', 'like', '%publish%');
-            })->firstOrFail();
+            ->whereNotNull('published_at')
+            ->whereNull('archived_at')
+            ->firstOrFail();
     }
 
     /**
@@ -166,10 +164,21 @@ trait PostQueriesService
 
         // Check if props below is true/not empty
         if ($request['status']) {
-            // Filter status by status name
-            $posts->whereHas('status', function ($query) use ($request) {
-                $query->where('slug_name', $request['status']);
-            });
+
+            if ($request['status'] == 'published') {
+                $posts->whereNotNull('published_at')
+                    ->whereNull('archived_at');
+            }
+
+            if ($request['status'] == 'draft') {
+                $posts->whereNull('published_at')
+                    ->whereNull('archived_at');
+            }
+
+            if ($request['status'] == 'archived') {
+                $posts->whereNotNull('archived_at');
+            }
+
         }
 
         // Check if props below is true/not empty

@@ -23,12 +23,12 @@
 @section('content')
 <div class="p-5">
 
-    @if ($verify_email_title)
-    <h4 class="font-weight-bold">{{ $verify_email_title }}</h4>
+    @if (cache('verify_email_title'))
+    <h4 class="font-weight-bold">{{ cache('verify_email_title') }}</h4>
     @endif
 
-    @if ($verify_email_caption)
-    <p class="text-muted">{{ $verify_email_caption }}</p>
+    @if (cache('verify_email_caption'))
+    <p class="text-muted">{{ cache('verify_email_caption') }}</p>
     @endif
 
     <div class="row">

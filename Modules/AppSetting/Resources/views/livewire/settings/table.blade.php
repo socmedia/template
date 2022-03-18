@@ -28,16 +28,15 @@
                 <div class="tab-content" id="v-pills-tabContent">
 
                     @foreach ($groups as $group)
-                    <div class="tab-pane fade {{ $activeTabs == $group ? 'show active' : '' }}"
-                        id="v-pills-{{ $group }}" role="tabpanel" aria-labelledby="v-pills-{{ $group }}-tab">
+
+                    @if ($activeTabs == $group)
+                    <div class="tab-pane fade show active" id="v-pills-{{ $group }}" role="tabpanel"
+                        aria-labelledby="v-pills-{{ $group }}-tab">
 
                         @foreach ($settingsByGroup as $index => $settings)
 
                         @if($index == $group)
                         @foreach ($settings as $settingIndex => $setting)
-
-                        @if ($setting['type'] == 'image')
-                        @endif
 
                         @if ($setting['type'] == 'image')
                         <figure>
@@ -53,18 +52,20 @@
                                     $setting['key']) }}</label>
                                 <div class="input-group">
 
-                                    @if ($setting['type'] == 'string')
+                                    @if ($setting['type'] == 'string' && $setting['form_type'] == 'input')
                                     <input type="text" class="form-control" id="{{ $setting['key'] }}"
                                         wire:model.defer="settingsByGroup.{{ $index }}.{{ $settingIndex }}.value">
+
+                                    @elseif ($setting['type'] == 'string' && $setting['form_type'] == 'textarea')
+                                    <textarea class="form-control" id="{{ $setting['key'] }}"
+                                        wire:model.defer="settingsByGroup.{{ $index }}.{{ $settingIndex }}.value"></textarea>
 
                                     @elseif ($setting['type'] == 'image')
                                     <input type="file" accept="image/*" class="form-control" id="{{ $setting['key'] }}"
                                         wire:model="images.{{ $index }}.{{ $settingIndex }}.value">
                                     @endif
 
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-dark"><i class="bx bx-check"></i></button>
-                                    </div>
+                                    <button class="btn btn-dark"><i class="bx bx-check"></i></button>
 
                                 </div>
 
@@ -84,6 +85,7 @@
                         @endforeach
 
                     </div>
+                    @endif
                     @endforeach
 
                 </div>

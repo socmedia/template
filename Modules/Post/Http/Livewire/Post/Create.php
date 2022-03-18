@@ -2,27 +2,28 @@
 
 namespace Modules\Post\Http\Livewire\Post;
 
+use App\Contracts\WithImageUpload;
+use App\Contracts\WithTrix;
+use App\Http\Livewire\ImageUpload;
 use App\Http\Livewire\Trix;
-use App\Services\ImageService;
 use App\Services\PostService;
-use App\Utillities\Generate;
+use Illuminate\Support\Str;
 use Livewire\Component;
-use Livewire\WithFileUploads;
+use Modules\Master\Entities\Category;
 use Modules\Post\Entities\Post;
-use Modules\Post\Entities\PostCategory;
-use Modules\Post\Entities\PostMedia;
-use Modules\Post\Entities\PostStatus;
+use Modules\Post\Entities\PostType;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithTrix, WithImageUpload;
 
     /**
      * Define form props
      *
      * @var array
      */
-    public $thumbnail, $category, $tags = [], $tagsInString, $tag, $status, $title, $slug_title, $subject, $description;
+    public $thumbnail, $category, $type, $tags = [], $publish = 1,
+    $tagsInString, $tag, $title, $slug_title, $subject, $description;
 
     /**
      * Define event listeners
@@ -31,6 +32,7 @@ class Create extends Component
      */
     public $listeners = [
         Trix::EVENT_VALUE_UPDATED,
+        ImageUpload::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -40,14 +42,11 @@ class Create extends Component
      */
     protected function rules()
     {
-        $status = PostStatus::all(['slug_name'])->pluck('slug_name')->toArray();
-
         return [
-            'thumbnail' => 'required|image|mimes:png,jpg,jpeg|max:512',
+            'thumbnail' => 'required',
             'category' => 'required',
             'title' => 'required|max:191|unique:posts,title',
             'slug_title' => 'required|max:191|unique:posts,slug_title',
-            'status' => 'in:' . implode(',', $status),
             'tagsInString' => 'nullable|max:191',
             'subject' => 'required|max:191',
             'description' => 'required',
@@ -65,33 +64,6 @@ class Create extends Component
             'tagsInString.max' => 'The tags has reached its maximum point.',
             'description.required' => 'The content field is required.',
         ];
-    }
-
-    /**
-     * Hooks for description property
-     * When trix editor has been updated,
-     * Description property will be update
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function trix_value_updated($value)
-    {
-        $this->description = $value;
-    }
-
-    /**
-     * Hooks for thumbnail property
-     * Doing thumbnail validation after
-     * Thumbnail property has been updated
-     *
-     * @return void
-     */
-    public function updatedThumbnail()
-    {
-        $this->validate([
-            'thumbnail' => 'required|image|mimes:png,jpg,jpeg|max:512',
-        ]);
     }
 
     /**
@@ -134,42 +106,32 @@ class Create extends Component
      */
     public function store()
     {
-        // Define variables
-        $status = PostStatus::where('slug_name', $this->status)->first();
-        $imageService = new ImageService();
-
-        // Check if status is not exist
-        if (!$status) {
-            return session()->flash('failed', 'Status postingan tidak tersedia.');
-        }
-
         // Validation
         $this->validate();
 
-        // Create Post
-        $post = Post::create([
-            'id' => Generate::ID(),
+        $data = [
+            'id' => Str::random(32),
             'title' => $this->title,
             'slug_title' => $this->slug_title,
             'category_id' => $this->category,
-            'status_id' => $status->id,
-            'taype_id' => 1,
+            'type_id' => $this->type,
             'subject' => $this->subject,
             'description' => $this->description,
             'tags' => $this->tagsInString,
             'reading_time' => $this->description ? PostService::generateReadingTime($this->description) : '0 Menit',
+            'published_at' => $this->publish ? now()->toDateTimeString() : null,
+            'archived_at' => null,
             'number_of_views' => 0,
             'number_of_shares' => 0,
             'author' => user('id'),
-        ]);
+        ];
 
-        // Create Thumbnail
-        PostMedia::create([
-            'posts_id' => $post->id,
-            'type' => 'thumbnail',
-            'media_type' => 'image',
-            'media_path' => url($imageService->storeImage($this->thumbnail)),
-        ]);
+        if ($this->thumbnail) {
+            $data['thumbnail'] = $this->thumbnail;
+        }
+
+        // Create Post
+        Post::create($data);
 
         // Reset props
         $this->reset(
@@ -185,7 +147,8 @@ class Create extends Component
         );
 
         // Emit to trix editor, reset text ditor
-        $this->emitTo('trix', 'reset_trix');
+        $this->resetTrix();
+        $this->resetImageUpload();
         session()->flash('success', 'Postingan berhasil ditambahkan.');
     }
 
@@ -212,6 +175,32 @@ class Create extends Component
     }
 
     /**
+     * Hooks for description property
+     * When trix editor has been updated,
+     * Description property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function trix_value_updated($value)
+    {
+        $this->description = $value;
+    }
+
+    /**
+     * Hooks for thumbnail property
+     * When image-upload has been updated,
+     * Thumbnail property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function image_uploaded($value)
+    {
+        $this->thumbnail = $value;
+    }
+
+    /**
      * Remove tag from tags property
      * Unset by array index
      *
@@ -230,8 +219,8 @@ class Create extends Component
     public function render()
     {
         return view('post::livewire.post.create', [
-            'categories' => PostCategory::all(['id', 'name']),
-            'statuses' => PostStatus::all(),
+            'categories' => Category::where('table_reference', 'posts')->get(),
+            'types' => PostType::get(['id', 'name']),
         ]);
     }
 }

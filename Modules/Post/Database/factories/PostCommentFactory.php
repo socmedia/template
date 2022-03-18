@@ -27,14 +27,14 @@ class PostCommentFactory extends Factory
      */
     public function definition()
     {
-        $user = User::all()->pluck('id')->toArray();
+        $users = User::all()->pluck('id')->toArray();
 
         $userId = [
             null,
-            $user[rand(0, count($user) - 1)],
+            $users[array_rand($users)],
         ];
 
-        $res = $userId[rand(0, 1)];
+        $res = $userId[array_rand($userId)];
         $posts = Post::all()->pluck('id')->toArray();
 
         return [

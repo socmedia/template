@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{{ $default_logo_16_9 }}" height="50" alt="logo icon">
+            <img src="{{ cache('default_logo_16_9') }}" height="50" alt="logo icon">
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
         </div>
@@ -52,7 +52,7 @@
                 </li>
             </ul>
         </li>
-        {{--
+
         <li class="menu-label">Master</li>
         <li class="{{ activeRouteIs('adm.master.*') }}">
             <a class="has-arrow" href="javascript:;">
@@ -72,7 +72,7 @@
                     </a>
                 </li>
             </ul>
-        </li> --}}
+        </li>
 
         <li class="{{ activeRouteIs('adm.post.index') }}">
             <a href="{{ route('adm.post.index') }}">

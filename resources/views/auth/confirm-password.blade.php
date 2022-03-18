@@ -22,12 +22,12 @@
 <form method="POST" action="{{ route('password.confirm') }}">
     @csrf
 
-    @if ($confirm_password_title)
-    <h4 class="font-weight-bold">{{ $confirm_password_title }}</h4>
+    @if (cache('confirm_password_title'))
+    <h4 class="font-weight-bold">{{ cache('confirm_password_title') }}</h4>
     @endif
 
-    @if ($confirm_password_caption)
-    <p class="text-muted">{{ $confirm_password_caption }}</p>
+    @if (cache('confirm_password_caption'))
+    <p class="text-muted">{{ cache('confirm_password_caption') }}</p>
     @endif
 
     <div class="my-4">

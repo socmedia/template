@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use App\Services\ActivityService;
 use App\Utillities\Generate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -17,16 +16,6 @@ use Modules\User\Models\Entities\UsersSetting;
 
 class RegisteredUserController extends Controller
 {
-    public $activityService;
-
-    /**
-     * Class constructor.
-     */
-    public function __construct(ActivityService $activityService)
-    {
-        $this->activityService = $activityService;
-    }
-
     /**
      * Display the registration view.
      *
@@ -54,13 +43,12 @@ class RegisteredUserController extends Controller
         ]);
 
         $id = Generate::ID(32);
-        $img = Http::get('https://ui-avatars.com/api/?format=png&name=' . $request->name . '&background=f1f1f1&color=636363');
 
         $user = User::create([
             'id' => $id,
             'name' => $request->name,
             'email' => $request->email,
-            'avatar_url' => 'data:image/png;base64,' . base64_encode($img),
+            'avatar_url' => url(asset('assets/default/images/user_avatar.png')),
             'password' => Hash::make($request->password),
         ]);
 
@@ -74,8 +62,6 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
-        $this->activityService->generateUserActivity(auth()->user(), 'login');
 
         return redirect(RouteServiceProvider::HOME);
     }

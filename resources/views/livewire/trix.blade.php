@@ -26,8 +26,6 @@
 
             input.value = null;
             target.innerHTML = "";
-
-            console.log([input, target])
         });
 
         function uploadTrixImage(attachment){

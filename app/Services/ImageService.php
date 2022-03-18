@@ -50,7 +50,7 @@ class ImageService
      * @param  Illuminate\Http\Request $fileInput ($request->file('input_name'))
      * @return string Image Url
      */
-    public function storeImage($fileInput): string
+    public function storeImage($fileInput, $width = 600, $quality = 90): string
     {
         $file = [
             'path' => 'app/public/images/' . now()->toDateString(),
@@ -64,11 +64,11 @@ class ImageService
         }
 
         $image = Image::make($fileInput->getRealPath());
-        $image->resize(600, null, function ($constraint) {
+        $image->resize($width, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
-        $image->save($path, 90);
+        $image->save($path, $quality);
         return '/storage/images/' . now()->toDateString() . '/' . $file['name'];
     }
 

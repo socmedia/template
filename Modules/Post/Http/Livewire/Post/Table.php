@@ -5,10 +5,10 @@ namespace Modules\Post\Http\Livewire\Post;
 use App\Services\ImageService;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Modules\Master\Entities\Category;
 use Modules\Post\Entities\Post;
-use Modules\Post\Entities\PostCategory;
-use Modules\Post\Entities\PostStatus;
 use Modules\Post\Entities\PostType;
+use Modules\Post\Services\PostQuery;
 use Modules\Post\Services\TableConfig;
 use Modules\Post\Services\TableFilterActions;
 
@@ -70,7 +70,8 @@ class Table extends Component
      */
     public function getAllPosts()
     {
-        $posts = Post::filters([
+        $post = new PostQuery();
+        return $post->filters((object) [
             'category' => $this->category,
             'type' => $this->type,
             'status' => $this->status,
@@ -78,8 +79,6 @@ class Table extends Component
             'order' => $this->order,
             'search' => $this->search,
         ]);
-
-        return $posts->paginate(12);
     }
 
     /**
@@ -90,31 +89,17 @@ class Table extends Component
      */
     public function archive($id)
     {
-        $status = PostStatus::where('slug_name', 'archive')->first();
         $post = Post::find($id);
 
         // Check if post and status not null
-        if ($post && $status) {
+        if ($post) {
 
-            // If post status is archive, status will change become published
-            if ($post->status_id == $status->id) {
+            $post->update([
+                'published_at' => null,
+                'archived_at' => now()->toDateTimeString(),
+            ]);
 
-                $publish = PostStatus::where('slug_name', 'published')->first();
-                $post->update([
-                    'status_id' => $publish ? $publish->id : $post->status_id,
-                ]);
-                return session()->flash('success', 'Postingan berhasil dipublish.');
-
-                // Change post status become archive
-            } else {
-
-                $post->update([
-                    'status_id' => $status ? $status->id : $post->status_id,
-                ]);
-                return session()->flash('success', 'Postingan berhasil diarsipkan.');
-
-            }
-
+            return session()->flash('success', 'Postingan berhasil dipublish.');
         }
 
         return session()->flash('failed', 'Postingan tidak ditemukan, pengarsipan gagal.');
@@ -148,9 +133,22 @@ class Table extends Component
     {
         return view('post::livewire.post.table', [
             'posts' => $this->getAllPosts(),
-            'categories' => PostCategory::all('name', 'slug_name'),
+            'categories' => Category::where('table_reference', 'posts')->get(),
             'types' => PostType::all('name', 'slug_name'),
-            'statuses' => PostStatus::all('name', 'slug_name'),
+            'statuses' => [
+                [
+                    'name' => 'Draft',
+                    'slug_name' => slug('Draft'),
+                ],
+                [
+                    'name' => 'Publish',
+                    'slug_name' => slug('Publish'),
+                ],
+                [
+                    'name' => 'Archived',
+                    'slug_name' => slug('Archived'),
+                ],
+            ],
         ]);
     }
 }

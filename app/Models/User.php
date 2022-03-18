@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\User\Models\Entities\UsersActivity;
 use Modules\User\Models\Entities\UsersSetting;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -37,9 +36,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $with = [
         'preferences',
-        'province',
-        'regency',
-        'district',
     ];
 
     /**
@@ -152,15 +148,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function district()
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
-    }
-
-    /**
-     * Activities relation
-     *
-     * @return void
-     */
-    public function activities()
-    {
-        return $this->hasMany(UsersActivity::class, 'user_id', 'id');
     }
 }

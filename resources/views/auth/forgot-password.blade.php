@@ -25,12 +25,12 @@
         <img src="{{asset('assets/app/images/icons/forgot-2.png')}}" width="80" alt="" />
     </div>
 
-    @if ($forgot_password_title)
-    <h4 class="font-weight-bold">{{ $forgot_password_title }}</h4>
+    @if (cache('forgot_password_title'))
+    <h4 class="font-weight-bold">{{ cache('forgot_password_title') }}</h4>
     @endif
 
-    @if ($forgot_password_caption)
-    <p class="text-muted">{{ $forgot_password_caption }}</p>
+    @if (cache('forgot_password_caption'))
+    <p class="text-muted">{{ cache('forgot_password_caption') }}</p>
     @endif
 
     <div class="my-4">

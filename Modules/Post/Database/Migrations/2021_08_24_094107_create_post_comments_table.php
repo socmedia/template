@@ -15,7 +15,7 @@ class CreatePostCommentsTable extends Migration
     {
         Schema::create('post_comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('posts_id');
+            $table->uuid('posts_id')->nullable();
             $table->uuid('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
@@ -23,7 +23,7 @@ class CreatePostCommentsTable extends Migration
             $table->text('comment');
             $table->timestamps();
 
-            $table->foreign('posts_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreign('posts_id')->references('id')->on('posts')->nullOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }

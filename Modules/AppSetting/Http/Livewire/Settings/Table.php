@@ -3,6 +3,7 @@
 namespace Modules\AppSetting\Http\Livewire\Settings;
 
 use App\Services\ImageService;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Modules\AppSetting\Models\Entities\AppSetting;
@@ -85,6 +86,8 @@ class Table extends Component
      */
     public function update($id, $pattern, $imagePattern)
     {
+        $setting = AppSetting::find($id);
+
         $explode = explode('.', $pattern);
         $target = count($explode) == 4 ? $this->settingsByGroup[$explode[1]][$explode[2]] : null;
 
@@ -140,6 +143,10 @@ class Table extends Component
 
             // Update image
             $setting->update($target);
+
+            Cache::forget($target['key']);
+            Cache::forever($target['key'], $target['value']);
+
             return session()->flash('success', 'Perubahan berhasil disimpan');
         }
 

@@ -16,8 +16,6 @@ class PostDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(PostCategoryTableSeeder::class);
-        $this->call(PostStatusTableSeeder::class);
         $this->call(PostTypeTableSeeder::class);
         $this->call(PostTableSeeder::class);
     }

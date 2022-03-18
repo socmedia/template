@@ -7,11 +7,12 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Post\Services\PostQueriesService;
+use Modules\Master\Entities\Category;
+use Modules\Post\Traits\Filterable;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes, DatabaseTable, PostQueriesService;
+    use HasFactory, SoftDeletes, DatabaseTable, Filterable;
 
     /**
      * Define table name
@@ -43,14 +44,22 @@ class Post extends Model
         'id' => 'string',
     ];
 
+    /**
+     * Default with relation
+     *
+     * @var array
+     */
     protected $with = [
         'category:id,name',
-        'thumbnail:id,posts_id,media_thumbnail,media_path',
-        'status:id,name',
         'type:id,name',
         'writer:id,name',
     ];
 
+    /**
+     * Default with count {count:in_relation}
+     *
+     * @var array
+     */
     protected $withCount = [
         'comments',
     ];
@@ -65,8 +74,8 @@ class Post extends Model
         'title',
         'slug_title',
         'category_id',
-        'status_id',
         'type_id',
+        'thumbnail',
         'subject',
         'description',
         'tags',
@@ -74,6 +83,11 @@ class Post extends Model
         'number_of_views',
         'number_of_shares',
         'author',
+        'published_at',
+        'archived_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -93,17 +107,7 @@ class Post extends Model
      */
     public function category()
     {
-        return $this->belongsTo(PostCategory::class, 'category_id', 'id');
-    }
-
-    /**
-     * Status relation
-     *
-     * @return void
-     */
-    public function status()
-    {
-        return $this->belongsTo(PostStatus::class, 'status_id', 'id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     /**
@@ -124,26 +128,6 @@ class Post extends Model
     public function writer()
     {
         return $this->belongsTo(User::class, 'author', 'id');
-    }
-
-    /**
-     * Medias relation
-     *
-     * @return void
-     */
-    public function medias()
-    {
-        return $this->hasMany(PostMedia::class, 'posts_id', 'id');
-    }
-
-    /**
-     * Thumbnail
-     *
-     * @return void
-     */
-    public function thumbnail()
-    {
-        return $this->hasOne(PostMedia::class, 'posts_id', 'id')->where('type', 'thumbnail');
     }
 
     /**

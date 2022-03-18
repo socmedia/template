@@ -45,8 +45,8 @@
 
                         @foreach ($statuses as $status)
                         <x-dropdown.item href="javascript:void(0)"
-                            wire:click="filterStatus('{{ $status->slug_name }}')">
-                            {{ $status->name }}
+                            wire:click="filterStatus('{{ $status['slug_name'] }}')">
+                            {{ $status['name'] }}
                         </x-dropdown.item>
                         @endforeach
                     </x-dropdown>
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <input type="text" class="form-control form-control-sm" wire:model.debounce.250ms="search"
+                <input type="text" class="form-control form-control-sm" wire:model.lazy="search"
                     placeholder="Cari postingan disini...">
             </div>
         </x-filter>
@@ -87,7 +87,7 @@
         <div class="row">
             @forelse ($posts as $post)
             <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <x-article.vertical :post="$post" archive="{{ strtolower($post->status->name) }}" />
+                <x-article.vertical :post="$post" archive="" />
             </div>
             @empty
             <div class="col-12 pt-5 pb-3">

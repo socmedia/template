@@ -7,7 +7,7 @@
     {{ $text }}
 
     @if ($loadingState)
-    <div class="spinner-grow spinner-grow-sm" role="status" wire:loading="{{$wireTarget}}"
+    <div class="spinner-border spinner-border-sm" role="status" wire:loading="{{$wireTarget}}"
         wire:target="{{$wireTarget}}">
         <span class='visually-hidden'>Loading...</span>
     </div>

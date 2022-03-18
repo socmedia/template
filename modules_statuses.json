@@ -4,5 +4,6 @@
     "AppSetting": true,
     "Menu": true,
     "AccessLevel": true,
-    "Post": true
+    "Post": true,
+    "Master": true
 }

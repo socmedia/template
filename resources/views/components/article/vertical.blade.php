@@ -1,7 +1,7 @@
 <article class="vertical {{ $archive == 'archive' ? 'archive' : '' }}">
     <figure>
         <x-dropdown icon="bx bx-dots-vertical-rounded">
-            <x-dropdown.item href="" target="_blank">
+            <x-dropdown.item href="{{ route('front.post.show', ['slug_title' => $post->slug_title]) }}" target="_blank">
                 Lihat Postingan
             </x-dropdown.item>
             <x-dropdown.item href="{{ route('adm.post.edit', $post->id) }}">Edit Postingan</x-dropdown.item>
@@ -13,18 +13,17 @@
         </x-dropdown>
 
         <span class="badge bg-gradient-quepal text-white shadow-sm">
-            {{$post->category->name}}
+            {{$post->category ? $post->category->name : null }}
         </span>
 
-        <img src="{{!$post->thumbnail ? asset('assets/default/images/image_not_found.png') : $post->thumbnail->media_path}}"
-            alt="{{$post->title}}">
+        <img src="{{!$post->thumbnail ? cache('default_thumbnail_16_9') : $post->thumbnail }}" alt="{{$post->title}}">
 
     </figure>
 
     <figcaption>
         <div class="info top">
             <small class="with-icon"> <i class="bx bx-timer"></i> {{ $post->reading_time }}</small>
-            <small>Author, <strong>{{ !$post->writer ?: $post->writer->name }}</strong></small>
+            <small>Author, <strong>{{ $post->writer ? $post->writer->name : null }}</strong></small>
         </div>
 
         <h5>{{$post->title}}</h5>
