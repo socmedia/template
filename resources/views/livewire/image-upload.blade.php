@@ -4,6 +4,8 @@
     @if (!$images)
 
     @if (is_array($images))
+
+    {{-- Check if not empty --}}
     @if (count($images) == 0)
     <div class="file-upload-input" style="height: {{ $height }}">
         <div class="text d-flex flex-column text-center">
@@ -19,6 +21,8 @@
             }}>
     </div>
     @endif
+    {{-- End check if not empty --}}
+
     @else
     <div class="file-upload-input" style="height: {{ $height }}">
         <div class=" text d-flex flex-column text-center">

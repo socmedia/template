@@ -17,7 +17,7 @@ function slug($string)
 
 function unSlug($slug)
 {
-    return str_replace('-', ' ', $slug);
+    return str_replace('_', ' ', str_replace('-', ' ', $slug));
 }
 
 function xssFilter($text)
@@ -28,32 +28,6 @@ function xssFilter($text)
 function age($date)
 {
     return $date ? Carbon::parse($date)->age . ' y.o' : null;
-}
-
-function socialMedia($type = null, $socialMediaValue)
-{
-    switch ($type) {
-        case 'facebook':
-            return 'https://facebook.com/' . $socialMediaValue;
-            break;
-
-        case 'instagram':
-            return 'https://instagram.com/' . $socialMediaValue;
-            break;
-
-        case 'linkedin':
-            return 'https://linkedin.com/in/' . $socialMediaValue;
-            break;
-
-        case 'tiktok':
-            return 'https://tiktok.com/' . $socialMediaValue;
-            break;
-
-        default:
-            return null;
-            break;
-    }
-
 }
 
 function user($column = null)

@@ -2,39 +2,103 @@
 
 namespace Modules\AppSetting\Http\Livewire\Settings;
 
-use App\Services\ImageService;
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
-use Livewire\WithFileUploads;
-use Modules\AppSetting\Models\Entities\AppSetting;
+use Livewire\WithPagination;
+use Modules\AppSetting\Entities\AppSetting;
+use Modules\AppSetting\Services\SettingsQuery;
+use Modules\AppSetting\Services\TableConfig;
+use Modules\AppSetting\Services\TableFilterActions;
 
 class Table extends Component
 {
-    use WithFileUploads;
+    use WithPagination, TableConfig, TableFilterActions;
 
     /**
-     * Define available props in the component
+     * Define query string props
+     *
+     * @var string
+     */
+    public $filters, $group, $sort, $order, $search, $destroyId;
+
+    /**
+     * Define table headers
      *
      * @var array
      */
-    public $groups, $activeTabs, $settingsByGroup, $images = [];
+    public $headers = [
+        [
+            'cell_name' => 'Group',
+            'column_name' => 'group',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Key - Value',
+            'column_name' => 'key',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Type',
+            'column_name' => 'type',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Form Type',
+            'column_name' => 'form_type',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Aksi',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+    ];
 
     /**
-     * Define props default value before component rendered
+     * Define props value before component rendered
      *
      * @return void
      */
     public function mount()
     {
-        $groups = $this->getAllGroups();
-        $this->groups = $groups;
-        $this->settingsByGroup = $this->getSettingsByGroup();
+        $this->mountDefaultValues();
+    }
 
-        foreach ($groups as $i => $group) {
-            if ($i == 0) {
-                $this->activeTabs = $group;
-            }
-        }
+    /**
+     * Define livewire query string
+     *
+     * @var array
+     */
+    protected $queryString = [
+        'sort',
+        'order',
+        'search',
+        'group',
+    ];
+
+    /**
+     * Get all settings from database
+     *
+     * @return void
+     */
+    public function getAllSettings()
+    {
+        $setting = new SettingsQuery();
+        return $setting->filters((object) [
+            'group' => $this->group,
+            'sort' => $this->sort,
+            'order' => $this->order,
+            'search' => $this->search,
+        ], 20);
     }
 
     /**
@@ -42,119 +106,37 @@ class Table extends Component
      *
      * @return void
      */
-    public function getAllGroups(): array
+    public function getGroups()
     {
-        return AppSetting::select('group')
-            ->groupBy('group')
-            ->get()
-            ->pluck('group')
-            ->toArray();
+        $setting = new SettingsQuery();
+        return $setting->getGroupField();
     }
 
     /**
-     * Get setting datas by group name
+     * Destroy setting from database
      *
      * @return void
      */
-    public function getSettingsByGroup()
+    public function destroy()
     {
-        $groupbBySettings = [];
+        $setting = AppSetting::find($this->destroyId);
 
-        if (count($this->getAllGroups()) > 0) {
-            foreach ($this->getAllGroups() as $group) {
-                $settings = AppSetting::where('group', $group)->get(['id', 'key', 'value', 'type', 'form_type'])->toArray();
-                $groupbBySettings[$group] = $settings;
-            }
+        if ($setting->type == 'image') {
+            $path = explode('/', $setting->value);
+            $shortPath = implode('/', array_slice($path, -2, 2));
+            removeFromStorage('images', $shortPath);
         }
 
-        return $groupbBySettings;
-    }
-
-    public function updated($prop)
-    {
-        // $this->validateOnly([
-        //     $prop => 'required|max:191',
-        // ]);
-    }
-
-    /**
-     * Update existing data to database
-     *
-     * @param  int $id
-     * @param  string $pattern | settingsByGroup.{$groupIndex}.{$settingIndex}.value
-     * @return void
-     */
-    public function update($id, $pattern, $imagePattern)
-    {
-        $setting = AppSetting::find($id);
-
-        $explode = explode('.', $pattern);
-        $target = count($explode) == 4 ? $this->settingsByGroup[$explode[1]][$explode[2]] : null;
-
-        // Validation
-        if ($target['type'] == 'image') {
-            $this->validate([
-                $imagePattern => 'required|image|mimes:png,jpg|max:256',
-            ], [
-                'required' => 'This field is required.',
-                'mimes' => 'Alowed type is only .png and .jpg',
-                'max' => 'Image max size is 256kb.',
-            ]);
-        } else {
-            $this->validate([
-                $pattern => 'required|max:500',
-            ], [
-                'required' => 'This field is required.',
-                'max' => 'Allowed character length is 500.',
-            ]);
-        }
-
-        $setting = AppSetting::find($id);
-
-        // Check if target is not null
-        if ($target) {
-
-            // If target type is image
-            if ($target['type'] == 'image') {
-
-                $service = new ImageService();
-
-                // Move image to storage
-                foreach ($this->images as $i => $groups) {
-                    foreach ($groups as $j => $images) {
-                        foreach ($images as $h => $image) {
-
-                            // Remove old image
-                            if ($target['value']) {
-                                $path = explode('/', $target['value']);
-                                if (count($path) >= 4) {
-                                    $shortPath = implode('/', array_slice($path, 3, 2));
-                                    $service->removeImage('images', $shortPath);
-                                }
-                            }
-
-                            // Set target value with image url
-                            $target['value'] = url($service->storeImage($image));
-                        }
-
-                    }
-                }
-            }
-
-            // Update image
-            $setting->update($target);
-
-            Cache::forget($target['key']);
-            Cache::forever($target['key'], $target['value']);
-
-            return session()->flash('success', 'Perubahan berhasil disimpan');
-        }
-
-        return session()->flash('failed', 'Sayang sekali, data tidak ditemukan.');
+        // delete
+        $setting->delete();
+        return session()->flash('success', 'Setting berhasil dihapus.');
     }
 
     public function render()
     {
-        return view('appsetting::livewire.settings.table');
+        return view('appsetting::livewire.settings.table', [
+            'settings' => $this->getAllSettings(),
+            'groups' => $this->getGroups(),
+        ]);
     }
 }

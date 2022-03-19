@@ -1,11 +1,14 @@
 <?php
 
-namespace Modules\AppSetting\Models\Entities;
+namespace Modules\AppSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\AppSetting\Traits\Filterable;
 
 class AppSetting extends Model
 {
+    use Filterable;
+
     /**
      * Define table name
      *
@@ -22,5 +25,9 @@ class AppSetting extends Model
         'group',
         'key',
         'value',
+        'type',
+        'form_type',
+        'created_at',
+        'updated_at',
     ];
 }

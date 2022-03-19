@@ -12,9 +12,19 @@
  */
 
 Route::group([
-    'as' => 'adm.user.apps.',
+    'as' => 'adm.apps.',
     'prefix' => 'admin/site-settings',
-    'middleware' => ['auth', 'verified', 'role:Developer|Admin|User'],
+    'middleware' => ['auth', 'verified'],
 ], function () {
-    Route::get('/', 'AppSettingController@index')->name('index');
+    Route::get('/', 'AppSettingController@index')->middleware('role:Developer|Admin|User')->name('index');
+});
+
+Route::group([
+    'as' => 'adm.settings.',
+    'prefix' => 'admin/settings',
+    'middleware' => ['auth', 'verified'],
+], function () {
+    Route::get('/', 'SettingsController@index')->middleware('role:Developer')->name('index');
+    Route::get('/tambah', 'SettingsController@create')->middleware('role:Developer')->name('create');
+    Route::get('/edit/{id}', 'SettingsController@edit')->middleware('role:Developer')->name('edit');
 });

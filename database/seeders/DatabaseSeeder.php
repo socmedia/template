@@ -3,6 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleTableSeeder;
+use Database\Seeders\UserTableSeeder;
+use Database\Seeders\RegencyTableSeeder;
+use Database\Seeders\DistrictTableSeeder;
+use Database\Seeders\ProvinceTableSeeder;
+use Modules\Post\Database\Seeders\PostDatabaseSeeder;
+use Modules\Master\Database\Seeders\MasterDatabaseSeeder;
 use Modules\AppSetting\Database\Seeders\AppSettingTableSeeder;
 
 class DatabaseSeeder extends Seeder

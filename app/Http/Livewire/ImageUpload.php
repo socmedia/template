@@ -85,18 +85,25 @@ class ImageUpload extends Component
         if (is_array($this->images)) {
             if ($isArray) {
                 if (is_array($this->images[$index])) {
-                    $path = explode('/', $this->images[$index]);
+                    $path = explode('/', $this->uploadedImages[$index]);
                     $shortPath = implode('/', array_slice($path, -2, 2));
                     $service->removeImage('images', $shortPath);
                 }
                 unset($this->images[$index]);
+                unset($this->uploadedImages[$index]);
             } else {
-                $path = explode('/', $this->images);
+
+                $path = explode('/', $this->images ?: $this->oldImages);
                 $shortPath = implode('/', array_slice($path, -2, 2));
                 $service->removeImage('images', $shortPath);
                 $this->images = null;
             }
         } else {
+            $path = explode('/', $this->uploadedImages ?: $this->oldImages);
+            $shortPath = implode('/', array_slice($path, -2, 2));
+            $service->removeImage('images', $shortPath);
+            $this->images = null;
+
             $this->reset('images', 'uploadedImages', 'oldImages');
         }
 

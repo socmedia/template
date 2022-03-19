@@ -119,7 +119,7 @@ class Table extends Component
         if ($post->thumbnail) {
 
             // Remove existing thumbnail
-            $path = explode('/', $post->thumbnail->media_path);
+            $path = explode('/', $post->thumbnail);
             $shortPath = implode('/', array_slice($path, -2, 2));
             $service->removeImage('images', $shortPath);
         }

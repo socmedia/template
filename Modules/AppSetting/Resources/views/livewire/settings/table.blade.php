@@ -7,91 +7,137 @@
     <x-alert state="warning" color="white" title="Upsss..." :message="session('failed')" />
     @endif
 
-    <x-form-card title="Pengaturan Halaman">
-        <div class="row">
-            <div class="col mb-3 mb-md-0">
-                <ul class="list-group" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    @foreach ($groups as $group)
-                    <li class="list-group-item {{ $activeTabs != $group ?: 'bg-secondary' }}">
-                        <button
-                            class="btn btn-default btn-block shadow-none {{ $activeTabs != $group ?: 'text-white' }}"
-                            id="v-pills-{{ $group }}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{{ $group }}"
-                            type="button" role="tab" aria-controls="v-pills-{{ $group }}" aria-selected="true"
-                            wire:click="$set('activeTabs', '{{$group}}')">
-                            <span class="text-capitalize">{{ str_replace('_', ' ', $group) }}</span>
-                        </button>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="col-md-8">
-                <div class="tab-content" id="v-pills-tabContent">
+    <h6 class="text-uppercase text-secondary">Daftar Setting</h6>
+    <hr>
 
-                    @foreach ($groups as $group)
-
-                    @if ($activeTabs == $group)
-                    <div class="tab-pane fade show active" id="v-pills-{{ $group }}" role="tabpanel"
-                        aria-labelledby="v-pills-{{ $group }}-tab">
-
-                        @foreach ($settingsByGroup as $index => $settings)
-
-                        @if($index == $group)
-                        @foreach ($settings as $settingIndex => $setting)
-
-                        @if ($setting['type'] == 'image')
-                        <figure>
-                            <img src="{{$setting['value']}}" height="60px" />
-                        </figure>
-                        @endif
-
-                        <form
-                            wire:submit.prevent="update('{{$setting['id']}}', 'settingsByGroup.{{ $index }}.{{ $settingIndex }}.value', 'images.{{ $index }}.{{ $settingIndex }}.value')">
-                            <div class="form-group">
-
-                                <label for="{{ $setting['key'] }}" class="text-capitalize">{{ str_replace('_', ' ',
-                                    $setting['key']) }}</label>
-                                <div class="input-group">
-
-                                    @if ($setting['type'] == 'string' && $setting['form_type'] == 'input')
-                                    <input type="text" class="form-control" id="{{ $setting['key'] }}"
-                                        wire:model.defer="settingsByGroup.{{ $index }}.{{ $settingIndex }}.value">
-
-                                    @elseif ($setting['type'] == 'string' && $setting['form_type'] == 'textarea')
-                                    <textarea class="form-control" id="{{ $setting['key'] }}"
-                                        wire:model.defer="settingsByGroup.{{ $index }}.{{ $settingIndex }}.value"></textarea>
-
-                                    @elseif ($setting['type'] == 'image')
-                                    <input type="file" accept="image/*" class="form-control" id="{{ $setting['key'] }}"
-                                        wire:model="images.{{ $index }}.{{ $settingIndex }}.value">
-                                    @endif
-
-                                    <button class="btn btn-dark"><i class="bx bx-check"></i></button>
-
-                                </div>
-
-                                @error('images.'. $index .'.'. $settingIndex .'.value')
-                                <small class="text-danger">{{ $message }}</small>
-                                @enderror
-
-                                <small class="text-muted" wire:loading
-                                    wire:target="images.{{ $index }}.{{ $settingIndex }}.value">
-                                    <em>Uploading..</em>
-                                </small>
-                            </div>
-                        </form>
-                        @endforeach
-                        @endif
-
-                        @endforeach
-
+    <div class="chat-wrapper for-table mb-5" wire:ignore.self>
+        <div class="chat-sidebar">
+            <div class="chat-sidebar-content">
+                <div class="text-uppercase fw-bold px-3 py-4 d-flex justify-content-between align-items-center">
+                    <span>filter</span>
+                    <div class="chat-toggle-btn text-secondary">
+                        <i class="bx bx-x"></i>
                     </div>
-                    @endif
-                    @endforeach
+                </div>
+                <div class="list-group list-group-flush">
+                    <form wire:submit.prevent="searchFilters">
+                        <div class="list-group-item border-0">
+                            <select class="form-control text-capitalize" wire:model.defer="group">
+                                <option value="">Semua Group</option>
+                                @foreach ($groups as $group)
+                                <option class="text-capitalize" value="{{ $group->group }}">
+                                    {{ Str::title(unslug($group->group)) }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
 
+                        <div class="list-group px-3 mb-2">
+                            <button class="btn btn-block btn-secondary py-2" type="submit">
+                                <i class="bx bx-search fs-6"></i>
+                                Pencarian
+                            </button>
+                        </div>
+
+                    </form>
+                    <div class="list-group px-3">
+                        <button class="btn btn-block btn-light text-secondary py-2" type="button"
+                            wire:click="resetFilters">
+                            <i class="bx bx-reset fs-6"></i>
+                            Reset Filter
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="chat-header">
+            <div class="row text-end">
+                <div class="col-sm-8 col-md-6 ms-auto">
+                    <div class="input-group">
+                        <div class="input-group-text bg-transparent">
+                            <div class="chat-toggle-btn text-secondary">
+                                <i class="bx bxs-filter-alt"></i>
+                            </div>
+                        </div>
 
-        {{-- @dump(cache()->get('app_settings')) --}}
-    </x-form-card>
+                        <input type="text" class="form-control form-control-sm" wire:model.lazy="search"
+                            placeholder="Pencarian">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="chat-content">
+            <x-table>
+                <x-table.header>
+                    <x-table.row>
+                        @foreach ($headers as $header)
+                        <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
+                            sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                            wire:click="sort('{{ $header['column_name'] }}')" />
+                        @endforeach
+                    </x-table.row>
+                </x-table.header>
+
+                <x-table.body>
+                    @forelse ($settings as $setting)
+                    <x-table.row>
+                        <x-table.cell :cell="$setting->group" />
+                        <x-table.cell>
+                            <details>
+                                <summary>{{$setting->key}}</summary>
+
+                                <div class="card bg-transparent border shadow-none p-2">
+                                    @if ($setting->type == 'image' && $setting->value)
+                                    <img src="{{ url($setting->value) }}" style="width: fit-content; height: 80px"
+                                        alt="">
+                                    @endif
+
+                                    @if ($setting->type == 'string')
+                                    <p class="my-2" style="max-width: 200px; white-space: break-spaces;">{{
+                                        $setting->value }}</p>
+                                    @endif
+
+                                    @if (!$setting->value)
+                                    <p class="my-2">-</p>
+                                    @endif
+                                </div>
+                            </details>
+                        </x-table.cell>
+                        <x-table.cell :cell="$setting->type" />
+                        <x-table.cell :cell="$setting->form_type" />
+                        <x-table.cell>
+                            <div class="btn-group" role="group">
+                                <x-action-button href="{{ route('adm.settings.edit', $setting->id) }}">
+                                    <i class="bx bx-pencil"></i>
+                                </x-action-button>
+                                <x-remove.button wire:click="$set('destroyId',{{$setting->id}})" />
+                            </div>
+                        </x-table.cell>
+                    </x-table.row>
+
+                    @empty
+                    <x-table.row>
+                        <x-table.cell class="text-center" colspan="9">Data tidak ditemukan.</x-table.cell>
+                    </x-table.row>
+                    @endforelse
+
+
+                </x-table.body>
+            </x-table>
+        </div>
+
+        <div class="chat-footer">
+            <x-pagination :table="$settings" />
+        </div>
+
+        <!--start chat overlay-->
+        <div class="overlay chat-toggle-btn-mobile"></div>
+        <!--end chat overlay-->
+    </div>
+
+
+    <x-remove.modal />
+
 </div>
