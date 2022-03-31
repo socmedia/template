@@ -21,7 +21,50 @@ class Table extends Component
      *
      * @var string
      */
-    public $filters, $category, $type, $status, $sort, $order, $search, $destroyId;
+    public $filters, $category, $type, $status, $sort = 'created_at', $order = 'desc', $search, $destroyId;
+
+    /**
+     * Define table headers
+     *
+     * @var array
+     */
+    public $headers = [
+        [
+            'cell_name' => 'Thumbnail',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Nama Postingan',
+            'column_name' => 'title',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Jenis | Kategori',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Status',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Aksi',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+    ];
 
     /**
      * Define sorts property
@@ -93,13 +136,13 @@ class Table extends Component
 
         // Check if post and status not null
         if ($post) {
+            $text = $post->archived_at ? 'Postingan berhasil dipulihkan.' : 'Postingan berhasil diarsipkan.';
 
             $post->update([
-                'published_at' => null,
-                'archived_at' => now()->toDateTimeString(),
+                'archived_at' => $post->archived_at ? null : now()->toDateTimeString(),
             ]);
 
-            return session()->flash('success', 'Postingan berhasil dipublish.');
+            return session()->flash('success', $text);
         }
 
         return session()->flash('failed', 'Postingan tidak ditemukan, pengarsipan gagal.');

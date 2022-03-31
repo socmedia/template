@@ -78,7 +78,5 @@ trait TableFilterActions
         if (!$this->group) {
             $this->reset('group');
         }
-
-        // dd($this->group);
     }
 }

@@ -6,7 +6,7 @@ use App\Constants\DefaultAppSettings;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
-use Modules\AppSetting\Models\Entities\AppSetting;
+use Modules\AppSetting\Entities\AppSetting;
 
 class AppSettingTableSeeder extends Seeder
 {

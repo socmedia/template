@@ -103,46 +103,6 @@ trait TableFilterActions
     //=====================================//
 
     /**
-     * To handle reset category property
-     * When button with attribute wire:click={resetCategory}
-     * This method will be running
-     *
-     * @return void
-     */
-    public function resetCategory()
-    {
-        $this->reset('category');
-        $this->filters['category']['query'] = null;
-    }
-
-    /**
-     * To handle reset type property
-     * When button with attribute wire:click={resetType}
-     * This method will be running
-     *
-     * @return void
-     */
-
-    public function resetType()
-    {
-        $this->reset('type');
-        $this->filters['type']['query'] = null;
-    }
-
-    /**
-     * To handle reset status property
-     * When button with attribute wire:click={resetStatus}
-     * This method will be running
-     *
-     * @return void
-     */
-    public function resetStatus()
-    {
-        $this->reset('status');
-        $this->filters['status']['query'] = null;
-    }
-
-    /**
      * To handle reset search property
      * When button with attribute wire:click={resetSearch}
      * This method will be running
@@ -152,7 +112,6 @@ trait TableFilterActions
     public function resetSearch()
     {
         $this->reset('search');
-        $this->filters['search']['query'] = null;
     }
 
     /**
@@ -162,9 +121,17 @@ trait TableFilterActions
      *
      * @return void
      */
-    public function resetFilter()
+    public function resetFilters()
     {
-        $this->reset('sort', 'order');
-        $this->filters['sort']['query'] = [null, null];
+        $this->reset('search', 'type', 'category', 'status', 'sort', 'order');
+    }
+
+    public function searchFilters()
+    {
+        $this->resetPage();
+
+        if (!$this->type) {
+            $this->reset('type');
+        }
     }
 }
