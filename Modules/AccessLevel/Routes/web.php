@@ -34,3 +34,14 @@ Route::group([
     Route::get('/edit/{id}', 'RoleController@edit')->name('edit');
     Route::get('/download/{type}', 'RoleController@download')->name('download');
 });
+
+Route::group([
+    'as' => 'adm.access-level.permission.',
+    'prefix' => 'admin/permission',
+    'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
+], function () {
+    Route::get('/', 'PermissionController@index')->name('index');
+    Route::get('/tambah', 'PermissionController@create')->name('create');
+    Route::get('/edit/{id}', 'PermissionController@edit')->name('edit');
+    Route::get('/download/{type}', 'PermissionController@download')->name('download');
+});

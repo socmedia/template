@@ -6,10 +6,13 @@ use App\Contracts\DatabaseTable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Master\Entities\Category;
+use Modules\Master\Services\Category\CategoryQuery;
+use Modules\Master\Services\Category\TableConfig;
+use Modules\Master\Services\Category\TableFilterActions;
 
 class Table extends Component
 {
-    use WithPagination, DatabaseTable;
+    use WithPagination, DatabaseTable, TableConfig, TableFilterActions;
 
     /**
      * Define table headers
@@ -59,14 +62,7 @@ class Table extends Component
      *
      * @var mixed
      */
-    public $sort, $order, $search;
-
-    /**
-     * Define component main props
-     *
-     * @var bool
-     */
-    public $destroyId, $onlyTrashed = false;
+    public $sort = 'position', $order = 'asc', $table_reference, $search, $destroyId, $onlyTrashed = false, $perPage = 10;
 
     /**
      * Define livewire query string
@@ -74,26 +70,10 @@ class Table extends Component
      * @var array
      */
     protected $queryString = [
+        'table_reference',
         'sort',
         'order',
         'search',
-        'page',
-    ];
-
-    /**
-     * Define filters for filter component
-     *
-     * @var array
-     */
-    public $filters = [
-        'search' => [
-            'query' => null,
-            'reset_method' => 'resetSearch',
-        ],
-        'sort' => [
-            'query' => [null, null],
-            'reset_method' => 'resetFilter',
-        ],
     ];
 
     /**
@@ -103,79 +83,7 @@ class Table extends Component
      */
     public function mount()
     {
-        $this->sort = request('sort') ?: 'created_at';
-        $this->order = request('order') ?: 'desc';
-        $this->search = request('search');
-
-        $this->filters['search']['query'] = request('search');
-        $this->filters['sort']['query'] = [
-            request('sort') ?: 'created_at',
-            request('order') ?: 'desc',
-        ];
-        // $this->filters['sort']['query'] = [request('sort'), request('order')];
-
-        request()->segment(4) != 'sampah' ? false : $this->onlyTrashed = true;
-    }
-
-    /**
-     * Handling query string
-     * If table header sorting is triggered, this method will be run
-     *
-     * @param  string $column
-     * @return void
-     */
-    public function sort($column)
-    {
-        $this->sort = $column;
-
-        if (!$this->order) {
-            $this->order = 'asc';
-        } elseif ($this->order == 'asc') {
-            $this->order = 'desc';
-        } elseif ($this->order == 'desc') {
-            $this->sort = null;
-            $this->order = null;
-        }
-
-        $this->filters['sort']['query'] = [$this->sort, $this->order];
-    }
-
-    /**
-     * Livewire hooks, when search props has been updated
-     * This action will be update search props and filters.search.query
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function updatedSearch($value)
-    {
-        $this->resetPage();
-        $this->search = $value;
-        $this->filters['search']['query'] = $value;
-    }
-
-    /**
-     * Reset filter sort method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetFilter()
-    {
-        $this->reset('sort', 'order');
-        $this->filters['sort']['query'] = [null, null];
-    }
-
-    /**
-     * Reset filter search method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetSearch()
-    {
-        $this->reset('search');
-        $this->filters['search']['query'] = null;
+        $this->mountDefaultValues();
     }
 
     /**
@@ -186,45 +94,13 @@ class Table extends Component
      */
     public function getAll()
     {
-        $categories = Category::query();
-
-        // Check if props search is not empty/null
-        if ($this->search) {
-            // Search condition
-            $categories->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('slug_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('table_reference', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        // Check if props below is true/not empty
-        if ($this->sort && $this->order) {
-            $columns = $this->getTableColumns('categories');
-
-            // Check if column is exist in database table column
-            // Handle errors column not found
-            if (in_array($this->sort, $columns)) {
-
-                // Check if order like asc or desc
-                // Data will only show if column is available and order is available
-                if ($this->order == 'asc' || $this->order == 'desc') {
-                    $categories->orderBy($this->sort, $this->order);
-                }
-
-            } else {
-                // If column found, will return empty array
-                return [];
-            }
-        }
-
-        // If onlyTrashed props is true
-        // System only show trashed data from resource
-        if ($this->onlyTrashed) {
-            $categories->onlyTrashed();
-        }
-
-        return $categories->paginate();
+        return (new CategoryQuery())->filters((object) [
+            'search' => $this->search,
+            'sort' => $this->sort,
+            'order' => $this->order,
+            'table_reference' => $this->table_reference,
+            'onlyTrashed' => $this->onlyTrashed,
+        ], $this->perPage);
     }
 
     /**
@@ -287,10 +163,26 @@ class Table extends Component
         return session()->flash('failed', 'Penghapusan kategori gagal, karena kategori tidak ditemukan.');
     }
 
+    /**
+     * Update banner position while drag n drop
+     *
+     * @param  mixed $list
+     * @return void
+     */
+    public function updateOrder($list)
+    {
+        foreach ($list as $item) {
+            Category::find($item['value'])->update([
+                'position' => $item['order'],
+            ]);
+        }
+    }
+
     public function render()
     {
         return view('master::livewire.category.table', [
             'categories' => $this->getAll(),
+            'tableReferences' => (new CategoryQuery())->getTableReferences(),
         ]);
     }
 }

@@ -139,7 +139,7 @@
                         <x-action-button href="{{ route('adm.post.edit', $post->id) }}" title="Edit Postingan">
                             <i class="bx bx-pencil"></i>
                         </x-action-button>
-                        <x-remove.button title="Hapus Postingan" wire:click="$set('destroyId',{{$post->id}})" />
+                        <x-remove.button title="Hapus Postingan" wire:click="$set('destroyId', '{{$post->id}}')" />
                     </div>
                 </x-table.cell>
 

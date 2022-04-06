@@ -20,7 +20,7 @@ class CategoryTableSeeder extends Seeder
         $data = [
             [
                 'name' => 'Umum',
-                'slug_name' => slug('umum'),
+                'slug_name' => slug('Umum'),
                 'table_reference' => 'posts',
                 'position' => '1',
                 'created_at' => now(),

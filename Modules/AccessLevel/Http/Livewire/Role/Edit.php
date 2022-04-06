@@ -58,6 +58,7 @@ class Edit extends Component
         // Flash message
         session()->flash('success', 'Role berhasil diperbarui.');
     }
+
     public function render()
     {
         return view('accesslevel::livewire.role.edit');

@@ -77,17 +77,22 @@
     <script src="{{asset('assets/app/js/app.js')}}"></script>
     <script src="{{asset('assets/app/js/additional.js')}}"></script>
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
     @stack("script")
 
     <script>
         $(function () {
-            var removeModal = new bootstrap.Modal(document.getElementById('remove-modal'), {
-                keyboard: false
-            })
 
-            $('#remove-button').click(function () {
-                removeModal.toggle()
-            })
+            const modalEl = document.getElementById('remove-modal');
+            if(modalEl){
+                var removeModal = new bootstrap.Modal(modalEl, {
+                    keyboard: false
+                })
+
+                $('#remove-button').click(function () {
+                    removeModal.toggle()
+                })
+            }
         })
     </script>
 </body>

@@ -1,0 +1,107 @@
+<?php
+
+namespace Modules\Marketing\Http\Livewire\Banner;
+
+use App\Constants\BackgroundPosition;
+use App\Services\ImageService;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Modules\Marketing\Entities\Banner;
+
+class Edit extends Component
+{
+    use WithFileUploads;
+
+    public $banner, $oldThumbnail, $thumbnail, $type = 'image', $name, $alt, $reference_url, $position, $is_active = true,
+    $background_position, $with_caption, $caption_title, $caption_text, $with_button, $button_text, $button_link;
+
+    public $backgroundPositions = [], $pluckBackgroundPositions = null;
+
+    protected function rules()
+    {
+        return [
+            'thumbnail' => 'nullable|mimes:png,jpg,jpeg|max:512',
+            'name' => 'required|max:191|unique:banners,id,' . $this->banner->id . ',id',
+            'alt' => 'nullable|max:191',
+            'reference_url' => 'nullable|url',
+            'is_active' => 'nullable|boolean',
+            'position' => 'numeric|max:20',
+            'background_position' => 'nullable|max:191|in:' . $this->pluckBackgroundPositions,
+            'caption_title' => 'nullable|max:191',
+            'caption_text' => 'nullable|max:500',
+            'button_text' => 'nullable|max:191',
+            'button_link' => 'nullable|max:191',
+        ];
+    }
+
+    public function mount($banner)
+    {
+        $this->banner = $banner;
+        $this->oldThumbnail = $banner->media_path;
+        $this->name = $banner->name;
+        $this->alt = $banner->alt;
+        $this->reference_url = $banner->references_url;
+        $this->is_active = $banner->is_active;
+        $this->position = $banner->position;
+        $this->with_caption = $banner->with_caption;
+        $this->background_position = $banner->background_position;
+        $this->caption_title = $banner->caption_title;
+        $this->caption_text = $banner->caption_text;
+        $this->with_button = $banner->with_button;
+        $this->button_text = $banner->button_text;
+        $this->button_link = $banner->button_link;
+
+        $backgroundPositions = BackgroundPosition::all();
+        $this->backgroundPositions = $backgroundPositions;
+
+        $pluckBackgroundPositions = array_map(function ($position) {
+            return $position['value'];
+        }, $backgroundPositions);
+
+        $this->pluckBackgroundPositions = implode(',', $pluckBackgroundPositions);
+    }
+
+    public function updatedName($value)
+    {
+        $this->alt = $value;
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $service = new ImageService();
+
+        $data = [
+            'banner_type' => $this->type,
+            'name' => $this->name,
+            'alt' => $this->alt,
+            'references_url' => $this->reference_url,
+            'position' => $this->position,
+            'is_active' => $this->is_active ? 1 : 0,
+            'background_position' => $this->background_position ?: null,
+            'with_caption' => $this->with_caption ? 1 : 0,
+            'caption_title' => $this->caption_title,
+            'caption_text' => $this->caption_text,
+            'with_button' => $this->with_button ? 1 : 0,
+            'button_text' => $this->button_text,
+            'button_link' => $this->button_link,
+        ];
+
+        if ($this->thumbnail) {
+            $path = explode('/', $this->oldThumbnail);
+            $shortPath = implode('/', array_slice($path, -2, 2));
+            $service->removeImage('images', $shortPath);
+            $data['media_path'] = url($service->storeImage($this->thumbnail, 1920, 100));
+        }
+
+        $this->banner->update($data);
+
+        return session()->flash('success', 'Banner berhasil diperbarui.');
+    }
+
+    public function render()
+    {
+        return view('marketing::livewire.banner.edit');
+    }
+}

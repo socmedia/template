@@ -19,49 +19,6 @@ trait TableFilterActions
     {
         $this->resetPage();
         $this->search = $value;
-        $this->filters['search']['query'] = $value;
-    }
-
-    /**
-     * To handle category dropdown
-     * Update filters property value
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function filterCategory($value)
-    {
-        $this->resetPage();
-        $this->category = $value;
-        $this->filters['category']['query'] = str_replace('-', ' ', $value);
-    }
-
-    /**
-     * To handle type dropdown
-     * Update filters property value
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function filterType($value)
-    {
-        $this->resetPage();
-        $this->type = $value;
-        $this->filters['type']['query'] = str_replace('-', ' ', $value);
-    }
-
-    /**
-     * To handle status dropdown
-     * Update filters property value
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function filterStatus($value)
-    {
-        $this->resetPage();
-        $this->status = $value;
-        $this->filters['status']['query'] = str_replace('-', ' ', $value);
     }
 
     /**
@@ -75,7 +32,6 @@ trait TableFilterActions
     {
         $this->resetPage();
         $this->sort = $column;
-        $this->filters['sort']['query'] = [$this->sort, $this->order];
     }
 
     /**
@@ -91,11 +47,21 @@ trait TableFilterActions
         $orders = ['asc', 'desc'];
         if (in_array($order, $orders)) {
             $this->order = $order;
-            $this->filters['sort']['query'] = [$this->sort, $order];
         } else {
             $this->order = null;
-            $this->filters['sort']['query'] = [$this->sort, null];
         }
+    }
+
+    /**
+     * To handle perpage pagination
+     *
+     * @param  mixed $total
+     * @return void
+     */
+    public function perPage($total)
+    {
+        $this->resetPage();
+        $this->perPage = $total;
     }
 
     //=====================================//

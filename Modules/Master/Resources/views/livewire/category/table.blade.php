@@ -7,30 +7,63 @@
     <x-alert state="warning" color="white" title="Upsss..." :message="session('failed')" />
     @endif
 
-    <x-form-card title="Daftar Kategori">
-        <x-filter :filters="$filters" class="justify-content-end">
-            <div class="col-md-4 mb-3">
-                <input type="text" class="form-control form-control-sm" wire:model.debounce.250ms="search"
-                    placeholder="Cari kategori disini...">
-            </div>
-        </x-filter>
+    <h6 class="text-uppercase text-secondary">Daftar Kategori</h6>
+    <hr>
 
-        <x-table class="pb-5">
-            <x-table.header>
-                <x-table.row>
-                    @foreach ($headers as $header)
-                    <x-table.cell cell="{{$header['cell_name']}}" isHeader="true" :sortable="$header['sortable']"
-                        sortableOrder="{{$header['column_name'] == $sort ? $order : null}}"
-                        wire:click="sort('{{$header['column_name']}}')" />
+    <x-table.with-filter :pagination="true">
+
+        <x-slot name="table_headers">
+            @foreach ($headers as $header)
+            <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
+                sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                wire:click="sort('{{ $header['column_name'] }}')" />
+            @endforeach
+        </x-slot>
+
+        <x-slot name="filters">
+            <div class="list-group-item border-0">
+                <select wire:model.defer="table_reference" class="form-select form-select-sm text-capitalize h-100">
+                    <option value="">-- Pilih Table Reference --</option>
+                    @foreach ($tableReferences as $references)
+                    <option class="text-capitalize" value="{{strtolower($references->table_reference)}}">
+                        {{$references->table_reference}}
+                    </option>
                     @endforeach
-                </x-table.row>
-            </x-table.header>
+                </select>
+            </div>
+        </x-slot>
 
-            <x-table.body>
-                @forelse ($categories as $category)
+        <x-slot name="table_body">
+
+            @forelse ($tableReferences as $reference)
+            <tbody wire:sortable="updateOrder" wire:sortable-group="{{ $reference->table_reference }}">
+
                 <x-table.row>
-                    <x-table.cell :cell="$category->name" />
-                    <x-table.cell :cell="$category->slug_name" />
+                    <x-table.cell class="text-center" colspan="{{ count($headers) }}">
+                        <p class="py-2 m-0">
+                            <u>
+                                Tabel:&nbsp;<strong class="text-uppercase">{{ $reference->table_reference }}</strong>
+                            </u>
+                        </p>
+                    </x-table.cell>
+                </x-table.row>
+
+                @forelse ($categories->where('table_reference', $reference->table_reference) as $category)
+                <x-table.row wire:key="{{ $category->table_reference }}-{{ $category->id }}"
+                    wire:sortable.item="{{ $category->id }}">
+                    <x-table.cell wire:sortable.handle title="Tahan untuk memindahkan posisi" class="cursor-grab">
+                        @if ($category->with_icon)
+                        <span class="me-1 px-2"><i class="{{ $category->icon_class }}"></i></span>
+                        @endif
+
+                        @if ($category->with_image)
+                        <span class="me-1"><img src="{{ $category->media_path }}" style="width: 100%; max-width: 30px"
+                                alt=""></span>
+                        @endif
+                        {{ $category->name }}
+                    </x-table.cell>
+                    <x-table.cell wire:sortable.handle title="Tahan untuk memindahkan posisi" class="cursor-grab"
+                        :cell="$category->slug_name" />
                     <x-table.cell :cell="$category->table_reference" />
                     <x-table.cell :cell="$category->position" />
                     <x-table.cell>
@@ -75,14 +108,27 @@
                 </x-table.row>
                 @empty
                 <x-table.row>
-                    <x-table.cell class="text-center" colspan="5">Data tidak ditemukan.</x-table.cell>
+                    <x-table.cell class="text-center" colspan="{{ count($headers) }}">Data tidak ditemukan pada tabel
+                        referensi {{ $reference->table_reference }}.
+                    </x-table.cell>
                 </x-table.row>
                 @endforelse
-            </x-table.body>
-        </x-table>
 
-        <x-remove.modal />
+                @empty
+                <x-table.row>
+                    <x-table.cell class="text-center" colspan="{{ count($headers) }}">Data tidak ditemukan.
+                    </x-table.cell>
+                </x-table.row>
+            </tbody>
+            @endforelse
 
-        <x-pagination :table="$categories" />
-    </x-form-card>
+        </x-slot>
+
+        <x-slot name="pagination">
+            <x-pagination :table="$categories" />
+        </x-slot>
+
+    </x-table.with-filter>
+
+    <x-remove.modal />
 </div>

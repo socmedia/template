@@ -18,7 +18,7 @@ class Table extends Component
      *
      * @var string
      */
-    public $filters, $group, $sort, $order, $search, $destroyId;
+    public $filters, $group, $sort = 'created_at', $order = 'desc', $search, $destroyId, $perPage = 25;
 
     /**
      * Define table headers
@@ -92,13 +92,12 @@ class Table extends Component
      */
     public function getAllSettings()
     {
-        $setting = new SettingsQuery();
-        return $setting->filters((object) [
+        return (new SettingsQuery())->filters((object) [
             'group' => $this->group,
             'sort' => $this->sort,
             'order' => $this->order,
             'search' => $this->search,
-        ], 20);
+        ], $this->perPage);
     }
 
     /**
@@ -108,8 +107,7 @@ class Table extends Component
      */
     public function getGroups()
     {
-        $setting = new SettingsQuery();
-        return $setting->getGroupField();
+        return (new SettingsQuery())->getGroupField();
     }
 
     /**

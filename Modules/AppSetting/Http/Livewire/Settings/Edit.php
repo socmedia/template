@@ -65,8 +65,7 @@ class Edit extends Component
      */
     public function getGroups()
     {
-        $setting = new SettingsQuery();
-        return $setting->getGroupField();
+        return (new SettingsQuery())->getGroupField();
     }
 
     /**

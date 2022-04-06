@@ -1,4 +1,6 @@
 <div class="chat-wrapper for-table mb-5" wire:ignore.self>
+
+    @if (isset($filters))
     <div class="chat-sidebar">
         <div class="chat-sidebar-content">
             <div class="text-uppercase fw-bold px-3 py-4 d-flex justify-content-between align-items-center">
@@ -36,17 +38,22 @@
             </div>
         </div>
     </div>
+    @endif
+
     <div class="chat-header">
 
         @if (!array_key_exists('search', $disabled))
         <div class="row text-end">
             <div class="col-sm-8 col-md-6 col-lg-4 ms-auto">
                 <div class="input-group">
+
+                    @if (isset($filters))
                     <div class="input-group-text bg-transparent">
                         <div class="chat-toggle-btn text-secondary">
                             <i class="bx bxs-filter-alt"></i>
                         </div>
                     </div>
+                    @endif
 
                     <input type="text" class="form-control form-control-sm" wire:model.lazy="search"
                         placeholder="Pencarian">
@@ -65,9 +72,15 @@
                 </x-table.row>
             </x-table.header>
 
+            @if (isset($sortable))
+            <x-table.body wire:sortable="{{ $sortable }}" wire:sortable-group="{{ $sortableGroup }}">
+                {{ $table_body }}
+            </x-table.body>
+            @else
             <x-table.body>
                 {{ $table_body }}
             </x-table.body>
+            @endif
         </x-table>
     </div>
 

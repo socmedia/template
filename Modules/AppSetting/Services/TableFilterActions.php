@@ -43,6 +43,18 @@ trait TableFilterActions
         }
     }
 
+    /**
+     * To handle perpage pagination
+     *
+     * @param  mixed $total
+     * @return void
+     */
+    public function perPage($total)
+    {
+        $this->resetPage();
+        $this->perPage = $total;
+    }
+
     //=====================================//
     //=========== Reset Actions ===========//
     //=====================================//
@@ -71,6 +83,13 @@ trait TableFilterActions
         $this->reset('sort', 'order', 'search', 'group');
     }
 
+    /**
+     * To handle reset search action
+     * When button with attribute wire:click={searchFilter}
+     * This method will be running
+     *
+     * @return void
+     */
     public function searchFilters()
     {
         $this->resetPage();

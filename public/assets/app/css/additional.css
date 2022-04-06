@@ -184,7 +184,13 @@ html.dark-theme .list-group.sidebar .list-group-item.active a {
   border: 0;
 }
 
+.pagination {
+  margin: 0;
+}
+
 .page-item .page-link {
+  font-size: 11px;
+  padding: 0.25rem 0.5rem;
   border-color: #e2edff;
   box-shadow: none;
 }
@@ -474,7 +480,6 @@ article.vertical figcaption p {
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 .chat-wrapper.for-table .chat-sidebar {
-  min-height: 500px;
   width: 0;
   left: 0;
   opacity: 0;
@@ -625,4 +630,9 @@ article.vertical figcaption p {
 
 .bg-gradient-warning {
   background: linear-gradient(45deg, #fdd140, #ffc107);
+}
+
+.cursor-grab {
+  cursor: -webkit-grab;
+  cursor: grab;
 }

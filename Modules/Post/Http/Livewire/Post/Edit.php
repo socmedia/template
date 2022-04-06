@@ -21,7 +21,7 @@ class Edit extends Component
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags = [], $publish = 1,
+    public $thumbnail, $category, $type, $tags = [], $publish,
     $tagsInString, $tag, $title, $slug_title, $subject, $description;
 
     public $post, $oldThumbnail;
@@ -47,6 +47,7 @@ class Edit extends Component
         $this->slug_title = $post->slug_title;
         $this->subject = $post->subject;
         $this->description = $post->description;
+        $this->publish = $post->published_at ? 1 : 0;
         $this->oldThumbnail = $post->thumbnail ?: cache('image_not_found');
     }
 

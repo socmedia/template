@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\AccessLevel\Traits\User\Filterable;
 use Modules\User\Models\Entities\UsersSetting;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, Filterable;
 
     /**
      * Define id column in not auto increment
@@ -89,6 +90,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'approved_by',
         'deactivated_reasons',
         'deactivated_at',
+
+        'created_at',
+        'updated_at',
     ];
 
     /**

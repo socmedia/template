@@ -21,7 +21,7 @@ class Table extends Component
      *
      * @var string
      */
-    public $filters, $category, $type, $status, $sort = 'created_at', $order = 'desc', $search, $destroyId;
+    public $filters, $category, $type, $status, $sort = 'created_at', $order = 'desc', $search, $destroyId, $perPage = 10;
 
     /**
      * Define table headers
@@ -113,15 +113,14 @@ class Table extends Component
      */
     public function getAllPosts()
     {
-        $post = new PostQuery();
-        return $post->filters((object) [
+        return (new PostQuery())->filters((object) [
             'category' => $this->category,
             'type' => $this->type,
             'status' => $this->status,
             'sort' => $this->sort,
             'order' => $this->order,
             'search' => $this->search,
-        ]);
+        ], $this->perPage);
     }
 
     /**

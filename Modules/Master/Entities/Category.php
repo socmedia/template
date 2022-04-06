@@ -6,10 +6,11 @@ use App\Http\Livewire\Guest\Search\Place;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Master\Traits\Category\Filterable;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable;
 
     /**
      * Define table name
@@ -19,7 +20,7 @@ class Category extends Model
     public $table = 'categories';
 
     protected $fillable = [
-        'name', 'slug_name', 'pattern', 'table_reference', 'position',
+        'name', 'slug_name', 'pattern', 'table_reference', 'position', 'with_icon', 'icon_class', 'with_image', 'media_path',
     ];
 
     protected $keyType = 'string';

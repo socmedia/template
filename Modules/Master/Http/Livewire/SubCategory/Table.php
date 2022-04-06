@@ -2,15 +2,17 @@
 
 namespace Modules\Master\Http\Livewire\SubCategory;
 
-use App\Contracts\DatabaseTable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Master\Entities\Category;
 use Modules\Master\Entities\SubCategory;
+use Modules\Master\Services\SubCategory\SubCategoryQuery;
+use Modules\Master\Services\SubCategory\TableConfig;
+use Modules\Master\Services\SubCategory\TableFilterActions;
 
 class Table extends Component
 {
-    use WithPagination, DatabaseTable;
+    use WithPagination, TableConfig, TableFilterActions;
 
     /**
      * Define table headers
@@ -54,6 +56,13 @@ class Table extends Component
             'additional_class' => null,
         ],
         [
+            'cell_name' => 'Total Child',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
             'cell_name' => 'Aksi',
             'column_name' => null,
             'sortable' => false,
@@ -67,7 +76,7 @@ class Table extends Component
      *
      * @var mixed
      */
-    public $sort, $order, $search, $category;
+    public $sort = 'position', $order = 'asc', $search, $category, $perPage = 10, $childs, $modalTitle;
 
     /**
      * Define component main props
@@ -90,132 +99,13 @@ class Table extends Component
     ];
 
     /**
-     * Define filters for filter component
-     *
-     * @var array
-     */
-    public $filters = [
-        'search' => [
-            'query' => null,
-            'reset_method' => 'resetSearch',
-        ],
-        'category' => [
-            'query' => null,
-            'reset_method' => 'resetCategory',
-        ],
-        'sort' => [
-            'query' => [null, null],
-            'reset_method' => 'resetFilter',
-        ],
-    ];
-
-    /**
      * Define props before component rendered
      *
      * @return void
      */
     public function mount()
     {
-        $this->search = request('search');
-        $this->category = request('category');
-
-        $this->filters['category']['query'] = request('category');
-        $this->filters['search']['query'] = request('search');
-        $this->filters['sort']['query'] = [request('sort'), request('order')];
-
-        request()->segment(4) != 'sampah' ? false : $this->onlyTrashed = true;
-    }
-
-    /**
-     * Handling query string
-     * If table header sorting is triggered, this method will be run
-     *
-     * @param  string $column
-     * @return void
-     */
-    public function sort($column)
-    {
-        $this->sort = $column;
-
-        if (!$this->order) {
-            $this->order = 'asc';
-        } elseif ($this->order == 'asc') {
-            $this->order = 'desc';
-        } elseif ($this->order == 'desc') {
-            $this->sort = null;
-            $this->order = null;
-        }
-
-        $this->filters['sort']['query'] = [$this->sort, $this->order];
-    }
-
-    /**
-     * Livewire hooks, when search props has been updated
-     * This action will be update search props and filters.search.query
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function updatedSearch($value)
-    {
-        $this->resetPage();
-        $this->search = $value;
-        $this->filters['search']['query'] = $value;
-    }
-
-    /**
-     * Livewire hooks, when search props has been updated
-     * This action will be update category props and filters.category.query
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function updatedCategory($value)
-    {
-        $this->resetPage();
-        $this->category = $value;
-        $this->filters['category']['query'] = $value;
-
-        if (!$value) {
-            $this->category = null;
-            $this->filters['category']['query'] = null;
-        }
-    }
-
-    /**
-     * Reset filter sort method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetFilter()
-    {
-        $this->reset('sort', 'order');
-        $this->filters['sort']['query'] = [null, null];
-    }
-
-    /**
-     * Reset filter search method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetSearch()
-    {
-        $this->reset('search');
-        $this->filters['search']['query'] = null;
-    }
-
-    /**
-     * Reset filter category method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetCategory()
-    {
-        $this->reset('category');
-        $this->filters['category']['query'] = null;
+        $this->mountDefaultValues();
     }
 
     /**
@@ -226,55 +116,29 @@ class Table extends Component
      */
     public function getAll()
     {
-        $sub_categories = SubCategory::query()->with(['category']);
+        return (new SubCategoryQuery())->filters((object) [
+            'search' => $this->search,
+            'category' => $this->category,
+            'sort' => $this->sort,
+            'order' => $this->order,
+            'onlyTrashed' => $this->onlyTrashed,
+        ], $this->perPage);
+    }
 
-        // Check if props search is not empty/null
-        if ($this->search) {
-            // Search condition
-            $sub_categories->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('slug_name', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('category', function ($query) {
-                        $query->where('name', 'like', '%' . $this->search . '%');
-                    });
-            });
-        }
+    public function show($id)
+    {
+        $this->childs = (new SubCategoryQuery())->getChilds((object) [
+            'parent' => $id,
+        ]);
 
-        // Check if category is available in the category list
-        if ($this->category) {
-            // Class condition
-            $sub_categories->whereHas('category', function ($query) {
-                $query->where('name', $this->category);
-            });
-        }
+        $sub_category = SubCategory::find($id);
+        $this->modalTitle = $sub_category ? $sub_category->name : null;
+    }
 
-        // Check if props below is true/not empty
-        if ($this->sort && $this->order) {
-            $columns = $this->getTableColumns('sub_categories');
-
-            // Check if column is exist in database table column
-            // Handle errors column not found
-            if (in_array($this->sort, $columns)) {
-
-                // Check if order like asc or desc
-                // Data will only show if column is available and order is available
-                if ($this->order == 'asc' || $this->order == 'desc') {
-                    $sub_categories->orderBy($this->sort, $this->order);
-                }
-
-            } else {
-                // If column found, will return empty array
-                return [];
-            }
-        }
-
-        // If onlyTrashed props is true
-        // System only show trashed data from resource
-        if ($this->onlyTrashed) {
-            $sub_categories->onlyTrashed();
-        }
-
-        return $sub_categories->paginate();
+    public function resetModal()
+    {
+        $this->modalTitle = null;
+        $this->childs = null;
     }
 
     /**
@@ -335,6 +199,27 @@ class Table extends Component
         // Flash message
         $this->reset('destroyId');
         return session()->flash('failed', 'Penghapusan sub kategori gagal, karena sub kategori tidak ditemukan.');
+    }
+
+    /**
+     * Update banner position while drag n drop
+     *
+     * @param  mixed $list
+     * @return void
+     */
+    public function updateOrder($list)
+    {
+        foreach ($list as $item) {
+            SubCategory::find($item['value'])->update([
+                'position' => $item['order'],
+            ]);
+        }
+
+        $sub_category = SubCategory::where('name', $this->modalTitle)->first();
+        $this->childs = (new SubCategoryQuery())->getChilds((object) [
+            'parent' => $sub_category ? $sub_category->id : null,
+        ]);
+
     }
 
     public function render()

@@ -8,9 +8,7 @@ use Modules\AppSetting\Entities\AppSetting;
 class SettingsQuery extends AppSetting
 {
     /**
-     * Get popular AppSettings
-     * used by calling static method and pass string time
-     * In: [this-week, this-month, this-year ]
+     * Get group column
      *
      * @param  int $total
      * @param  boolean $paginated

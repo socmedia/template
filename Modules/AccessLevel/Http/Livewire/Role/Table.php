@@ -5,11 +5,14 @@ namespace Modules\AccessLevel\Http\Livewire\Role;
 use App\Contracts\DatabaseTable;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Modules\AccessLevel\Services\Role\RoleQuery;
+use Modules\AccessLevel\Services\Role\TableConfig;
+use Modules\AccessLevel\Services\Role\TableFilterActions;
 use Spatie\Permission\Models\Role;
 
 class Table extends Component
 {
-    use WithPagination, DatabaseTable;
+    use WithPagination, DatabaseTable, TableConfig, TableFilterActions;
 
     /**
      * Define table headers
@@ -52,7 +55,7 @@ class Table extends Component
      *
      * @var mixed
      */
-    public $destroyId, $sort, $order, $search;
+    public $destroyId, $sort = 'created_at', $order = 'desc', $search, $perPage = 10;
 
     /**
      * Define livewire query string
@@ -66,94 +69,13 @@ class Table extends Component
     ];
 
     /**
-     * Define filters for filter component
-     *
-     * @var array
-     */
-    public $filters = [
-        'search' => [
-            'query' => null,
-            'reset_method' => 'resetSearch',
-        ],
-        'sort' => [
-            'query' => [null, null],
-            'reset_method' => 'resetFilter',
-        ],
-    ];
-
-    /**
      * Define props before component rendered
      *
      * @return void
      */
     public function mount()
     {
-        $this->sort = request('sort');
-        $this->order = request('order');
-        $this->search = request('search');
-
-        $this->filters['search']['query'] = request('search');
-        $this->filters['sort']['query'] = [request('sort'), request('order')];
-    }
-
-    /**
-     * Handling query string
-     * If table header sorting is triggered, this method will be run
-     *
-     * @param  string $column
-     * @return void
-     */
-    public function sort($column)
-    {
-        $this->sort = $column;
-
-        if (!$this->order) {
-            $this->order = 'asc';
-        } elseif ($this->order == 'asc') {
-            $this->order = 'desc';
-        } elseif ($this->order == 'desc') {
-            $this->sort = null;
-            $this->order = null;
-        }
-
-        $this->filters['sort']['query'] = [$this->sort, $this->order];
-    }
-
-    /**
-     * Livewire hooks, when search props has been updated
-     * This action will be update search props and filters.search.query
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function updatedSearch($value)
-    {
-        $this->search = $value;
-        $this->filters['search']['query'] = $value;
-    }
-
-    /**
-     * Reset filter sort method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetFilter()
-    {
-        $this->reset('sort', 'order');
-        $this->filters['sort']['query'] = [null, null];
-    }
-
-    /**
-     * Reset filter search method
-     * Triggered when the button in the filter section has been clicked
-     *
-     * @return void
-     */
-    public function resetSearch()
-    {
-        $this->reset('search');
-        $this->filters['search']['query'] = null;
+        $this->mountDefaultValues();
     }
 
     /**
@@ -164,39 +86,11 @@ class Table extends Component
      */
     public function getAll()
     {
-        $role = Role::query();
-
-        // Check if props search is not empty/null
-        if ($this->search) {
-            // Search condition
-            $role->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('guard_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('created_at', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        // Check if props below is true/not empty
-        if ($this->sort && $this->order) {
-            $columns = $this->getTableColumns('roles');
-
-            // Check if column is exist in database table column
-            // Handle errors column not found
-            if (in_array($this->sort, $columns)) {
-
-                // Check if order like asc or desc
-                // Data will only show if column is available and order is available
-                if ($this->order == 'asc' || $this->order == 'desc') {
-                    $role->orderBy($this->sort, $this->order);
-                }
-
-            } else {
-                // If column found, will return empty array
-                return [];
-            }
-        }
-
-        return $role->paginate();
+        return (new RoleQuery())->filters((object) [
+            'search' => $this->search,
+            'sort' => $this->sort,
+            'order' => $this->order,
+        ], $this->perPage);
     }
 
     /**

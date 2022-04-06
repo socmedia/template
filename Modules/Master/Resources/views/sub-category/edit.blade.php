@@ -17,7 +17,7 @@
             </x-slot>
         </x-breadcrumb>
 
-        <x-blank-container class="justify-content-center" md="8" lg="8">
+        <x-blank-container class="justify-content-center">
             <livewire:master::sub-category.edit :sub_category="$sub_category" />
         </x-blank-container>
     </div>

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCategoriesTable extends Migration
 {
@@ -19,6 +19,10 @@ class CreateCategoriesTable extends Migration
             $table->string('slug_name')->index();
             $table->string('table_reference')->index();
             $table->integer('position');
+            $table->boolean('with_icon')->nullable();
+            $table->string('icon_class')->nullable();
+            $table->boolean('with_image')->nullable();
+            $table->string('media_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

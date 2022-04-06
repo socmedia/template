@@ -6,20 +6,35 @@ use Illuminate\View\Component;
 
 class WithFilter extends Component
 {
-    public $disabled = [];
+    public $table_headers = null,
+    $table_body = null,
+    $filters = null,
+    $pagination = null,
+    $disabled = [],
+    $sortable = null,
+    $sortableGroup = null;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($table_headers = null, $table_body = null, $filters = null, $pagination = null, array $disabled = [])
-    {
+    public function __construct(
+        $table_headers = null,
+        $table_body = null,
+        $filters = null,
+        $pagination = null,
+        array $disabled = [],
+        $sortable = null,
+        $sortableGroup = null
+    ) {
         $this->table_headers = $table_headers;
         $this->table_body = $table_body;
         $this->filters = $filters;
         $this->pagination = $pagination;
         $this->disabled = $disabled;
+        $this->sortable = $sortable;
+        $this->sortableGroup = $sortableGroup;
     }
 
     /**

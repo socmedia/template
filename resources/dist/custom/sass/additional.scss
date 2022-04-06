@@ -248,9 +248,14 @@ html.dark-theme .list-group.sidebar {
 
 }
 
+.pagination {
+    margin: 0;
+}
 
 .page-item {
     .page-link {
+        font-size: 11px;
+        padding: 0.25rem 0.5rem;
         border-color: #e2edff;
         box-shadow: none;
 
@@ -594,7 +599,6 @@ article.vertical {
         }
 
         .chat-sidebar {
-            min-height: 500px;
             width: 0;
             left: 0;
             opacity: 0;
@@ -774,4 +778,8 @@ article.vertical {
 
 .bg-gradient-warning {
     background: linear-gradient(45deg, #fdd140, #ffc107);
+}
+
+.cursor-grab {
+    cursor: grab;
 }
