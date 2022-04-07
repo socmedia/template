@@ -15,6 +15,8 @@ mix.js('resources/dist/default/js/app.js', 'public/assets/default/js')
     .js('resources/dist/custom/js/additional.js', 'public/assets/app/js')
     .js('resources/dist/custom/js/editor.js', 'public/assets/app/js')
     .sass('resources/dist/custom/sass/additional.scss', 'public/assets/app/css')
+    .js('resources/dist/front/js/additional.js', 'public/assets/front/js')
+    .sass('resources/dist/front/sass/additional.scss', 'public/assets/front/css')
     .postCss('resources/dist/default/css/app.css', 'public/assets/default/css', [
         require('postcss-import'),
         require('tailwindcss'),
