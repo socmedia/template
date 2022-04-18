@@ -27,6 +27,24 @@ Route::group([
     });
 
     Route::group([
+        'as' => 'partner.',
+        'prefix' => 'partner',
+    ], function () {
+        Route::get('/', 'ClientController@index')->name('index');
+        Route::get('/tambah', 'ClientController@create')->name('create');
+        Route::get('/edit/{id}', 'ClientController@edit')->name('edit');
+    });
+
+    Route::group([
+        'as' => 'testimonial.',
+        'prefix' => 'testimonial',
+    ], function () {
+        Route::get('/', 'TestimonialController@index')->name('index');
+        Route::get('/tambah', 'TestimonialController@create')->name('create');
+        Route::get('/edit/{id}', 'TestimonialController@edit')->name('edit');
+    });
+
+    Route::group([
         'as' => 'faq.',
         'prefix' => 'faq',
     ], function () {

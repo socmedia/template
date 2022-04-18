@@ -1,0 +1,33 @@
+@mixin gradient-bg {
+    background: rgb(38, 40, 43);
+    background: -moz-linear-gradient(161deg, rgba(38, 40, 43, 1) 0%, rgba(38, 40, 43, 1) 49%, rgba(159, 128, 84, 1) 100%);
+    background: -webkit-linear-gradient(161deg, rgba(38, 40, 43, 1) 0%, rgba(38, 40, 43, 1) 49%, rgba(159, 128, 84, 1) 100%);
+    background: linear-gradient(161deg, rgba(38, 40, 43, 1) 0%, rgba(38, 40, 43, 1) 49%, rgba(159, 128, 84, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#26282b", endColorstr="#9f8054", GradientType=1);
+}
+
+@mixin transition-cubic {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    transition-duration: 700ms;
+    -webkit-transition-duration: 700ms;
+    transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+    -webkit-transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+@mixin transition {
+    -webkit-transition: .25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -ms-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out;
+    transition: .25s ease-in-out;
+}
+
+@mixin first-font {
+    font-family: 'Poppins', sans-serif;
+}
+
+@mixin second-font {
+    font-family: 'Playfair Display', serif;
+}

@@ -5,10 +5,11 @@ namespace Modules\Post\Entities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Post\Traits\PostType\Filterable;
 
 class PostType extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable;
 
     /**
      * Define fillable column in the post type table
@@ -16,7 +17,7 @@ class PostType extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug_name',
+        'name', 'slug_name', 'allow_column', 'created_at', 'updated_at',
     ];
 
     /**

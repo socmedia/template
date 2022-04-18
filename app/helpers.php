@@ -111,3 +111,12 @@ function phone($number)
 {
     return substr($number, 0, 1) == 0 ? substr($number, 1) : $number;
 }
+
+function title($text)
+{
+    try {
+        return Str::title($text);
+    } catch (Exception $exeception) {
+        return null;
+    }
+}

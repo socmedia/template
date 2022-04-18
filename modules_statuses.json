@@ -6,5 +6,8 @@
     "AccessLevel": true,
     "Post": true,
     "Master": true,
-    "Marketing": true
+    "Marketing": true,
+    "Front": true,
+    "Service": true,
+    "Lead": true
 }

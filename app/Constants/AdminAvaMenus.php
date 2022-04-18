@@ -57,6 +57,14 @@ class AdminAvaMenus
                 'role' => 'Developer|Admin',
                 'icon' => 'bx bx-cog',
             ],
+            'artisan' => [
+                'display_name' => 'Artisan',
+                'path' => route('adm.artisan.index'),
+                'route_name' => 'adm.artisan.index',
+                'visible' => true,
+                'role' => 'Developer',
+                'icon' => 'bx bx-command',
+            ],
             'menu_manager' => [
                 'display_name' => 'Menu Manager',
                 'path' => 'javascript:void(0)',
@@ -69,7 +77,7 @@ class AdminAvaMenus
                 'display_name' => 'Template',
                 'path' => url('/template'),
                 'route_name' => null,
-                'visible' => true,
+                'visible' => false,
                 'role' => 'Developer|Admin',
                 'icon' => 'bx bx-devices',
             ],

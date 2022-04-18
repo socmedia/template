@@ -28,3 +28,14 @@ Route::group([
     Route::get('/tambah', 'SettingsController@create')->middleware('role:Developer')->name('create');
     Route::get('/edit/{id}', 'SettingsController@edit')->middleware('role:Developer')->name('edit');
 });
+
+Route::group([
+    'as' => 'adm.artisan.',
+    'prefix' => 'admin/artisan',
+    'middleware' => ['auth', 'verified'],
+], function () {
+    Route::get('/', 'ArtisanController@index')->middleware('role:Developer')->name('index');
+    Route::get('/optimize', 'ArtisanController@optimize')->middleware('role:Developer')->name('optimize');
+    Route::get('/storage-link', 'ArtisanController@storageLink')->middleware('role:Developer')->name('storageLink');
+    Route::get('/key-generate', 'ArtisanController@keyGenerate')->middleware('role:Developer')->name('keyGenerate');
+});

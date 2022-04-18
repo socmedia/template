@@ -20,3 +20,13 @@ Route::group([
     Route::get('/tambah', 'PostController@create')->name('create');
     Route::get('/edit/{id}', 'PostController@edit')->name('edit');
 });
+
+Route::group([
+    'as' => 'adm.post-type.',
+    'prefix' => 'admin/post-type',
+    'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
+], function () {
+    Route::get('/', 'PostTypeController@index')->name('index');
+    Route::get('/tambah', 'PostTypeController@create')->name('create');
+    Route::get('/edit/{id}', 'PostTypeController@edit')->name('edit');
+});

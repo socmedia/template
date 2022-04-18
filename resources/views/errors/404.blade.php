@@ -4,5 +4,5 @@
 @section('code', '404')
 
 @section('message')
-{{ $exception->getMessage() ?: 'Not found'}}
+Halaman yang Anda cari tidak kami temukan.
 @endsection

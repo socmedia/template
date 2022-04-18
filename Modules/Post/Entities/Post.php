@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Master\Entities\Category;
-use Modules\Post\Traits\Filterable;
+use Modules\Post\Traits\Post\Filterable;
 
 class Post extends Model
 {
@@ -88,6 +88,18 @@ class Post extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    public $form = [
+        'title' => 'required',
+        'slug_title' => 'required',
+        'thumbnail' => 'required',
+        'category' => 'nullable',
+        'type' => 'required',
+        'subject' => 'nullable',
+        'description' => 'required',
+        'tags' => 'nullable',
+        'author' => 'required',
     ];
 
     /**

@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post::index');
+        return view('post::post.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post::create');
+        return view('post::post.create');
     }
 
     /**
@@ -33,7 +33,7 @@ class PostController extends Controller
      */
     public function edit(Post $post, $id)
     {
-        return view('post::edit', [
+        return view('post::post.edit', [
             'post' => $post->findOrFail($id),
         ]);
     }

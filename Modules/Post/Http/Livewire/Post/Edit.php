@@ -21,7 +21,7 @@ class Edit extends Component
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags = [], $publish,
+    public $thumbnail, $category, $type, $tags = [], $publish, $allowed_column = [],
     $tagsInString, $tag, $title, $slug_title, $subject, $description;
 
     public $post, $oldThumbnail;
@@ -49,6 +49,9 @@ class Edit extends Component
         $this->description = $post->description;
         $this->publish = $post->published_at ? 1 : 0;
         $this->oldThumbnail = $post->thumbnail ?: cache('image_not_found');
+
+        $type = PostType::find($post->type_id);
+        $this->allowed_column = json_decode($type->allow_column);
     }
 
     /**
@@ -60,11 +63,11 @@ class Edit extends Component
     {
         return [
             'thumbnail' => 'nullable',
-            'category' => 'required',
+            'category' => 'nullable',
             'title' => 'required|max:191|unique:posts,title,' . $this->post->id . ',id',
             'slug_title' => 'required|max:191|unique:posts,slug_title,' . $this->post->id . ',id',
             'tagsInString' => 'nullable|max:191',
-            'subject' => 'required|max:191',
+            'subject' => 'nullable|max:191',
             'description' => 'required',
         ];
     }
@@ -140,6 +143,20 @@ class Edit extends Component
         $this->validate([
             'slug_title' => 'required|max:191|unique:posts,slug_title',
         ]);
+    }
+
+    /**
+     * Hooks for type property
+     * Doing type validation after
+     * Type property has been updated
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function updatedType($value)
+    {
+        $type = PostType::find($value);
+        $this->allowed_column = json_decode($type->allow_column);
     }
 
     /**

@@ -2,6 +2,8 @@
     "/assets/default/js/app.js": "/assets/default/js/app.js",
     "/assets/app/js/additional.js": "/assets/app/js/additional.js",
     "/assets/app/js/editor.js": "/assets/app/js/editor.js",
+    "/assets/front/js/rosalia_express.js": "/assets/front/js/rosalia_express.js",
+    "/assets/front/css/rosalia_express.css": "/assets/front/css/rosalia_express.css",
     "/assets/default/css/app.css": "/assets/default/css/app.css",
     "/assets/app/css/additional.css": "/assets/app/css/additional.css"
 }

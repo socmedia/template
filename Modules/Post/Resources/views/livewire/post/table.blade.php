@@ -102,12 +102,17 @@
                     </div>
                 </x-table.cell>
                 <x-table.cell class="text-center">
+                    @if ($post->type)
                     <small class="px-2 py-1 me-1 bg-warning text-white rounded-pill">
                         {{ $post->type ? $post->type->name: null }}
                     </small>
+                    @endif
+
+                    @if ($post->category)
                     <small class="px-2 py-1 bg-secondary text-white rounded-pill">
                         {{ $post->category ? $post->category->name : null }}
                     </small>
+                    @endif
                 </x-table.cell>
                 <x-table.cell>
 

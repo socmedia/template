@@ -37,14 +37,14 @@ class Edit extends Component
     public function mount($banner)
     {
         $this->banner = $banner;
-        $this->oldThumbnail = $banner->media_path;
+        $this->oldThumbnail = $banner->desktop_media_path;
         $this->name = $banner->name;
         $this->alt = $banner->alt;
         $this->reference_url = $banner->references_url;
         $this->is_active = $banner->is_active;
         $this->position = $banner->position;
         $this->with_caption = $banner->with_caption;
-        $this->background_position = $banner->background_position;
+        $this->background_position = $banner->desktop_background_position;
         $this->caption_title = $banner->caption_title;
         $this->caption_text = $banner->caption_text;
         $this->with_button = $banner->with_button;
@@ -79,7 +79,7 @@ class Edit extends Component
             'references_url' => $this->reference_url,
             'position' => $this->position,
             'is_active' => $this->is_active ? 1 : 0,
-            'background_position' => $this->background_position ?: null,
+            'desktop_background_position' => $this->background_position ?: null,
             'with_caption' => $this->with_caption ? 1 : 0,
             'caption_title' => $this->caption_title,
             'caption_text' => $this->caption_text,
@@ -92,7 +92,7 @@ class Edit extends Component
             $path = explode('/', $this->oldThumbnail);
             $shortPath = implode('/', array_slice($path, -2, 2));
             $service->removeImage('images', $shortPath);
-            $data['media_path'] = url($service->storeImage($this->thumbnail, 1920, 100));
+            $data['desktop_media_path'] = url($service->storeImage($this->thumbnail, 1920, 100));
         }
 
         $this->banner->update($data);

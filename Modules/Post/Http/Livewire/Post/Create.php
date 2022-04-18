@@ -22,7 +22,7 @@ class Create extends Component
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags = [], $publish = 1,
+    public $thumbnail, $category, $type, $tags = [], $publish = 1, $allowed_column = [],
     $tagsInString, $tag, $title, $slug_title, $subject, $description;
 
     /**
@@ -44,12 +44,13 @@ class Create extends Component
     {
         return [
             'thumbnail' => 'required',
-            'category' => 'required',
+            'type' => 'required|max:191',
+            'category' => 'nullable',
             'title' => 'required|max:191|unique:posts,title',
             'slug_title' => 'required|max:191|unique:posts,slug_title',
             'tagsInString' => 'nullable|max:191',
-            'subject' => 'required|max:191',
-            'description' => 'required',
+            'subject' => 'nullable|max:191',
+            'description' => 'nullable',
         ];
     }
 
@@ -97,6 +98,20 @@ class Create extends Component
         $this->validate([
             'slug_title' => 'required|max:191|unique:posts,slug_title',
         ]);
+    }
+
+    /**
+     * Hooks for type property
+     * Doing type validation after
+     * Type property has been updated
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function updatedType($value)
+    {
+        $type = PostType::find($value);
+        $this->allowed_column = json_decode($type->allow_column);
     }
 
     /**

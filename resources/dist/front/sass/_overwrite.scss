@@ -1,0 +1,322 @@
+/***************
+ *  Typography *
+ ***************/
+
+.text-primary {
+    color: $primary;
+}
+
+.text-secondary {
+    color: $default;
+}
+
+.text-success {
+    color: $success;
+}
+
+.text-danger {
+    color: $danger;
+}
+
+.text-warning {
+    color: $warning;
+}
+
+.text-info {
+    color: $info;
+}
+
+.text-light {
+    color: $light;
+}
+
+.text-dark {
+    color: $dark;
+}
+
+.text-muted {
+    color: $muted;
+}
+
+.text-white {
+    color: $white;
+}
+
+/***************
+ *  Background *
+ ***************/
+
+.bg-primary {
+    background-color: $primary !important;
+}
+
+.bg-secondary {
+    background-color: $default !important;
+}
+
+.bg-success {
+    background-color: $success !important;
+}
+
+.bg-danger {
+    background-color: $danger !important;
+}
+
+.bg-warning {
+    background-color: $warning !important;
+}
+
+.bg-info {
+    background-color: $info !important;
+}
+
+.bg-light {
+    background-color: $super-light !important;
+}
+
+.bg-dark {
+    background-color: $dark !important;
+}
+
+.bg-muted {
+    background-color: $muted !important;
+}
+
+.bg-white {
+    background-color: $white !important;
+}
+
+/***************
+ *    Button   *
+ ***************/
+
+.btn {
+    box-shadow: none;
+    border: none;
+    border-radius: 13px;
+    padding: 12px 20px;
+    font-size: 14px;
+
+    i {
+        font-size: 14px;
+        transform: translateY(2px)
+    }
+}
+
+.btn-primary {
+    background-color: $primary;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $primary-hover !important;
+    }
+}
+
+.btn-secondary {
+    background-color: $default;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $default-hover !important;
+    }
+}
+
+.btn-success {
+    background-color: $success;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $success-hover !important;
+    }
+}
+
+.btn-danger {
+    background-color: $danger;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $danger-hover !important;
+    }
+}
+
+.btn-warning {
+    background-color: $warning;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $warning-hover !important;
+    }
+}
+
+.btn-info {
+    background-color: $info;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $info-hover !important;
+    }
+}
+
+.btn-light {
+    background-color: $light;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $light-hover !important;
+    }
+}
+
+.btn-dark {
+    background-color: $dark;
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none !important;
+        background-color: $dark-hover !important;
+    }
+}
+
+input[type=text] {
+    height: unset !important;
+    padding: 12px 20px !important;
+}
+
+.form-control {
+    font-size: 14px;
+    border-color: #eee !important;
+
+    &:focus,
+    &:active {
+        box-shadow: none;
+        border-color: rgba($default, .5);
+    }
+}
+
+.input-group {
+
+    .input-group-prepend {
+        border-radius: 13px;
+    }
+
+    .input-group-text {
+        border-radius: 13px;
+        padding: 0.5rem 1rem;
+        font-size: 14px;
+        border: 0;
+    }
+
+    .input-group-append {
+        border-radius: 13px;
+    }
+}
+
+
+.close {
+    font-weight: 400;
+}
+
+.alert-dismissible .btn-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 2;
+}
+
+.btn-close {
+    box-sizing: content-box;
+    width: 1em !important;
+    height: 1em !important;
+    padding: 0.25em 0.25em;
+    color: #000;
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style='fill: rgba(0, 0, 0, 1);transform: ;msFilter:;'%3E%3Cpath d='m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z'%3E%3C/path%3E%3C/svg%3E");
+    border: 0;
+    border-radius: 0.25rem;
+    opacity: 0.5;
+}
+
+.alert {
+    padding: 1rem 1.25rem !important;
+
+    h6 {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+}
+
+.modal#result {
+
+    .modal-header {
+        border: 0;
+
+        h5 {
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+    }
+}
+
+.select2-container--bootstrap .select2-dropdown {
+    border-color: #eee !important;
+}
+
+.select2-container--bootstrap.select2-container--focus .select2-selection,
+.select2-container--bootstrap.select2-container--open .select2-selection {
+    box-shadow: none !important;
+}
+
+.select2-container--bootstrap .select2-selection {
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: $muted !important;
+    background-color: $white !important;
+    background-clip: padding-box !important;
+    border: 1px solid #eee !important;
+    border-radius: 0.25rem !important;
+    padding: 12px 20px !important;
+    height: unset !important;
+    box-shadow: none !important;
+}
+
+.select2-container--bootstrap .select2-results__option[aria-selected=true] {
+    background-color: $danger !important;
+    color: $white !important;
+}
+
+.select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {
+    background-color: $danger-hover !important;
+    color: $white !important;
+}
+
+.select2-container--bootstrap .select2-results__option {
+    padding: 8px 12px !important;
+    border-top: 1px solid #eeeeee47 !important;
+}
+
+.select2-container--bootstrap .select2-dropdown {
+    box-shadow: 0 6px 12px rgb(0 0 0 / 5%) !important;
+}
+
+.select2-container--bootstrap .select2-search--dropdown .select2-search__field {
+    box-shadow: none !important;
+    padding: 8px 12px !important;
+    border-color: #eee !important;
+}

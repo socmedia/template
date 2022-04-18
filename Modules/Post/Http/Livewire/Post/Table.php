@@ -8,9 +8,9 @@ use Livewire\WithPagination;
 use Modules\Master\Entities\Category;
 use Modules\Post\Entities\Post;
 use Modules\Post\Entities\PostType;
-use Modules\Post\Services\PostQuery;
-use Modules\Post\Services\TableConfig;
-use Modules\Post\Services\TableFilterActions;
+use Modules\Post\Services\Post\PostQuery;
+use Modules\Post\Services\Post\TableConfig;
+use Modules\Post\Services\Post\TableFilterActions;
 
 class Table extends Component
 {

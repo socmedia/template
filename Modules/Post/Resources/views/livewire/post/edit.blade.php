@@ -83,6 +83,7 @@
                 <div class="card">
                     <div class="card-body p-4">
 
+                        @if (in_array('subject', $allowed_column))
                         <div class="form-group">
                             <label for="">Subjek</label>
                             <textarea class="form-control" name="subject" autocomplete="subject"
@@ -92,6 +93,7 @@
                             <small class="text-danger">{{$message}}</small>
                             @enderror
                         </div>
+                        @endif
 
                         <div class="form-group" wire:ignore>
                             <label for="description">Konten</label>
@@ -124,6 +126,7 @@
                     <div class="card-body p-4">
 
                         <div class="form-group row">
+                            @if (in_array('category', $allowed_column))
                             <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="category">Kategori</label>
                                 <select class="form-control" title="Kategori" name="category" id="category"
@@ -138,6 +141,8 @@
                                 <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
+                            @endif
+
                             <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="type">Tipe Postingan</label>
                                 <select class="form-control" title="Kategori" name="type" id="type" wire:model="type">
@@ -153,6 +158,7 @@
                             </div>
                         </div>
 
+                        @if (in_array('tags', $allowed_column))
                         <div class="form-group row">
                             <label for="tags">Tag</label>
                             <div class="d-flex flex-wrap">
@@ -177,6 +183,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="publish" id="publish"
