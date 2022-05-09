@@ -22,24 +22,23 @@
         </li>
 
         <li class="menu-label">Master</li>
-        <li class="{{ activeRouteIs('adm.master.*') }}">
-            <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bx bx-data"></i>
-                </div>
-                <div class="menu-title">Master Data</div>
+        <li class="{{ activeRouteIs('adm.master.category.*') }}">
+            <a href="{{ route('adm.master.category.index') }}">
+                <div class="parent-icon"><i class='bx bx-radio-circle-marked'></i></div>
+                <div class="menu-title">Kategori</div>
             </a>
-            <ul>
-                <li class="{{ activeRouteIs('adm.master.category.*') }}">
-                    <a href="{{ route('adm.master.category.index') }}">
-                        <i class="bx bx-right-arrow-alt"></i>Kategori
-                    </a>
-                </li>
-                <li class="{{ activeRouteIs('adm.master.sub-category.*') }}">
-                    <a href="{{ route('adm.master.sub-category.index') }}">
-                        <i class="bx bx-right-arrow-alt"></i>Sub Kategori
-                    </a>
-                </li>
-            </ul>
+        </li>
+        <li class="{{ activeRouteIs('adm.master.sub-category.*') }}">
+            <a href="{{ route('adm.master.sub-category.index') }}">
+                <div class="parent-icon"><i class='bx bx-radio-circle-marked'></i></div>
+                <div class="menu-title">Sub Kategori</div>
+            </a>
+        </li>
+        <li class="{{ activeRouteIs('adm.post-type.*') }}">
+            <a href="{{ route('adm.post-type.index') }}">
+                <div class="parent-icon"><i class='bx bx-radio-circle-marked'></i></div>
+                <div class="menu-title">Jenis Postingan</div>
+            </a>
         </li>
 
         <li class="menu-label">Halaman Publik</li>
@@ -49,12 +48,12 @@
                 <div class="menu-title">Banner</div>
             </a>
         </li>
-        {{-- <li class="{{ activeRouteIs('adm.marketing.faq.*') }}">
+        <li class="{{ activeRouteIs('adm.marketing.faq.*') }}">
             <a href="{{ route('adm.marketing.faq.index') }}">
                 <div class="parent-icon"><i class='bx bx-message-dots'></i></div>
                 <div class="menu-title">FAQ</div>
             </a>
-        </li> --}}
+        </li>
         <li class="{{ activeRouteIs('adm.marketing.testimonial.*') }}">
             <a href="{{ route('adm.marketing.testimonial.index') }}">
                 <div class="parent-icon"><i class='bx bx-star'></i></div>
@@ -69,20 +68,21 @@
         </li>
 
         <li class="menu-label">Konten</li>
-        <li class="{{ activeRouteIs('adm.service.*') }}">
-            <a href="{{ route('adm.service.index') }}">
-                <div class="parent-icon"><i class='bx bx-network-chart'></i></div>
-                <div class="menu-title">Layanan</div>
+
+        <li class="{{ activeRouteIs('adm.cms.*') }}">
+            <a href="{{ route('adm.cms.index') }}">
+                <div class="parent-icon"><i class='bx bxs-book-content'></i></div>
+                <div class="menu-title">CMS</div>
             </a>
         </li>
-        <li class="{{ activeRouteIs('adm.post-type.*') }}">
-            <a href="{{ route('adm.post-type.index') }}">
-                <div class="parent-icon"><i class='bx bx-git-branch'></i></div>
-                <div class="menu-title">Jenis Postingan</div>
+        <li class="{{ activeRouteIs('adm.seo.*') }}">
+            <a href="{{ route('adm.seo.index') }}">
+                <div class="parent-icon"><i class='bx bx-bar-chart-square'></i></div>
+                <div class="menu-title">SEO</div>
             </a>
         </li>
         <li class="{{ activeRouteIs('adm.post.*') }}">
-            <a class="has-arrow" href="{{ route('adm.post.index') }}">
+            <a class="has-arrow" href="javascript:void(0)">
                 <div class="parent-icon"><i class='bx bx-news'></i></div>
                 <div class="menu-title">Postingan</div>
             </a>
@@ -97,13 +97,13 @@
 
                 @if (cache('post_types'))
 
-                @foreach (cache('post_types') as $type)
-                <li class="{{ request('type') == $type->slug_name ? 'mm-active' : false }}">
-                    <a href="{{ route('adm.post.index', ['type' => $type->slug_name ]) }}">
-                        <i class="bx bx-right-arrow-alt"></i> {{ $type->name }}
-                    </a>
-                </li>
-                @endforeach
+                    @foreach (cache('post_types') as $type)
+                        <li class="{{ request('type') == $type->slug_name ? 'mm-active' : false }}">
+                            <a href="{{ route('adm.post.index', ['type' => $type->slug_name]) }}">
+                                <i class="bx bx-right-arrow-alt"></i> {{ $type->name }}
+                            </a>
+                        </li>
+                    @endforeach
 
                 @endif
             </ul>
@@ -118,18 +118,18 @@
         </li>
 
         @role('Developer')
-        <li class="{{ activeRouteIs('adm.access-level.role.*') }}">
-            <a href="{{ route('adm.access-level.role.index') }}">
-                <div class="parent-icon"><i class='bx bx-shield'></i></div>
-                <div class="menu-title">Roles</div>
-            </a>
-        </li>
-        <li class="{{ activeRouteIs('adm.access-level.permission.*') }}">
-            <a href="{{ route('adm.access-level.permission.index') }}">
-                <div class="parent-icon"><i class='bx bx-shield-quarter'></i></div>
-                <div class="menu-title">Permission</div>
-            </a>
-        </li>
+            <li class="{{ activeRouteIs('adm.access-level.role.*') }}">
+                <a href="{{ route('adm.access-level.role.index') }}">
+                    <div class="parent-icon"><i class='bx bx-shield'></i></div>
+                    <div class="menu-title">Roles</div>
+                </a>
+            </li>
+            <li class="{{ activeRouteIs('adm.access-level.permission.*') }}">
+                <a href="{{ route('adm.access-level.permission.index') }}">
+                    <div class="parent-icon"><i class='bx bx-shield-quarter'></i></div>
+                    <div class="menu-title">Permission</div>
+                </a>
+            </li>
         @endrole
     </ul>
 </div>

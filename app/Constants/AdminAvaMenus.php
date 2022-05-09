@@ -81,6 +81,14 @@ class AdminAvaMenus
                 'role' => 'Developer|Admin',
                 'icon' => 'bx bx-devices',
             ],
+            'documentation' => [
+                'display_name' => 'Dokumentasi',
+                'path' => route('adm.docs.index'),
+                'route_name' => 'adm.docs.index',
+                'visible' => true,
+                'role' => 'Developer|Admin',
+                'icon' => 'bx bx-book',
+            ],
         ];
     }
 
