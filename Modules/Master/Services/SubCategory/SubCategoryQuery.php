@@ -56,7 +56,7 @@ class SubCategoryQuery extends SubCategory
     public function getParentLastPosition(object $request)
     {
         $category = SubCategory::query();
-        return $category->getParentLastPosition($request);
+        return $category->getParentLastPosition($request)->first();
     }
 
     /**
@@ -68,7 +68,7 @@ class SubCategoryQuery extends SubCategory
     public function getChildLastPosition(object $request)
     {
         $category = SubCategory::query();
-        return $category->getChildLastPosition($request);
+        return $category->getChildLastPosition($request)->first();
     }
 
     /**
@@ -97,6 +97,6 @@ class SubCategoryQuery extends SubCategory
             $subcategorys->onlyTrashed();
         }
 
-        return $subcategorys->sort($request)->paginate($total);
+        return $subcategorys->orderBy('position')->paginate($total);
     }
 }

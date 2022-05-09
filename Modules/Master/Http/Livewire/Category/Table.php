@@ -15,49 +15,6 @@ class Table extends Component
     use WithPagination, DatabaseTable, TableConfig, TableFilterActions;
 
     /**
-     * Define table headers
-     *
-     * @var array
-     */
-    public $headers = [
-        [
-            'cell_name' => 'Nama',
-            'column_name' => 'name',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Slug',
-            'column_name' => 'slug_name',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Tabel Referensi',
-            'column_name' => 'table_reference',
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Posisi',
-            'column_name' => 'position',
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Aksi',
-            'column_name' => null,
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-    ];
-
-    /**
      * Devine props for livewire query string
      *
      * @var mixed
@@ -101,6 +58,17 @@ class Table extends Component
             'table_reference' => $this->table_reference,
             'onlyTrashed' => $this->onlyTrashed,
         ], $this->perPage);
+    }
+
+    /**
+     * Get al table_references
+     * Showing table_references data from database
+     *
+     * @return void
+     */
+    public function getTableReferences()
+    {
+        return (new CategoryQuery())->getTableReferences();
     }
 
     /**
@@ -178,11 +146,22 @@ class Table extends Component
         }
     }
 
+    /**
+     * Handle change tab action
+     *
+     * @param  string $tab
+     * @return void
+     */
+    public function changeTab($tab)
+    {
+        $this->table_reference = $tab;
+    }
+
     public function render()
     {
         return view('master::livewire.category.table', [
             'categories' => $this->getAll(),
-            'tableReferences' => (new CategoryQuery())->getTableReferences(),
+            'tableReferences' => $this->getTableReferences(),
         ]);
     }
 }

@@ -27,7 +27,53 @@ trait TableConfig
         $this->table_reference = request('table_reference');
         $this->search = request('search');
 
-        request()->segment(4) != 'sampah' ? false : $this->onlyTrashed = true;
+        $table_references = $this->getTableReferences()->first();
+        $this->table_reference = $table_references ? $table_references->table_reference : null;
 
+        request()->segment(4) != 'sampah' ? false : $this->onlyTrashed = true;
     }
+
+    /**
+     * Define table headers
+     *
+     * @var array
+     */
+    public $headers = [
+        [
+            'cell_name' => 'Nama',
+            'column_name' => 'name',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Slug',
+            'column_name' => 'slug_name',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Tabel Referensi',
+            'column_name' => 'table_reference',
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Posisi',
+            'column_name' => 'position',
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Aksi',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+    ];
+
 }

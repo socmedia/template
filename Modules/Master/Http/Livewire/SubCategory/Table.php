@@ -15,63 +15,6 @@ class Table extends Component
     use WithPagination, TableConfig, TableFilterActions;
 
     /**
-     * Define table headers
-     *
-     * @var array
-     */
-    public $headers = [
-        [
-            'cell_name' => 'Kategori',
-            'column_name' => 'sub-category.category',
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Nama',
-            'column_name' => 'name',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Slug',
-            'column_name' => 'slug_name',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Induk',
-            'column_name' => 'parent',
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Posisi',
-            'column_name' => 'position',
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Total Child',
-            'column_name' => null,
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Aksi',
-            'column_name' => null,
-            'sortable' => false,
-            'order' => null,
-            'additional_class' => null,
-        ],
-    ];
-
-    /**
      * Devine props for livewire query string
      *
      * @var mixed
@@ -125,6 +68,23 @@ class Table extends Component
         ], $this->perPage);
     }
 
+    /**
+     * Get all categories
+     * Showing Categories data from database
+     *
+     * @return void
+     */
+    public function getCategories()
+    {
+        return Category::all();
+    }
+
+    /**
+     * Show slected sub category
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function show($id)
     {
         $this->childs = (new SubCategoryQuery())->getChilds((object) [
@@ -135,6 +95,11 @@ class Table extends Component
         $this->modalTitle = $sub_category ? $sub_category->name : null;
     }
 
+    /**
+     * Reset modal action
+     *
+     * @return void
+     */
     public function resetModal()
     {
         $this->modalTitle = null;
@@ -214,19 +179,24 @@ class Table extends Component
                 'position' => $item['order'],
             ]);
         }
+    }
 
-        $sub_category = SubCategory::where('name', $this->modalTitle)->first();
-        $this->childs = (new SubCategoryQuery())->getChilds((object) [
-            'parent' => $sub_category ? $sub_category->id : null,
-        ]);
-
+    /**
+     * Handle change tab action
+     *
+     * @param  string $tab
+     * @return void
+     */
+    public function changeTab($tab)
+    {
+        $this->category = $tab;
     }
 
     public function render()
     {
         return view('master::livewire.sub-category.table', [
             'sub_categories' => $this->getAll(),
-            'categories' => Category::all(),
+            'categories' => $this->getCategories(),
         ]);
     }
 }
