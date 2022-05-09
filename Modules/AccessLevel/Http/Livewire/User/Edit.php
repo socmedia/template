@@ -147,7 +147,7 @@ class Edit extends Component
 
         // Check if password is not null
         if ($this->security['password']) {
-            $data['password'] = bcrypt($this->password);
+            $data['password'] = bcrypt($this->security['password']);
         }
 
         // Update user
