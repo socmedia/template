@@ -1,18 +1,16 @@
 <?php
 
-namespace Modules\AppSetting\Http\Livewire\Settings;
+namespace Modules\AppSetting\Http\Livewire\Seo;
 
 use App\Contracts\WithImageUpload;
-use App\Contracts\WithTrix;
 use App\Http\Livewire\ImageUpload;
-use App\Http\Livewire\Trix;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
-use Modules\AppSetting\Services\SettingsQuery;
+use Modules\AppSetting\Entities\AppSetting;
 
 class Edit extends Component
 {
-    use WithImageUpload, WithTrix;
+    use WithImageUpload;
 
     public $setting;
 
@@ -25,7 +23,6 @@ class Edit extends Component
      */
     public $listeners = [
         ImageUpload::EVENT_VALUE_UPDATED,
-        Trix::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -35,12 +32,7 @@ class Edit extends Component
      */
     protected function rules()
     {
-        return [
-            'group' => 'required|max:191',
-            'key' => 'required|max:191|unique:app_settings,key,' . $this->setting->id,
-            'type' => 'required|max:191|in:string,image',
-            'form_type' => 'required|max:191|in:input,textarea,editor',
-        ];
+        return [];
     }
 
     /**
@@ -59,16 +51,6 @@ class Edit extends Component
         $this->oldValue = $setting->type == 'image' ? $setting->value : null;
         $this->type = $setting->type;
         $this->form_type = $setting->form_type;
-    }
-
-    /**
-     * Get all groups from database
-     *
-     * @return void
-     */
-    public function getGroups()
-    {
-        return (new SettingsQuery())->getGroupField();
     }
 
     /**
@@ -95,29 +77,13 @@ class Edit extends Component
         }
 
         // Update image
-        $this->setting->update($data);
-
-        if ($this->value) {
-            $data['value'] = $this->value;
-        }
+        $setting = AppSetting::find($this->setting->id);
+        $setting->update($data);
 
         Cache::forget($this->key);
         Cache::forever($this->key, $this->value);
 
         return session()->flash('success', 'Perubahan berhasil disimpan');
-    }
-
-    /**
-     * Hooks for description property
-     * When trix editor has been updated,
-     * Description property will be update
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function trix_value_updated($value)
-    {
-        $this->value = $value;
     }
 
     /**
@@ -136,14 +102,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('appsetting::livewire.settings.edit', [
-            'groups' => $this->getGroups(),
-            'types' => [
-                'string', 'image',
-            ],
-            'form_types' => [
-                'input', 'textarea', 'editor',
-            ],
-        ]);
+        return view('appsetting::livewire.seo.edit');
     }
 }

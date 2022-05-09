@@ -49,4 +49,44 @@ class SettingsQuery extends AppSetting
 
         return $AppSettings->sort($request)->paginate($total);
     }
+
+    /**
+     * Filter query by group front
+     * Use by calling static method and pass the request on array
+     *
+     * @param  object $request
+     * @param  int $total
+     * @return void
+     */
+    public function filtersFront(object $request, int $total = 10): PaginationPaginator
+    {
+        $AppSettings = AppSetting::query()->where('group', 'like', 'front%');
+
+        // Check if props below is true/not empty
+        if ($request->search) {
+            $AppSettings->search($request);
+        }
+
+        return $AppSettings->sort($request)->paginate($total);
+    }
+
+    /**
+     * Filter query by group seo
+     * Use by calling static method and pass the request on array
+     *
+     * @param  object $request
+     * @param  int $total
+     * @return void
+     */
+    public function filtersSeo(object $request, int $total = 10): PaginationPaginator
+    {
+        $AppSettings = AppSetting::query()->where('group', 'seo');
+
+        // Check if props below is true/not empty
+        if ($request->search) {
+            $AppSettings->search($request);
+        }
+
+        return $AppSettings->sort($request)->paginate($total);
+    }
 }

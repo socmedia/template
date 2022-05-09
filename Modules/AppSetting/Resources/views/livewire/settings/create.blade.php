@@ -34,12 +34,21 @@
                         </div>
 
                         <div class="form-group">
-                            @if ($type == 'string')
+                            @if ($type == 'string' && $form_type != 'editor')
                             <label for="value">Value</label>
                             <textarea class="form-control" name="value" autocomplete="value"
                                 style="height: 100px; resize:none" wire:model.defer="value"></textarea>
+
+                            @elseif ($type == 'string' && $form_type == 'editor')
+
+                            <livewire:trix />
+
                             @elseif ($type == 'image')
-                            <livewire:image-upload :images="$value" :oldImages="$value" height="200px" />
+
+                            <livewire:image-upload :images="$value" :oldImages="$value" height="200px"
+                                rules="required|mimes:jpg,jpeg,png|max:8064"
+                                rulesText="Format: jpg,jpeg,png. Maks: 8064kb." />
+
                             @endif
                             @error('value')
                             <small class="text-danger">{{$message}}</small>
@@ -99,7 +108,7 @@
                             <div class="col-md-4 mb-3 mb-md-0">
                                 <label for="form_type">Jenis Form</label>
                                 <select class="form-select" title="Jenis Form" name="form_type" id="form_type"
-                                    wire:model.defer="form_type">
+                                    wire:model="form_type">
                                     <option value="" disabled selected>Pilih Jenis Form</option>
                                     @foreach ($form_types as $form)
                                     <option value="{{ $form }}">{{ Str::title($form) }} </option>

@@ -48,8 +48,11 @@
                                 @endif
 
                                 @if ($setting->type == 'string')
-                                <p class=" my-2" style="max-width: 200px; white-space: break-spaces;">{{
-                                    $setting->value }}</p>
+                                <p>
+                                <p class=" my-2" style="max-width: 200px; white-space: break-spaces;">
+                                    {!!$setting->value !!}
+                                </p>
+                                </p>
                                 @endif
 
                                 @if (!$setting->value)

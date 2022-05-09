@@ -1,8 +1,7 @@
 <?php
 
-namespace Modules\AppSetting\Http\Livewire\Settings;
+namespace Modules\AppSetting\Http\Livewire\Cms;
 
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\AppSetting\Entities\AppSetting;
@@ -37,20 +36,6 @@ class Table extends Component
         [
             'cell_name' => 'Key - Value',
             'column_name' => 'key',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Type',
-            'column_name' => 'type',
-            'sortable' => true,
-            'order' => null,
-            'additional_class' => null,
-        ],
-        [
-            'cell_name' => 'Form Type',
-            'column_name' => 'form_type',
             'sortable' => true,
             'order' => null,
             'additional_class' => null,
@@ -93,23 +78,22 @@ class Table extends Component
      */
     public function getAllSettings()
     {
-        return (new SettingsQuery())->filters((object) [
-            'group' => $this->group,
+        return (new SettingsQuery())->filtersFront((object) [
             'sort' => $this->sort,
             'order' => $this->order,
             'search' => $this->search,
         ], $this->perPage);
     }
 
-    /**
-     * Get all groups from database
-     *
-     * @return void
-     */
-    public function getGroups()
-    {
-        return (new SettingsQuery())->getGroupField();
-    }
+    // /**
+    //  * Get all groups from database
+    //  *
+    //  * @return void
+    //  */
+    // public function getGroups()
+    // {
+    //     return (new SettingsQuery())->getGroupField();
+    // }
 
     /**
      * Destroy setting from database
@@ -126,8 +110,6 @@ class Table extends Component
             removeFromStorage('images', $shortPath);
         }
 
-        Cache::forget($setting->key);
-
         // delete
         $setting->delete();
         return session()->flash('success', 'Setting berhasil dihapus.');
@@ -135,9 +117,9 @@ class Table extends Component
 
     public function render()
     {
-        return view('appsetting::livewire.settings.table', [
+        return view('appsetting::livewire.cms.table', [
             'settings' => $this->getAllSettings(),
-            'groups' => $this->getGroups(),
+            // 'groups' => $this->getGroups(),
         ]);
     }
 }

@@ -39,3 +39,21 @@ Route::group([
     Route::get('/storage-link', 'ArtisanController@storageLink')->middleware('role:Developer')->name('storageLink');
     Route::get('/key-generate', 'ArtisanController@keyGenerate')->middleware('role:Developer')->name('keyGenerate');
 });
+
+Route::group([
+    'as' => 'adm.cms.',
+    'prefix' => 'admin/cms',
+    'middleware' => ['auth', 'verified'],
+], function () {
+    Route::get('/', 'CmsController@index')->middleware('role:Developer|Admin')->name('index');
+    Route::get('/edit/{id}', 'CmsController@edit')->middleware('role:Developer|Admin')->name('edit');
+});
+
+Route::group([
+    'as' => 'adm.seo.',
+    'prefix' => 'admin/seo',
+    'middleware' => ['auth', 'verified'],
+], function () {
+    Route::get('/', 'SeoController@index')->middleware('role:Developer|Admin')->name('index');
+    Route::get('/edit/{id}', 'SeoController@edit')->middleware('role:Developer|Admin')->name('edit');
+});

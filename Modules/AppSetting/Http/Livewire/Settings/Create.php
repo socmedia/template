@@ -3,16 +3,18 @@
 namespace Modules\AppSetting\Http\Livewire\Settings;
 
 use App\Contracts\WithImageUpload;
+use App\Contracts\WithTrix;
 use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Trix;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Modules\AppSetting\Services\SettingsQuery;
 
 class Create extends Component
 {
-    use WithImageUpload;
+    use WithImageUpload, WithTrix;
 
-    public $group, $key, $value, $type = 'string', $form_type;
+    public $group, $key, $value, $type = 'string', $form_type = 'input';
 
     /**
      * Define event listeners
@@ -21,6 +23,7 @@ class Create extends Component
      */
     public $listeners = [
         ImageUpload::EVENT_VALUE_UPDATED,
+        Trix::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -34,7 +37,7 @@ class Create extends Component
             'group' => 'required|max:191',
             'key' => 'required|max:191|unique:app_settings,key',
             'type' => 'required|max:191|in:string,image',
-            'form_type' => 'required|max:191|in:input,textarea',
+            'form_type' => 'required|max:191|in:input,textarea,editor',
         ];
     }
 
@@ -80,6 +83,19 @@ class Create extends Component
     }
 
     /**
+     * Hooks for description property
+     * When trix editor has been updated,
+     * Description property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function trix_value_updated($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
      * Hooks for value property
      * When image-upload has been updated,
      * Value property will be update
@@ -100,7 +116,7 @@ class Create extends Component
                 'string', 'image',
             ],
             'form_types' => [
-                'input', 'textarea',
+                'input', 'textarea', 'editor',
             ],
         ]);
     }
