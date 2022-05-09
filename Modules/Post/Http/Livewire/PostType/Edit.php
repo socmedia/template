@@ -32,11 +32,12 @@ class Edit extends Component
         $this->type = $type;
         $this->name = $type->name;
         $this->slug_name = $type->slug_name;
+        $typeColumn = json_decode($type->allow_column);
 
-        if (is_array($type->allow_column)) {
+        if (is_array($typeColumn)) {
             foreach (array_keys($columns) as $i => $column) {
-                if ($column == $type->allow_column) {
-                    array_push($this->allowed_column, $i);
+                if (in_array($column, $typeColumn)) {
+                    array_push($this->allowed_column, $column);
                 } else {
                     array_push($this->allowed_column, null);
                 }
@@ -44,7 +45,7 @@ class Edit extends Component
         } else {
             foreach ($columns as $i => $column) {
                 if ($column == 'required') {
-                    array_push($this->allowed_column, $i);
+                    array_push($this->allowed_column, $column);
                 } else {
                     array_push($this->allowed_column, null);
                 }
@@ -101,7 +102,7 @@ class Edit extends Component
      *
      * @return void
      */
-    public function store()
+    public function update()
     {
         // Validation
         $this->validate();
@@ -125,16 +126,6 @@ class Edit extends Component
         $type->update($data);
 
         Cache::forget('post_types');
-
-        $columns = (new Post())->form;
-
-        foreach ($columns as $i => $column) {
-            if ($column == 'required') {
-                array_push($this->allowed_column, $i);
-            } else {
-                array_push($this->allowed_column, null);
-            }
-        }
 
         $types = PostType::all(['name', 'slug_name']);
         Cache::forever('post_types', $types);

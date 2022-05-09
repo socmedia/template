@@ -12,6 +12,7 @@ use Livewire\Component;
 use Modules\Master\Entities\Category;
 use Modules\Post\Entities\Post;
 use Modules\Post\Entities\PostType;
+use Modules\Post\Services\PostType\PostTypeQuery;
 
 class Create extends Component
 {
@@ -34,6 +35,16 @@ class Create extends Component
         Trix::EVENT_VALUE_UPDATED,
         ImageUpload::EVENT_VALUE_UPDATED,
     ];
+
+    public function mount($slug_type)
+    {
+        if ($slug_type) {
+            $type = (new PostTypeQuery())->findBySlug($slug_type);
+            $this->type = $type ? $type->id : null;
+            $this->allowed_column = json_decode($type->allow_column);
+        }
+
+    }
 
     /**
      * Define validation rules
@@ -190,6 +201,24 @@ class Create extends Component
     }
 
     /**
+     * Get all categories and filter by post type
+     *
+     * @return void
+     */
+    public function getCategories()
+    {
+        $type = PostType::find($this->type);
+
+        if ($this->type) {
+            $categories = Category::where('table_reference', 'like', '%posts.' . $type->slug_name . '%')->get();
+        } else {
+            $categories = Category::where('table_reference', 'like', '%posts%')->get();
+        }
+
+        return $categories;
+    }
+
+    /**
      * Hooks for description property
      * When trix editor has been updated,
      * Description property will be update
@@ -234,8 +263,8 @@ class Create extends Component
     public function render()
     {
         return view('post::livewire.post.create', [
-            'categories' => Category::where('table_reference', 'posts')->get(),
             'types' => PostType::get(['id', 'name']),
+            'categories' => $this->getCategories(),
         ]);
     }
 }

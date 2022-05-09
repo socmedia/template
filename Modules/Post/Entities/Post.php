@@ -50,8 +50,8 @@ class Post extends Model
      * @var array
      */
     protected $with = [
-        'category:id,name',
-        'type:id,name',
+        'category:id,name,slug_name',
+        'type:id,name,slug_name',
         'writer:id,name',
     ];
 

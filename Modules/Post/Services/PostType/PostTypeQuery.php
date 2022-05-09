@@ -7,6 +7,12 @@ use Modules\Post\Entities\PostType;
 
 class PostTypeQuery
 {
+    public function findBySlug($slug)
+    {
+        $type = PostType::where('slug_name', $slug);
+        return $type->first();
+    }
+
     /**
      * Filter query
      * Use by calling static method and pass the request on array

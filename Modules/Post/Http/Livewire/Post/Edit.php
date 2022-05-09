@@ -9,7 +9,7 @@ use App\Http\Livewire\Trix;
 use App\Services\PostService;
 use Livewire\Component;
 use Modules\Master\Entities\Category;
-use Modules\Post\Entities\Post;
+use Modules\Post\Entities\Post as PostEntities;
 use Modules\Post\Entities\PostType;
 
 class Edit extends Component
@@ -51,7 +51,19 @@ class Edit extends Component
         $this->oldThumbnail = $post->thumbnail ?: cache('image_not_found');
 
         $type = PostType::find($post->type_id);
-        $this->allowed_column = json_decode($type->allow_column);
+
+        if ($type) {
+            $this->allowed_column = json_decode($type->allow_column);
+        } else {
+            $columns = (new Post())->form;
+            foreach ($columns as $i => $column) {
+                if ($column == 'required') {
+                    array_push($this->allowed_column, $i);
+                } else {
+                    array_push($this->allowed_column, null);
+                }
+            }
+        }
     }
 
     /**
@@ -189,7 +201,8 @@ class Edit extends Component
             $data['thumbnail'] = $this->thumbnail;
         }
 
-        $this->post->update($data);
+        $post = PostEntities::find($this->post->id);
+        $post->update($data);
 
         session()->flash('success', 'Postingan berhasil diperbarui.');
     }
@@ -217,6 +230,24 @@ class Edit extends Component
     }
 
     /**
+     * Get all categories and filter by post type
+     *
+     * @return void
+     */
+    public function getCategories()
+    {
+        $type = PostType::find($this->type);
+
+        if ($this->type) {
+            $categories = Category::where('table_reference', 'like', '%posts.' . $type->slug_name . '%')->get();
+        } else {
+            $categories = Category::where('table_reference', 'like', '%posts%')->get();
+        }
+
+        return $categories;
+    }
+
+    /**
      * Remove tag from tags property
      * Unset by array index
      *
@@ -235,7 +266,7 @@ class Edit extends Component
     public function render()
     {
         return view('post::livewire.post.edit', [
-            'categories' => Category::where('table_reference', 'posts')->get(),
+            'categories' => $this->getCategories(),
             'types' => PostType::get(['id', 'name']),
         ]);
     }

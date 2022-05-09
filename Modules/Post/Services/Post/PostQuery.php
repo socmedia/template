@@ -58,7 +58,7 @@ class PostQuery
      * Get public blogs
      * Use by calling static method and pass the request on array
      *
-     * @param  object $request
+     * @param  object $request [search, type, tag, category]
      * @param  int $total
      * @return void
      */
@@ -90,6 +90,42 @@ class PostQuery
             ->paginate($total);
     }
 
+    public function getLatestPosts($exceptSlug = null, $type = null, $total = 5)
+    {
+        $posts = Post::with('writer')->published();
+
+        if ($type) {
+            $posts->whereHas('type', function ($query) use ($type) {
+                $query->where('slug_name', $type);
+            });
+        }
+
+        if ($exceptSlug) {
+            $posts->where('slug_title', '!=', $exceptSlug);
+        }
+
+        return $posts->orderBy('created_at')->limit($total)->get();
+
+    }
+
+    public function getRandomPosts($exceptSlug = null, $type = null, $total = 5)
+    {
+        $posts = Post::with('writer')->published();
+
+        if ($type) {
+            $posts->whereHas('type', function ($query) use ($type) {
+                $query->where('slug_name', $type);
+            });
+        }
+
+        if ($exceptSlug) {
+            $posts->where('slug_title', '!=', $exceptSlug);
+        }
+
+        return $posts->inRandomOrder()->limit($total)->get();
+
+    }
+
     /**
      * Show public post
      * Used by calling static metho and pass string slug title
@@ -97,9 +133,12 @@ class PostQuery
      * @param  string $slug_title
      * @return void
      */
-    public function showPublicPost(string $slug_title)
+    public function showPublicPost(string $slug_title, $category)
     {
-        return Post::where('slug_title', $slug_title)
+        return Post::whereHas('type', function ($query) use ($category) {
+            $query->where('slug_name', $category);
+        })
+            ->where('slug_title', $slug_title)
             ->published()
             ->firstOrFail();
     }
