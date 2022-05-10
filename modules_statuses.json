@@ -8,6 +8,6 @@
     "Master": true,
     "Marketing": true,
     "Front": true,
-    "Service": true,
-    "Lead": true
+    "Lead": true,
+    "Documentation": true
 }
