@@ -4,6 +4,7 @@ namespace Modules\Documentation\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
+use Modules\Documentation\Entities\Documentation;
 
 class DocumentationController extends Controller
 {
@@ -30,8 +31,10 @@ class DocumentationController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Documentation $documentation, $id)
     {
-        return view('documentation::documentation.edit');
+        return view('documentation::documentation.edit', [
+            'documentation' => $documentation->where('id', $id)->firstOrFail(),
+        ]);
     }
 }

@@ -22,6 +22,7 @@ class CreateDocumentationsTable extends Migration
             $table->text('content')->nullable();
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

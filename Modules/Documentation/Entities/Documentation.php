@@ -4,10 +4,12 @@ namespace Modules\Documentation\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Documentation\Traits\Filterable;
 
 class Documentation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, Filterable;
 
     /**
      * Declare this table is not auto increment
@@ -49,4 +51,10 @@ class Documentation extends Model
     {
         return $this->belongsTo(Documentation::class, 'parent_id', 'id');
     }
+
+    public function childs()
+    {
+        return $this->hasMany(Documentation::class, 'parent_id', 'id')->orderBy('position', 'asc');
+    }
+
 }

@@ -4,20 +4,84 @@ namespace Modules\Documentation\Traits;
 
 trait Filterable
 {
+
     /**
-     * Handle query to get group by group field in the table
+     * Find specific sub category with trashed sub category
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @param  string $column
+     * @param  string $value
+     * @return void
+     */
+    public function scopeFindWithTrashed($query, $request)
+    {
+        $request = (object) $request;
+        return $query->where($request->column, $request->value)->withTrashed()->first();
+    }
+
+    /**
+     * Handle query to get child by specific parent
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @return void
+     */
+    public function scopeGetChilds($query, $request)
+    {
+        $request = (object) $request;
+        return $query->where('parent_id', $request->parent_id)->orderBy('position');
+    }
+    /**
+     * Handle query to get childs sub categories only
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @return void
+     */
+    public function scopeChildsOnly($query)
+    {
+        return $query->whereNotNull('parent_id');
+    }
+
+    /**
+     * Handle query to get parent sub categories only
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @return void
+     */
+    public function scopeParentsOnly($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
+     * Handle query to get last category position
      *
      * @param  Illuminate\Database\Eloquent\Builder $query
      * @param  object $request
      * @return void
      */
-    public function scopeGroupByGroup($query)
+    public function scopeGetParentLastPosition($query, $request)
     {
-        return $query->select('group')->groupBy('group');
+        $request = (object) $request;
+        return $query->whereNull('parent_id')
+            ->orderBy('position', 'desc');
     }
 
     /**
-     * Handle query to find in the table
+     * Handle query to get child last category position
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @param  object $request
+     * @return void
+     */
+    public function scopeGetChildLastPosition($query, $request)
+    {
+        $request = (object) $request;
+        return $query->where('parent_id', $request->parent)
+            ->orderBy('position', 'desc')->first();
+    }
+
+    /**
+     * Handle query to search category
      *
      * @param  Illuminate\Database\Eloquent\Builder $query
      * @param  object $request
@@ -27,28 +91,13 @@ trait Filterable
     {
         $request = (object) $request;
         return $query->where(function ($query) use ($request) {
-            $query->where('group', 'like', '%' . $request->search . '%')
-                ->orWhere('key', 'like', '%' . $request->search . '%')
-                ->orWhere('value', 'like', '%' . $request->search . '%')
-                ->orWhere('type', 'like', '%' . $request->search . '%');
+            $query->where('page_title', 'like', '%' . $request->search . '%')
+                ->orWhere('slug_page_title', 'like', '%' . $request->search . '%');
         });
     }
 
     /**
-     * Handle query to find in the table
-     *
-     * @param  Illuminate\Database\Eloquent\Builder $query
-     * @param  object $request
-     * @return void
-     */
-    public function scopeGroup($query, $request)
-    {
-        $request = (object) $request;
-        return $query->where('group', $request->group);
-    }
-
-    /**
-     * Handle query to find in the table
+     * Handle query to find category
      *
      * @param  Illuminate\Database\Eloquent\Builder $query
      * @param  object $request

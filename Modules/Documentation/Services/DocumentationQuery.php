@@ -5,24 +5,70 @@ namespace Modules\Documentation\Services;
 use Illuminate\Contracts\Pagination\Paginator as PaginationPaginator;
 use Modules\Documentation\Entities\Documentation;
 
-class SettingsQuery extends Documentation
+class DocumentationQuery extends Documentation
 {
     /**
-     * Get group column
+     * Find specific documentation with trashed documentation
      *
-     * @param  int $total
-     * @param  boolean $paginated
+     * @param  string $column
+     * @param  string $value
      * @return void
      */
-    public function getGroupField(?int $total = 10, $paginated = false)
+    public function findWithTrashed($column, $value)
     {
-        $Documentations = Documentation::query()->groupByGroup()->orderBy('group');
+        $documentation = Documentation::query();
 
-        if ($paginated) {
-            return $Documentations->paginate($total);
-        }
+        return $documentation->findWithTrashed((object) [
+            'column' => $column,
+            'value' => $value,
+        ]);
+    }
 
-        return $Documentations->get();
+    /**
+     * Query to get parent sub categories only
+     *
+     * @return void
+     */
+    public function getParents()
+    {
+        $docs = Documentation::query();
+        return $docs->parentsOnly()->get();
+    }
+
+    /**
+     * Query to get childs from specific parent only
+     *
+     * @param  object $request
+     * @return void
+     */
+    public function getChilds($request)
+    {
+        $docs = Documentation::query();
+        return $docs->getChilds($request)->get();
+    }
+
+    /**
+     * Get last position by specific category
+     *
+     * @param  string $tableReference
+     * @return void
+     */
+    public function getParentLastPosition(object $request)
+    {
+        $docs = Documentation::query();
+        return $docs->getParentLastPosition($request)->first();
+    }
+
+    /**
+     * Get last position by specific parent
+     *
+     * @param  string $tableReference
+     * @return void
+     */
+    public function getChildLastPosition(object $request)
+    {
+        $docs = Documentation::query();
+        return $docs->getChildLastPosition($request)->first();
     }
 
     /**
@@ -35,58 +81,16 @@ class SettingsQuery extends Documentation
      */
     public function filters(object $request, int $total = 10): PaginationPaginator
     {
-        $Documentations = Documentation::query();
+        $documentations = Documentation::query()->whereNull('parent_id');
 
-        // Check if props below is true/not empty
-        if ($request->group) {
-            $Documentations->group($request);
-        }
-
-        // Check if props below is true/not empty
         if ($request->search) {
-            $Documentations->search($request);
+            $documentations->search($request);
         }
 
-        return $Documentations->sort($request)->paginate($total);
-    }
-
-    /**
-     * Filter query by group front
-     * Use by calling static method and pass the request on array
-     *
-     * @param  object $request
-     * @param  int $total
-     * @return void
-     */
-    public function filtersFront(object $request, int $total = 10): PaginationPaginator
-    {
-        $Documentations = Documentation::query()->where('group', 'like', 'front%');
-
-        // Check if props below is true/not empty
-        if ($request->search) {
-            $Documentations->search($request);
+        if ($request->onlyTrashed) {
+            $documentations->onlyTrashed();
         }
 
-        return $Documentations->sort($request)->paginate($total);
-    }
-
-    /**
-     * Filter query by group seo
-     * Use by calling static method and pass the request on array
-     *
-     * @param  object $request
-     * @param  int $total
-     * @return void
-     */
-    public function filtersSeo(object $request, int $total = 10): PaginationPaginator
-    {
-        $Documentations = Documentation::query()->where('group', 'seo');
-
-        // Check if props below is true/not empty
-        if ($request->search) {
-            $Documentations->search($request);
-        }
-
-        return $Documentations->sort($request)->paginate($total);
+        return $documentations->orderBy('position')->paginate($total);
     }
 }

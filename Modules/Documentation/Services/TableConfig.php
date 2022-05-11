@@ -25,5 +25,50 @@ trait TableConfig
         $this->sort = request('sort') ?: 'created_at';
         $this->order = request('order') ?: 'desc';
         $this->search = request('search');
+
+        request()->segment(4) != 'sampah' ? false : $this->onlyTrashed = true;
     }
+
+    /**
+     * Define table headers
+     *
+     * @var array
+     */
+    public $headers = [
+        [
+            'cell_name' => 'Nama',
+            'column_name' => 'name',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Slug',
+            'column_name' => 'slug_name',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Posisi',
+            'column_name' => 'position',
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Total Child',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
+            'cell_name' => 'Aksi',
+            'column_name' => null,
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+    ];
 }
