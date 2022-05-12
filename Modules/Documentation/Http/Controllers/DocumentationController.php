@@ -14,7 +14,9 @@ class DocumentationController extends Controller
      */
     public function index()
     {
-        return view('documentation::documentation.index');
+        return view('documentation::documentation.index', [
+            'countTrash' => numberShortner(Documentation::onlyTrashed()->count()),
+        ]);
     }
 
     /**
@@ -37,4 +39,15 @@ class DocumentationController extends Controller
             'documentation' => $documentation->where('id', $id)->firstOrFail(),
         ]);
     }
+
+    /**
+     * Show trashed documentation from database
+     *
+     * @return void
+     */
+    public function trash()
+    {
+        return view('documentation::documentation.trash');
+    }
+
 }

@@ -19,5 +19,6 @@ Route::group([
     Route::get('/', 'DocumentationController@index')->name('index');
     Route::get('/tambah', 'DocumentationController@create')->name('create');
     Route::get('/edit/{id}', 'DocumentationController@edit')->name('edit');
+    Route::get('/sampah', 'DocumentationController@trash')->name('trash');
     // Route::get('/download/{type}', 'DocumentationController@download')->name('download');
 });

@@ -10,94 +10,89 @@
     <h6 class="text-uppercase text-secondary">Daftar Dokumentasi</h6>
     <hr>
 
-    <div class="row">
-        <div class="col-md-12">
-            <x-table.with-filter :pagination="true" sortable="updateOrder" sortableGroup="documentation">
+    <x-table.with-filter :pagination="true" sortable="updateOrder" sortableGroup="documentation">
 
-                <x-slot name="table_headers">
-                    @foreach ($headers as $header)
-                        <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                            sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                            wire:click="sort('{{ $header['column_name'] }}')" />
-                    @endforeach
-                </x-slot>
+        <x-slot name="table_headers">
+            @foreach ($headers as $header)
+                <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
+                    sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                    wire:click="sort('{{ $header['column_name'] }}')" />
+            @endforeach
+        </x-slot>
 
-                <x-slot name="table_body">
+        <x-slot name="table_body">
 
-                    @forelse ($documentations as $documentation)
-                        <x-table.row wire:key="{{ $documentation->id }}"
-                            wire:sortable.item="{{ $documentation->id }}">
+            @forelse ($documentations as $documentation)
+                <x-table.row wire:key="{{ $documentation->id }}" wire:sortable.item="{{ $documentation->id }}">
 
-                            <x-table.cell :cell="$documentation->page_title" wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                class="cursor-grab" />
+                    <x-table.cell :cell="$documentation->page_title" wire:sortable.handle title="Tahan untuk memindahkan posisi"
+                        class="cursor-grab" />
 
-                            <x-table.cell :cell="$documentation->slug_page_title" wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                class="cursor-grab" />
+                    <x-table.cell :cell="$documentation->slug_page_title" wire:sortable.handle title="Tahan untuk memindahkan posisi"
+                        class="cursor-grab" />
 
-                            <x-table.cell :cell="$documentation->position" />
-                            <x-table.cell>
-                                <x-modal.button class="btn btn-link btn-sm shadow-none"
-                                    wire:click="show('{{ $documentation->id }}')">
-                                    {{ $documentation->childs->count() . ' Buah' }}
-                                </x-modal.button>
-                            </x-table.cell>
-                            <x-table.cell>
-                                <div class="btn-group" role="group">
-                                    <x-action-button href="{{ route('adm.docs.edit', $documentation->id) }}">
-                                        <i class="bx bx-pencil"></i>
-                                    </x-action-button>
-                                    <div class="btn-group" role="group">
-                                        <button id="dropdown" type="button" class="btn btn-light btn-sm"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bx bx-trash"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                    <x-table.cell :cell="$documentation->position" />
+                    <x-table.cell>
+                        <x-modal.button class="btn btn-link btn-sm shadow-none"
+                            wire:click="show('{{ $documentation->id }}')">
+                            {{ $documentation->childs->count() . ' Buah' }}
+                        </x-modal.button>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <div class="btn-group" role="group">
+                            <x-action-button href="{{ route('adm.docs.edit', $documentation->id) }}">
+                                <i class="bx bx-pencil"></i>
+                            </x-action-button>
+                            <div class="btn-group" role="group">
+                                <button id="dropdown" type="button" class="btn btn-light btn-sm"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown">
 
-                                            @if ($onlyTrashed)
-                                                <li>
-                                                    <a href="javascript:void(0)" class="dropdown-item"
-                                                        wire:click="restore('{{ $documentation->id }}')">
-                                                        Pulihkan
-                                                    </a>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="javascript:void(0)" class="dropdown-item"
-                                                        wire:click="trash('{{ $documentation->id }}')">
-                                                        Sampah
-                                                    </a>
-                                                </li>
-                                            @endif
+                                    @if ($onlyTrashed)
+                                        <li>
+                                            <a href="javascript:void(0)" class="dropdown-item"
+                                                wire:click="restore('{{ $documentation->id }}')">
+                                                Pulihkan
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="javascript:void(0)" class="dropdown-item"
+                                                wire:click="trash('{{ $documentation->id }}')">
+                                                Sampah
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                            <li>
-                                                <a href="javascript:void(0)" class="dropdown-item"
-                                                    data-bs-toggle="modal" data-bs-target="#remove-modal"
-                                                    wire:click="$set('destroyId','{{ $documentation->id }}')">
-                                                    Hapus Permanen
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </x-table.cell>
-                        </x-table.row>
-                    @empty
-                        <x-table.row>
-                            <x-table.cell class="text-center" colspan="{{ count($headers) }}">
-                                Data tidak ditemukan.
-                            </x-table.cell>
-                        </x-table.row>
-                    @endforelse
+                                    <li>
+                                        <a href="javascript:void(0)" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#remove-modal"
+                                            wire:click="$set('destroyId','{{ $documentation->id }}')">
+                                            Hapus Permanen
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </x-table.cell>
+                </x-table.row>
+            @empty
+                <x-table.row>
+                    <x-table.cell class="text-center" colspan="{{ count($headers) }}">
+                        Data tidak ditemukan.
+                    </x-table.cell>
+                </x-table.row>
+            @endforelse
 
-                </x-slot>
+        </x-slot>
 
-                <x-slot name="pagination">
-                    <x-pagination :table="$documentations" />
-                </x-slot>
+        <x-slot name="pagination">
+            <x-pagination :table="$documentations" />
+        </x-slot>
 
-            </x-table.with-filter>
-        </div>
-    </div>
+    </x-table.with-filter>
 
     <x-modal modalTitle="{{ $modalTitle }}">
         <x-slot name="close">
