@@ -35,6 +35,13 @@ class Table extends Component
             'additional_class' => null,
         ],
         [
+            'cell_name' => 'Alias',
+            'column_name' => 'alias',
+            'sortable' => true,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
             'cell_name' => 'Key - Value',
             'column_name' => 'key',
             'sortable' => true,

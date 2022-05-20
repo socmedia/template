@@ -1,10 +1,10 @@
 <div>
     @if (session()->has('success'))
-    <x-alert state="primary" color="white" title="Sukses !" :message="session('success')" />
+        <x-alert state="primary" color="white" title="Sukses !" :message="session('success')" />
     @endif
 
     @if (session()->has('failed'))
-    <x-alert state="warning" color="white" title="Upsss..." :message="session('failed')" />
+        <x-alert state="warning" color="white" title="Upsss..." :message="session('failed')" />
     @endif
 
     <h6 class="text-uppercase text-secondary">Daftar Setting</h6>
@@ -14,9 +14,9 @@
 
         <x-slot name="table_headers">
             @foreach ($headers as $header)
-            <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                wire:click="sort('{{ $header['column_name'] }}')" />
+                <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
+                              sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                              wire:click="sort('{{ $header['column_name'] }}')" />
             @endforeach
         </x-slot>
 
@@ -25,9 +25,9 @@
                 <select class="form-control text-capitalize" wire:model.defer="group">
                     <option value="">Semua Group</option>
                     @foreach ($groups as $group)
-                    <option class="text-capitalize" value="{{ $group->group }}">
-                        {{ Str::title(unslug($group->group)) }}
-                    </option>
+                        <option class="text-capitalize" value="{{ $group->group }}">
+                            {{ Str::title(unslug($group->group)) }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -35,49 +35,49 @@
 
         <x-slot name="table_body">
             @forelse ($settings as $setting)
-            <x-table.row>
-                <x-table.cell :cell="$setting->group" />
-                <x-table.cell>
-                    <details>
-                        <summary>{{$setting->key}}</summary>
-
-                        <div class="card bg-transparent border shadow-none">
+                <x-table.row>
+                    <x-table.cell :cell="$setting->group" />
+                    <x-table.cell :cell="$setting->alias" />
+                    <x-table.cell width="60%">
+                        <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#seo-{{ $loop->iteration }}" aria-expanded="false"
+                                aria-controls="seo-{{ $loop->iteration }}">
+                            {{ title(unslug($setting->key)) }}
+                        </button>
+                        <div class="collapse" id="seo-{{ $loop->iteration }}">
                             <div class="card-body">
                                 @if ($setting->type == 'image' && $setting->value)
-                                <img src="{{ url($setting->value) }}" style="height: 80px" alt="">
+                                    <img src="{{ url($setting->value) }}" style="height: 80px" alt="">
                                 @endif
 
                                 @if ($setting->type == 'string')
-                                <p>
-                                <p class=" my-2" style="max-width: 200px; white-space: break-spaces;">
-                                    {!!$setting->value !!}
-                                </p>
-                                </p>
+                                    <p class="m-0" style="max-width: 100%; white-space: normal;">
+                                        {!! $setting->value !!}
+                                    </p>
                                 @endif
 
                                 @if (!$setting->value)
-                                <p class="my-2">-</p>
+                                    <p class="m-0">-</p>
                                 @endif
                             </div>
                         </div>
-                    </details>
-                </x-table.cell>
-                <x-table.cell :cell="$setting->type" />
-                <x-table.cell :cell="$setting->form_type" />
-                <x-table.cell>
-                    <div class="btn-group" role="group">
-                        <x-action-button href="{{ route('adm.settings.edit', $setting->id) }}">
-                            <i class="bx bx-pencil"></i>
-                        </x-action-button>
-                        <x-remove.button wire:click="$set('destroyId',{{$setting->id}})" />
-                    </div>
-                </x-table.cell>
-            </x-table.row>
+                    </x-table.cell>
+                    <x-table.cell :cell="$setting->type" />
+                    <x-table.cell :cell="$setting->form_type" />
+                    <x-table.cell>
+                        <div class="btn-group" role="group">
+                            <x-action-button href="{{ route('adm.settings.edit', $setting->id) }}">
+                                <i class="bx bx-pencil"></i>
+                            </x-action-button>
+                            <x-remove.button wire:click="$set('destroyId',{{ $setting->id }})" />
+                        </div>
+                    </x-table.cell>
+                </x-table.row>
 
             @empty
-            <x-table.row>
-                <x-table.cell class="text-center" colspan="9">Data tidak ditemukan.</x-table.cell>
-            </x-table.row>
+                <x-table.row>
+                    <x-table.cell class="text-center" colspan="9">Data tidak ditemukan.</x-table.cell>
+                </x-table.row>
             @endforelse
         </x-slot>
 

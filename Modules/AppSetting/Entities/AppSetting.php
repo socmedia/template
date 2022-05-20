@@ -24,6 +24,7 @@ class AppSetting extends Model
     protected $fillable = [
         'group',
         'key',
+        'alias',
         'value',
         'type',
         'form_type',

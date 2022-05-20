@@ -16,6 +16,7 @@ class CreateAppSettingsTable extends Migration
         Schema::create('app_settings', function (Blueprint $table) {
             $table->id();
             $table->string('group');
+            $table->string('alias')->nullable();
             $table->string('key');
             $table->text('value')->nullable();
             $table->timestamps();

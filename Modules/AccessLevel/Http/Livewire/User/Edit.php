@@ -129,9 +129,6 @@ class Edit extends Component
 
         $this->validate($rules, [], $attributes);
 
-        // Get user avatar by initial
-        $img = Http::get('https://ui-avatars.com/api/?format=png&name=' . $this->personal['name'] . '&background=f1f1f1&color=636363');
-
         // User data
         $data = [
             'name' => $this->personal['name'],
@@ -141,7 +138,6 @@ class Edit extends Component
             'date_of_birth' => $this->personal['date_of_birth'],
             'address' => $this->personal['address'],
             'phone' => phone($this->account['phone']),
-            'avatar_url' => 'data:image/png;base64,' . base64_encode($img),
             'email_verified_at' => $this->account['verified'] ? now()->toDateTimeString() : null,
         ];
 
