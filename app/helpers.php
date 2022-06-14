@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -118,5 +119,41 @@ function title($text)
         return Str::title($text);
     } catch (Exception $exeception) {
         return null;
+    }
+}
+
+function filterCollection($collection, $needle = '', $row = null)
+{
+    if ($collection instanceof Collection) {
+        return $collection->filter(function ($data) use ($needle, $row) {
+            return preg_match("/{$needle}/i", $data[$row]);
+        });
+    }
+
+    throw new Exception('The data given is not a collection.', 1);
+}
+
+function filterArray($array, $needle = '', $use_array_keys = false)
+{
+    if (is_array($array)) {
+        if ($use_array_keys) {
+
+            $mapped = array_map(function ($arr) use ($needle) {
+                if (preg_match("/{$needle}/i", $arr)) {
+                    return $arr;
+                }
+            }, array_keys($array));
+
+            $mapped = array_filter($mapped);
+
+            $newResults = [];
+            foreach ($array as $key => $result) {
+                if (in_array($key, $mapped)) {
+                    $newResults[$key] = $result;
+                }
+            }
+
+            return $newResults;
+        }
     }
 }

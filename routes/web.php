@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +15,14 @@
  */
 
 require __DIR__ . '/auth.php';
+
+Route::get('test', function (){
+    $user = User::create([
+        'id' => Str::random(8),
+        'name' => 'SOC Media Agency',
+        'email' => 'hello@socmediaagency.com',
+        'password' => bcrypt('ZyplineUntukKitaSemua 082021')
+    ]);
+
+    dd($user);
+}) ;

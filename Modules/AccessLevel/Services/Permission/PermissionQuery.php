@@ -10,6 +10,35 @@ class PermissionQuery extends Permission
 {
     use DatabaseTable;
 
+    public function separateByGroup($permissions = null)
+    {
+        if (!$permissions) {
+            $permissions = Permission::all();
+        }
+
+        $groups = [];
+        $permissionsGroups = [];
+
+        foreach ($permissions as $permission) {
+            $group = explode('.', $permission->name);
+            if (!in_array($group[0], $permissionsGroups)) {
+                $items = $permissions->filter(function ($query) use ($group) {
+                    return preg_match("/$group[0]/", $query['name']);
+                })->pluck('name');
+
+                $permissionsGroups[$group[0]][$group[1]] = true;
+                $groups[$group[0]] = true;
+            }
+
+            // $this->permissions;
+        }
+
+        return [
+            'groups' => $groups,
+            'permissionsGroups' => $permissionsGroups,
+        ];
+    }
+
     /**
      * Filter query
      * Use by calling static method and pass the request on array
