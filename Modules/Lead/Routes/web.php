@@ -16,5 +16,5 @@ Route::group([
     'prefix' => 'admin/lead',
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
-    Route::get('/', 'LeadController@index')->name('index');
+    Route::get('/', 'LeadController@index')->middleware(['can:lead.access'])->name('index');
 });

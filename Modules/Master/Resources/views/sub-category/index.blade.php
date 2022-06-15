@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends('layouts.master')
 
 @section('wrapper')
     <div class="page-wrapper">
@@ -11,8 +11,12 @@
 
                 <x-slot name="button">
                     <div class="btn-group">
-                        <x-button.create text="Sub Kategori" href="{{ route('adm.master.sub-category.create') }}" />
-                        <x-button.trash href="{{ route('adm.master.sub-category.trash') }}" :totalTrash="$countTrash" />
+                        @can('sub-category.create')
+                            <x-button.create text="Sub Kategori" href="{{ route('adm.master.sub-category.create') }}" />
+                        @endcan
+                        @can('sub-category.delete')
+                            <x-button.trash href="{{ route('adm.master.sub-category.trash') }}" :totalTrash="$countTrash" />
+                        @endcan
                     </div>
                 </x-slot>
             </x-breadcrumb>

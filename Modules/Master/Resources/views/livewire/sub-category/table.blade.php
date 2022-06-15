@@ -15,9 +15,9 @@
             <div class="list-group">
                 @foreach ($categories as $item)
                     <div
-                         class="list-group-item text-capitalize {{ $category == $item->slug_name ? 'bg-dark text-white' : null }}">
+                        class="list-group-item text-capitalize {{ $category == $item->slug_name ? 'bg-dark text-white' : null }}">
                         <a class="{{ $category == $item->slug_name ? 'text-white' : 'text-dark' }}"
-                           href="javascript:void(0)" wire:click="changeTab('{{ $item->slug_name }}')">
+                            href="javascript:void(0)" wire:click="changeTab('{{ $item->slug_name }}')">
                             {{ $item->name }}
                         </a>
                     </div>
@@ -31,8 +31,8 @@
                 <x-slot name="table_headers">
                     @foreach ($headers as $header)
                         <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                                      sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                                      wire:click="sort('{{ $header['column_name'] }}')" />
+                            sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                            wire:click="sort('{{ $header['column_name'] }}')" />
                     @endforeach
                 </x-slot>
 
@@ -51,10 +51,10 @@
 
                     @forelse ($sub_categories as $sub_category)
                         <x-table.row wire:key="{{ $sub_category->id }}"
-                                     wire:sortable.item="{{ $sub_category->id }}">
+                            wire:sortable.item="{{ $sub_category->id }}">
 
                             <x-table.cell wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                          class="cursor-grab">
+                                class="cursor-grab">
                                 @if ($sub_category->with_icon)
                                     <span class="me-1 px-2">
                                         <i class="{{ $sub_category->icon_class }}"></i>
@@ -64,60 +64,64 @@
                                 @if ($sub_category->with_image)
                                     <span class="me-1">
                                         <img src="{{ $sub_category->media_path }}"
-                                             style="width: 100%; max-width: 30px" alt="">
+                                            style="width: 100%; max-width: 30px" alt="">
                                     </span>
                                 @endif
                                 {{ $sub_category->name }}
                             </x-table.cell>
 
                             <x-table.cell :cell="$sub_category->slug_name" wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                          class="cursor-grab" />
+                                class="cursor-grab" />
 
                             <x-table.cell :cell="$sub_category->position" />
                             <x-table.cell>
                                 <x-modal.button class="btn btn-link btn-sm shadow-none"
-                                                wire:click="show('{{ $sub_category->id }}')">
+                                    wire:click="show('{{ $sub_category->id }}')">
                                     {{ $sub_category->childs->count() . ' Buah' }}
                                 </x-modal.button>
                             </x-table.cell>
                             <x-table.cell>
                                 <div class="btn-group" role="group">
-                                    <x-action-button
-                                                     href="{{ route('adm.master.sub-category.edit', $sub_category->id) }}">
-                                        <i class="bx bx-pencil"></i>
-                                    </x-action-button>
-                                    <div class="btn-group" role="group">
-                                        <button id="dropdown" type="button" class="btn btn-light btn-sm"
+                                    @can('sub-category.edit')
+                                        <x-action-button
+                                            href="{{ route('adm.master.sub-category.edit', $sub_category->id) }}">
+                                            <i class="bx bx-pencil"></i>
+                                        </x-action-button>
+                                    @endcan
+                                    @can('sub-category.delete')
+                                        <div class="btn-group" role="group">
+                                            <button id="dropdown" type="button" class="btn btn-light btn-sm"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bx bx-trash"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdown">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdown">
 
-                                            @if ($onlyTrashed)
+                                                @if ($onlyTrashed)
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="dropdown-item"
+                                                            wire:click="restore('{{ $sub_category->id }}')">
+                                                            Pulihkan
+                                                        </a>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="dropdown-item"
+                                                            wire:click="trash('{{ $sub_category->id }}')">
+                                                            Sampah
+                                                        </a>
+                                                    </li>
+                                                @endif
+
                                                 <li>
                                                     <a href="javascript:void(0)" class="dropdown-item"
-                                                       wire:click="restore('{{ $sub_category->id }}')">
-                                                        Pulihkan
+                                                        data-bs-toggle="modal" data-bs-target="#remove-modal"
+                                                        wire:click="$set('destroyId','{{ $sub_category->id }}')">
+                                                        Hapus Permanen
                                                     </a>
                                                 </li>
-                                            @else
-                                                <li>
-                                                    <a href="javascript:void(0)" class="dropdown-item"
-                                                       wire:click="trash('{{ $sub_category->id }}')">
-                                                        Sampah
-                                                    </a>
-                                                </li>
-                                            @endif
-
-                                            <li>
-                                                <a href="javascript:void(0)" class="dropdown-item"
-                                                   data-bs-toggle="modal" data-bs-target="#remove-modal"
-                                                   wire:click="$set('destroyId','{{ $sub_category->id }}')">
-                                                    Hapus Permanen
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            </ul>
+                                        </div>
+                                    @endcan
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -152,7 +156,7 @@
                             wire:sortable.item="child-{{ $child->id }}">
                             <div class="row">
                                 <div class="col text-start cursor-grab" wire:sortable.handle
-                                     title="Tahan untuk memindahkan posisi">
+                                    title="Tahan untuk memindahkan posisi">
 
                                     <div class="d-flex">
                                         <div class="align-self-center">
@@ -165,7 +169,7 @@
                                             @if ($child->with_image)
                                                 <span class="me-1">
                                                     <img src="{{ $child->media_path }}"
-                                                         style="width: 100%; max-width: 30px" alt="">
+                                                        style="width: 100%; max-width: 30px" alt="">
                                                 </span>
                                             @endif
                                         </div>
@@ -181,12 +185,12 @@
                                 <div class="col align-self-center text-end">
                                     <div class="btn-group" role="group">
                                         <x-action-button
-                                                         href="{{ route('adm.master.sub-category.edit', $child->id) }}">
+                                            href="{{ route('adm.master.sub-category.edit', $child->id) }}">
                                             <i class="bx bx-pencil fs-6"></i>
                                         </x-action-button>
                                         <div class="btn-group" role="group">
                                             <button id="dropdown" type="button" class="btn btn-light btn-sm"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bx bx-trash fs-6"></i>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdown">
@@ -194,14 +198,14 @@
                                                 @if ($onlyTrashed)
                                                     <li>
                                                         <a href="javascript:void(0)" class="dropdown-item"
-                                                           wire:click="restore('{{ $child->id }}')">
+                                                            wire:click="restore('{{ $child->id }}')">
                                                             Pulihkan
                                                         </a>
                                                     </li>
                                                 @else
                                                     <li>
                                                         <a href="javascript:void(0)" class="dropdown-item"
-                                                           wire:click="trash('{{ $child->id }}')">
+                                                            wire:click="trash('{{ $child->id }}')">
                                                             Sampah
                                                         </a>
                                                     </li>
@@ -209,8 +213,8 @@
 
                                                 <li>
                                                     <a href="javascript:void(0)" class="dropdown-item"
-                                                       data-bs-toggle="modal" data-bs-target="#remove-modal"
-                                                       wire:click="$set('destroyId','{{ $child->id }}')">
+                                                        data-bs-toggle="modal" data-bs-target="#remove-modal"
+                                                        wire:click="$set('destroyId','{{ $child->id }}')">
                                                         Hapus Permanen
                                                     </a>
                                                 </li>

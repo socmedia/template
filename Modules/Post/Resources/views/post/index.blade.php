@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends('layouts.master')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/app/css/additional.css') }}">
@@ -15,14 +15,16 @@
 
                 <x-slot name="button">
                     <div class="btn-group">
-                        @if (request('type'))
-                            <x-button.create text="Postingan"
-                                             href="{{ route('adm.post.create', [
-                                                 'type' => request('type'),
-                                             ]) }}" />
-                        @else
-                            <x-button.create text="Postingan" href="{{ route('adm.post.create') }}" />
-                        @endif
+                        @can('post.create')
+                            @if (request('type'))
+                                <x-button.create text="Postingan"
+                                    href="{{ route('adm.post.create', [
+                                        'type' => request('type'),
+                                    ]) }}" />
+                            @else
+                                <x-button.create text="Postingan" href="{{ route('adm.post.create') }}" />
+                            @endif
+                        @endcan
                     </div>
                 </x-slot>
             </x-breadcrumb>

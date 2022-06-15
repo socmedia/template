@@ -16,9 +16,9 @@ Route::group([
     'prefix' => 'admin/postingan',
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
-    Route::get('/', 'PostController@index')->name('index');
-    Route::get('/tambah', 'PostController@create')->name('create');
-    Route::get('/edit/{id}', 'PostController@edit')->name('edit');
+    Route::get('/', 'PostController@index')->middleware(['can:post.index'])->name('index');
+    Route::get('/tambah', 'PostController@create')->middleware(['can:post.create'])->name('create');
+    Route::get('/edit/{id}', 'PostController@edit')->middleware(['can:post.edit'])->name('edit');
 });
 
 Route::group([
@@ -26,7 +26,7 @@ Route::group([
     'prefix' => 'admin/post-type',
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
-    Route::get('/', 'PostTypeController@index')->name('index');
-    Route::get('/tambah', 'PostTypeController@create')->name('create');
-    Route::get('/edit/{id}', 'PostTypeController@edit')->name('edit');
+    Route::get('/', 'PostTypeController@index')->middleware(['can:post-type.access'])->name('index');
+    Route::get('/tambah', 'PostTypeController@create')->middleware(['can:post-type.create'])->name('create');
+    Route::get('/edit/{id}', 'PostTypeController@edit')->middleware(['can:post-type.edit'])->name('edit');
 });

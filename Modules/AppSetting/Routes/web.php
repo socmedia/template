@@ -45,8 +45,8 @@ Route::group([
     'prefix' => 'admin/cms',
     'middleware' => ['auth', 'verified'],
 ], function () {
-    Route::get('/', 'CmsController@index')->middleware('role:Developer|Admin')->name('index');
-    Route::get('/edit/{id}', 'CmsController@edit')->middleware('role:Developer|Admin')->name('edit');
+    Route::get('/', 'CmsController@index')->middleware(['can:cms.access'])->name('index');
+    Route::get('/edit/{id}', 'CmsController@edit')->middleware(['can:cms.edit'])->name('edit');
 });
 
 Route::group([
@@ -54,6 +54,6 @@ Route::group([
     'prefix' => 'admin/seo',
     'middleware' => ['auth', 'verified'],
 ], function () {
-    Route::get('/', 'SeoController@index')->middleware('role:Developer|Admin')->name('index');
-    Route::get('/edit/{id}', 'SeoController@edit')->middleware('role:Developer|Admin')->name('edit');
+    Route::get('/', 'SeoController@index')->middleware(['can:seo.access'])->name('index');
+    Route::get('/edit/{id}', 'SeoController@edit')->middleware(['can:seo.edit'])->name('edit');
 });
