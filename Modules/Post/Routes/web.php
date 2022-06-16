@@ -16,7 +16,7 @@ Route::group([
     'prefix' => 'admin/postingan',
     'middleware' => ['auth', 'verified', 'role:Developer|Admin'],
 ], function () {
-    Route::get('/', 'PostController@index')->middleware(['can:post.index'])->name('index');
+    Route::get('/', 'PostController@index')->middleware(['can:post.access'])->name('index');
     Route::get('/tambah', 'PostController@create')->middleware(['can:post.create'])->name('create');
     Route::get('/edit/{id}', 'PostController@edit')->middleware(['can:post.edit'])->name('edit');
 });
