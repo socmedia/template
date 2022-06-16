@@ -47,17 +47,27 @@ class Edit extends Component
             $groups = [];
             $permissionsGroups = [];
             foreach ($separateByGroup['permissionsGroups'] as $key => $permissions) {
-                if (count($permissions) == count($rolePermissions['permissionsGroups'][$key])) {
-                    $groups[$key] = true;
+                if (array_key_exists($key, $rolePermissions['permissionsGroups'])) {
+                    if (count($permissions) == count($rolePermissions['permissionsGroups'][$key])) {
+                        $groups[$key] = true;
+
+                    } else {
+                        $groups[$key] = false;
+                    }
                 } else {
                     $groups[$key] = false;
                 }
 
                 foreach ($permissions as $permissionKey => $permission) {
-                    if (array_key_exists($permissionKey, $rolePermissions['permissionsGroups'][$key])) {
-                        $permissionsGroups[$key][$permissionKey] = true;
+                    if (array_key_exists($key, $rolePermissions['permissionsGroups'])) {
+                        if (array_key_exists($permissionKey, $rolePermissions['permissionsGroups'][$key])) {
+                            $permissionsGroups[$key][$permissionKey] = true;
+                        } else {
+                            $permissionsGroups[$key][$permissionKey] = false;
+                        }
                     } else {
                         $permissionsGroups[$key][$permissionKey] = false;
+
                     }
                 }
             }

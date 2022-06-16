@@ -3,8 +3,10 @@
 namespace Modules\Post\Http\Livewire\Post;
 
 use App\Contracts\WithImageUpload;
+use App\Contracts\WithTagify;
 use App\Contracts\WithTrix;
 use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Tagify;
 use App\Http\Livewire\Trix;
 use App\Services\PostService;
 use Illuminate\Support\Str;
@@ -16,15 +18,15 @@ use Modules\Post\Services\PostType\PostTypeQuery;
 
 class Create extends Component
 {
-    use WithTrix, WithImageUpload;
+    use WithTrix, WithImageUpload, WithTagify;
 
     /**
      * Define form props
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags = [], $publish = 1, $allowed_column = [],
-    $tagsInString, $tag, $title, $slug_title, $subject, $description;
+    public $thumbnail, $category, $type, $tags, $publish = 1, $allowed_column = [],
+    $title, $slug_title, $subject, $description;
 
     /**
      * Define event listeners
@@ -34,6 +36,7 @@ class Create extends Component
     public $listeners = [
         Trix::EVENT_VALUE_UPDATED,
         ImageUpload::EVENT_VALUE_UPDATED,
+        Tagify::EVENT_VALUE_UPDATED,
     ];
 
     public function mount($slug_type)
@@ -88,6 +91,9 @@ class Create extends Component
      */
     public function updatedTitle($value)
     {
+
+        $this->resetTagify();
+
         $this->slug_title = slug($value);
 
         $this->validate([
@@ -136,14 +142,14 @@ class Create extends Component
         $this->validate();
 
         $data = [
-            'id' => Str::random(32),
+            'id' => Str::random(12),
             'title' => $this->title,
             'slug_title' => $this->slug_title,
             'category_id' => $this->category,
             'type_id' => $this->type,
             'subject' => $this->subject,
             'description' => $this->description,
-            'tags' => $this->tagsInString,
+            'tags' => $this->tags,
             'reading_time' => $this->description ? PostService::generateReadingTime($this->description) : '0 Menit',
             'published_at' => $this->publish ? now()->toDateTimeString() : null,
             'archived_at' => null,
@@ -175,29 +181,8 @@ class Create extends Component
         // Emit to trix editor, reset text ditor
         $this->resetTrix();
         $this->resetImageUpload();
+        $this->resetTagify();
         session()->flash('success', 'Postingan berhasil ditambahkan.');
-    }
-
-    /**
-     * Add tag to tags property
-     *
-     * @return void
-     */
-    public function addTag()
-    {
-        // Check if tag already exist in tags property
-        if (in_array($this->tag, $this->tags)) {
-            return $this->addError('tagsInString', 'Tag has been choosen.');
-        } else {
-            $this->resetErrorBag('tagsInString');
-        }
-
-        // Check if tag is not null
-        if ($this->tag) {
-            array_push($this->tags, $this->tag); // push to tags prop
-            $this->tagsInString = implode(',', $this->tags); // array to string
-            $this->reset('tag');
-        }
     }
 
     /**
@@ -242,6 +227,19 @@ class Create extends Component
     public function image_uploaded($value)
     {
         $this->thumbnail = $value;
+    }
+
+    /**
+     * Hooks for tags property
+     * When tags has been updated,
+     * Tags property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function tagify_value_updated($value)
+    {
+        $this->tags = $value;
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Str;
+use App\Http\Controllers\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +15,10 @@ use Illuminate\Support\Str;
 
 require __DIR__ . '/auth.php';
 
-Route::get('test', function (){
-    $user = User::create([
-        'id' => Str::random(8),
-        'name' => 'SOC Media Agency',
-        'email' => 'hello@socmediaagency.com',
-        'password' => bcrypt('ZyplineUntukKitaSemua 082021')
-    ]);
-
-    dd($user);
-}) ;
+Route::group([
+    'as' => 'media.',
+    'prefix' => 'media',
+], function () {
+    Route::post('/upload-image', [MediaController::class, 'uploadImage'])->name('uploadImage');
+    Route::post('/remove-image', [MediaController::class, 'destroyImage'])->name('destroyImage');
+});
