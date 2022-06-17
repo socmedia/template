@@ -2,10 +2,10 @@
 
 namespace Modules\Post\Http\Livewire\Post;
 
-use App\Contracts\WithImageUpload;
+use App\Contracts\WithImageFilepond;
 use App\Contracts\WithTagify;
 use App\Contracts\WithTrix;
-use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Filepond\Image;
 use App\Http\Livewire\Tagify;
 use App\Http\Livewire\Trix;
 use App\Services\PostService;
@@ -18,14 +18,14 @@ use Modules\Post\Services\PostType\PostTypeQuery;
 
 class Create extends Component
 {
-    use WithTrix, WithImageUpload, WithTagify;
+    use WithTrix, WithImageFilepond, WithTagify;
 
     /**
      * Define form props
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags, $publish = 1, $allowed_column = [],
+    public $thumbnail, $category, $type, $tags, $tagsInString, $publish = 1, $allowed_column = [],
     $title, $slug_title, $subject, $description;
 
     /**
@@ -35,7 +35,7 @@ class Create extends Component
      */
     public $listeners = [
         Trix::EVENT_VALUE_UPDATED,
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
         Tagify::EVENT_VALUE_UPDATED,
     ];
 
@@ -128,7 +128,9 @@ class Create extends Component
     public function updatedType($value)
     {
         $type = PostType::find($value);
-        $this->allowed_column = json_decode($type->allow_column);
+        if ($type) {
+            $this->allowed_column = json_decode($type->allow_column);
+        }
     }
 
     /**
@@ -175,12 +177,11 @@ class Create extends Component
             'description',
             'tags',
             'tagsInString',
-            'tag'
         );
 
         // Emit to trix editor, reset text ditor
         $this->resetTrix();
-        $this->resetImageUpload();
+        $this->resetImageFilepond();
         $this->resetTagify();
         session()->flash('success', 'Postingan berhasil ditambahkan.');
     }
@@ -224,7 +225,7 @@ class Create extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->thumbnail = $value;
     }

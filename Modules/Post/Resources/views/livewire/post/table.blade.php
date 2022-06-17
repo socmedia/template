@@ -78,9 +78,9 @@
                         <img src="{{ $post->thumbnail }}" style="width: 100%; max-width: 200px" alt="">
                     </x-table.cell>
                     <x-table.cell>
-                        <p class="mb-2 fw-bold fs-6" style="width: 400px; white-space: break-spaces;">
+                        <p class="mb-2 fw-bold fs-6" style="width: 400px; white-space: normal;">
                             {{ $post->title }}</p>
-                        <p class="text-muted" style="width: 400px; white-space: break-spaces;">
+                        <p class="text-muted" style="width: 400px; white-space: normal;">
                             {{ $post->subject }}</p>
 
                         <div class="border-top mt-2 py-1 d-flex justify-content-between">

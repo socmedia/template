@@ -10,17 +10,17 @@
         });
 
         addEventListener("trix-file-accept", function(event) {
-            if (! mimeTypes.includes(event.file.type) ) {
+            if (!mimeTypes.includes(event.file.type)) {
                 // file type not allowed, prevent default upload
                 return event.preventDefault();
             }
         });
 
-        addEventListener("trix-attachment-add", function(event){
+        addEventListener("trix-attachment-add", function(event) {
             uploadTrixImage(event.attachment);
         });
 
-        document.addEventListener("reset_trix", function(event){
+        document.addEventListener("reset_trix", function(event) {
             const input = document.querySelector(`${event.detail.input}`);
             const target = document.querySelector(`[input="${event.detail.target}"]`);
 
@@ -28,12 +28,12 @@
             target.innerHTML = "";
         });
 
-        function uploadTrixImage(attachment){
+        function uploadTrixImage(attachment) {
             // upload with livewire
             @this.upload(
                 'images',
                 attachment.file,
-                function (uploadedURL) {
+                function(uploadedURL) {
 
                     // We need to create a custom event.
                     // This event will create a pause in thread execution until we get the Response URL from the Trix Component @completeUpload
@@ -49,7 +49,7 @@
                     @this.call('completeUpload', uploadedURL, trixUploadCompletedEvent);
                 },
                 function() {},
-                function(event){
+                function(event) {
                     attachment.setUploadProgress(event.detail.progress);
                 },
             )

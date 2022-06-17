@@ -26,7 +26,8 @@
 
                         <div class="form-group">
                             {{-- <livewire:image-upload :images="$thumbnail" height="200px" /> --}}
-                            <livewire:dropzone-image />
+                            {{-- <livewire:dropzone-image /> --}}
+                            <livewire:filepond.image />
 
                             @error('thumbnail')
                                 <small class="text-danger">{{ $message }}</small>
@@ -36,7 +37,7 @@
                         <div class="form-group">
                             <label for="title">Judul</label>
                             <input id="title" type="text" class="form-control" name="title"
-                                   value="{{ old('title') }}" wire:model.lazy="title">
+                                value="{{ old('title') }}" wire:model.lazy="title">
 
                             @error('title')
                                 <small class="text-danger">
@@ -50,7 +51,7 @@
                             <div class="input-group">
                                 <small class="input-group-text text-muted">{{ url('/berita') }}/</small>
                                 <input id="slug_title" type="text" class="form-control text" name="slug_title"
-                                       value="{{ old('slug') }}" wire:model.lazy="slug_title">
+                                    value="{{ old('slug') }}" wire:model.lazy="slug_title">
                             </div>
 
                             @error('slug_title')
@@ -87,7 +88,7 @@
                             <div class="form-group">
                                 <label for="">Subjek</label>
                                 <textarea class="form-control" name="subject" autocomplete="subject" style="height: 100px; resize:none"
-                                          wire:model="subject"></textarea>
+                                    wire:model="subject"></textarea>
 
                                 @error('subject')
                                     <small class="text-danger">{{ $message }}</small>
@@ -95,7 +96,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group" wire:ignore>
+                        <div class="form-group">
                             <label for="description">Konten</label>
                             <livewire:trix></livewire:trix>
 
@@ -131,7 +132,7 @@
                                 <div class="col-md-6 mb-3 mb-md-0" wire:ignore>
                                     <label for="category">Kategori</label>
                                     <select class="form-control" title="Kategori" name="category" id="category"
-                                            wire:model="category">
+                                        wire:model="category">
                                         <option value="">Pilih Kategori</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }} </option>
@@ -173,7 +174,7 @@
 
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="publish" id="publish"
-                                   wire:model="publish">
+                                wire:model="publish">
                             <label class="form-check-label" for="publish">
                                 Publish Postingan
                             </label>
