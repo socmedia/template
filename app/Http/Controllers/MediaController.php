@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Log;
 
 class MediaController extends Controller
 {
+    public function resize(Request $request)
+    {
+        $service = new ImageService();
+        return $service->convertWhileFetch($request->src, [
+            'w' => $request->w,
+            'h' => $request->h,
+        ]);
+    }
+
     public function uploadImage(Request $request)
     {
         $service = new ImageService();

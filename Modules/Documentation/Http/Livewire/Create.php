@@ -2,8 +2,8 @@
 
 namespace Modules\Documentation\Http\Livewire;
 
-use App\Contracts\WithTrix;
-use App\Http\Livewire\Trix;
+use App\Contracts\WithEditor;
+use App\Http\Livewire\Editor;
 use App\Utillities\Generate;
 use Livewire\Component;
 use Modules\Documentation\Entities\Documentation;
@@ -11,7 +11,7 @@ use Modules\Documentation\Services\DocumentationQuery;
 
 class Create extends Component
 {
-    use WithTrix;
+    use WithEditor;
 
     /**
      * Define form props in this component
@@ -32,7 +32,7 @@ class Create extends Component
      * @var array
      */
     public $listeners = [
-        Trix::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -80,13 +80,13 @@ class Create extends Component
 
     /**
      * Hooks for content property
-     * When trix editor has been updated,
+     * When editor editor has been updated,
      * Description property will be update
      *
      * @param  string $value
      * @return void
      */
-    public function trix_value_updated($value)
+    public function editor_value_updated($value)
     {
         $this->content = $value;
     }
@@ -133,7 +133,7 @@ class Create extends Component
         Documentation::create($data);
 
         // Reset all props
-        $this->resetTrix();
+        $this->resetEditor();
         $this->reset(
             'page_title',
             'slug_page_title',

@@ -2,12 +2,12 @@
 
 namespace Modules\Post\Http\Livewire\Post;
 
+use App\Contracts\WithEditor;
 use App\Contracts\WithImageUpload;
 use App\Contracts\WithTagify;
-use App\Contracts\WithTrix;
+use App\Http\Livewire\Editor;
 use App\Http\Livewire\ImageUpload;
 use App\Http\Livewire\Tagify;
-use App\Http\Livewire\Trix;
 use App\Services\PostService;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -18,7 +18,7 @@ use Modules\Post\Services\PostType\PostTypeQuery;
 
 class Create extends Component
 {
-    use WithTrix, WithImageUpload, WithTagify;
+    use WithEditor, WithImageUpload, WithTagify;
 
     /**
      * Define form props
@@ -34,7 +34,7 @@ class Create extends Component
      * @var array
      */
     public $listeners = [
-        Trix::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
         ImageUpload::EVENT_VALUE_UPDATED,
         Tagify::EVENT_VALUE_UPDATED,
     ];
@@ -62,7 +62,7 @@ class Create extends Component
             'category' => 'nullable',
             'title' => 'required|max:191|unique:posts,title',
             'slug_title' => 'required|max:191|unique:posts,slug_title',
-            'tagsInString' => 'nullable|max:191',
+            'tags' => 'nullable|max:191',
             'subject' => 'nullable|max:191',
             'description' => 'nullable',
         ];
@@ -76,7 +76,7 @@ class Create extends Component
     protected function messages()
     {
         return [
-            'tagsInString.max' => 'The tags has reached its maximum point.',
+            'tags.max' => 'The tags has reached its maximum point.',
             'description.required' => 'The content field is required.',
         ];
     }
@@ -174,12 +174,12 @@ class Create extends Component
             'subject',
             'description',
             'tags',
-            'tagsInString',
+            'tags',
             'tag'
         );
 
-        // Emit to trix editor, reset text ditor
-        $this->resetTrix();
+        // Emit to editor editor, reset text ditor
+        $this->resetEditor();
         $this->resetImageUpload();
         $this->resetTagify();
         session()->flash('success', 'Postingan berhasil ditambahkan.');
@@ -205,13 +205,13 @@ class Create extends Component
 
     /**
      * Hooks for description property
-     * When trix editor has been updated,
+     * When editor editor has been updated,
      * Description property will be update
      *
      * @param  string $value
      * @return void
      */
-    public function trix_value_updated($value)
+    public function editor_value_updated($value)
     {
         $this->description = $value;
     }
@@ -240,22 +240,6 @@ class Create extends Component
     public function tagify_value_updated($value)
     {
         $this->tags = $value;
-    }
-
-    /**
-     * Remove tag from tags property
-     * Unset by array index
-     *
-     * @param  mixed $index
-     * @return void
-     */
-    public function removeTag($index)
-    {
-        // Check if index is exsist in tags prop
-        if (array_key_exists($index, $this->tags)) {
-            unset($this->tags[$index]);
-            $this->tagsInString = implode(',', $this->tags);
-        }
     }
 
     public function render()

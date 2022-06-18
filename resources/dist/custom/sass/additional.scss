@@ -783,3 +783,32 @@ article.vertical {
 .cursor-grab {
     cursor: grab;
 }
+
+.note-editor.note-airframe.fullscreen,
+.note-editor.note-frame.fullscreen {
+    background: white;
+}
+
+.note-toolbar {
+    border: none;
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .note-btn {
+        font-size: 10px;
+        background: #f5f5f5;
+        border: none;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.focus,
+        &.active {
+            border: none;
+            background: #eaeaea;
+            box-shadow: none;
+        }
+    }
+}

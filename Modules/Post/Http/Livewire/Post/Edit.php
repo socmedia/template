@@ -2,10 +2,10 @@
 
 namespace Modules\Post\Http\Livewire\Post;
 
+use App\Contracts\WithEditor;
 use App\Contracts\WithImageUpload;
-use App\Contracts\WithTrix;
+use App\Http\Livewire\Editor;
 use App\Http\Livewire\ImageUpload;
-use App\Http\Livewire\Trix;
 use App\Services\PostService;
 use Livewire\Component;
 use Modules\Master\Entities\Category;
@@ -14,7 +14,7 @@ use Modules\Post\Entities\PostType;
 
 class Edit extends Component
 {
-    use WithTrix, WithImageUpload;
+    use WithEditor, WithImageUpload;
 
     /**
      * Define form props
@@ -32,7 +32,7 @@ class Edit extends Component
      * @var array
      */
     public $listeners = [
-        Trix::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
         ImageUpload::EVENT_VALUE_UPDATED,
     ];
 
@@ -78,7 +78,7 @@ class Edit extends Component
             'category' => 'nullable',
             'title' => 'required|max:191|unique:posts,title,' . $this->post->id . ',id',
             'slug_title' => 'required|max:191|unique:posts,slug_title,' . $this->post->id . ',id',
-            'tagsInString' => 'nullable|max:191',
+            'tags' => 'nullable|max:191',
             'subject' => 'nullable|max:191',
             'description' => 'required',
         ];
@@ -92,20 +92,20 @@ class Edit extends Component
     protected function messages()
     {
         return [
-            'tagsInString.max' => 'The tags has reached its maximum point.',
+            'tags.max' => 'The tags has reached its maximum point.',
             'description.required' => 'The content field is required.',
         ];
     }
 
     /**
      * Hooks for description property
-     * When trix editor has been updated,
+     * When editor editor has been updated,
      * Description property will be update
      *
      * @param  string $value
      * @return void
      */
-    public function trix_value_updated($value)
+    public function editor_value_updated($value)
     {
         $this->description = $value;
     }
@@ -188,7 +188,7 @@ class Edit extends Component
             'type_id' => $this->type,
             'subject' => $this->subject,
             'description' => $this->description,
-            'tags' => $this->tagsInString,
+            'tags' => $this->tags,
             'reading_time' => $this->description ? PostService::generateReadingTime($this->description) : '0 Menit',
             'published_at' => $this->publish ? now()->toDateTimeString() : null,
             'archived_at' => null,
@@ -208,28 +208,6 @@ class Edit extends Component
     }
 
     /**
-     * Add tag to tags property
-     *
-     * @return void
-     */
-    public function addTag()
-    {
-        // Check if tag already exist in tags property
-        if (in_array($this->tag, $this->tags)) {
-            return $this->addError('tagsInString', 'Tag has been choosen.');
-        } else {
-            $this->resetErrorBag('tagsInString');
-        }
-
-        // Check if tag is not null
-        if ($this->tag) {
-            array_push($this->tags, $this->tag); // push to tags prop
-            $this->tagsInString = implode(',', $this->tags); // array to string
-            $this->reset('tag');
-        }
-    }
-
-    /**
      * Get all categories and filter by post type
      *
      * @return void
@@ -245,22 +223,6 @@ class Edit extends Component
         }
 
         return $categories;
-    }
-
-    /**
-     * Remove tag from tags property
-     * Unset by array index
-     *
-     * @param  mixed $index
-     * @return void
-     */
-    public function removeTag($index)
-    {
-        // Check if index is exsist in tags prop
-        if (array_key_exists($index, $this->tags)) {
-            unset($this->tags[$index]);
-            $this->tagsInString = implode(',', $this->tags);
-        }
     }
 
     public function render()

@@ -97,7 +97,8 @@
 
                         <div class="form-group" wire:ignore>
                             <label for="description">Konten</label>
-                            <livewire:trix></livewire:trix>
+                            {{-- <livewire:trix></livewire:trix> --}}
+                            <livewire:editor />
 
                             @error('description')
                                 <small class="text-danger">{{ $message }}</small>

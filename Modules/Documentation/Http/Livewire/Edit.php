@@ -2,15 +2,15 @@
 
 namespace Modules\Documentation\Http\Livewire;
 
-use App\Contracts\WithTrix;
-use App\Http\Livewire\Trix;
+use App\Contracts\WithEditor;
+use App\Http\Livewire\Editor;
 use Livewire\Component;
 use Modules\Documentation\Entities\Documentation;
 use Modules\Documentation\Services\DocumentationQuery;
 
 class Edit extends Component
 {
-    use WithTrix;
+    use WithEditor;
 
     /**
      * Define form props in this component
@@ -31,7 +31,7 @@ class Edit extends Component
      * @var array
      */
     public $listeners = [
-        Trix::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -89,13 +89,13 @@ class Edit extends Component
 
     /**
      * Hooks for content property
-     * When trix editor has been updated,
+     * When editor editor has been updated,
      * Description property will be update
      *
      * @param  string $value
      * @return void
      */
-    public function trix_value_updated($value)
+    public function editor_value_updated($value)
     {
         $this->content = $value;
     }

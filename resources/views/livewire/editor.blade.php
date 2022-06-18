@@ -1,23 +1,59 @@
-<div>
-    <textarea id="mytextarea">Hello, World!</textarea>
+<div wire:ignore>
+    <textarea id="{{ $component_id }}" class="form-control" name="description" autocomplete="description"></textarea>
 
-    <script src="https://syrianownews.com/assets/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="https://syrianownews.com/assets/tinymce/plugins/powerpaste/plugin.js"></script>
     <script>
-        tinymce.init({
-            selector: '#mytextarea',
-            height: 400,
-            menubar: true,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'advcode', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'powerpaste', 'code'
-            ],
-            toolbar: 'undo redo | insert | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code',
-            powerpaste_allow_local_images: true,
-            powerpaste_word_import: 'prompt',
-            powerpaste_html_import: 'prompt',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-        });
+        window.addEventListener('DOMContentLoaded', function() {
+            const editor = $('#{{ $component_id }}').summernote({
+                height: 500,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        // upload image to server and create imgNode...
+                        const url = '{{ url('/') }}';
+                        uploadImage(files[0])
+                            .then(res => res.json())
+                            .then(res => {
+                                const range = $.summernote.range;
+                                const rng = range.create();
+                                rng.pasteHTML(
+                                    `<p></p></br><img src="{{ url('/') }}${res.data.filepath}" width="100%" /></br><p>caption</p>`
+                                )
+                            })
+                    },
+                    onMediaDelete: function(files) {
+                        removeImage('{{ url('/') }}' + files[0].src)
+                    },
+                    onBlur: function() {
+                        const val = $('#{{ $component_id }}').summernote('code');
+                        @this.set('value', val)
+                    }
+                }
+            });
+
+            async function uploadImage(file) {
+                const url = '{{ route('media.uploadImage') }}';
+                var data = new FormData()
+                data.append('_token', '{{ csrf_token() }}')
+                data.append('image', file)
+                return await fetch(url, {
+                    method: 'POST',
+                    body: data
+                });
+            }
+
+            async function removeImage(file) {
+                const url = '{{ route('media.destroyImage') }}';
+                var data = new FormData()
+                data.append('_token', '{{ csrf_token() }}')
+                data.append('image', file)
+                return await fetch(url, {
+                    method: 'POST',
+                    body: data
+                });
+            }
+
+            document.addEventListener('reset_editor', function() {
+                $('#{{ $component_id }}').summernote('reset');
+            })
+        })
     </script>
 </div>

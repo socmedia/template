@@ -2,17 +2,17 @@
 
 namespace Modules\AppSetting\Http\Livewire\Settings;
 
+use App\Contracts\WithEditor;
 use App\Contracts\WithImageUpload;
-use App\Contracts\WithTrix;
+use App\Http\Livewire\Editor;
 use App\Http\Livewire\ImageUpload;
-use App\Http\Livewire\Trix;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Modules\AppSetting\Services\SettingsQuery;
 
 class Edit extends Component
 {
-    use WithImageUpload, WithTrix;
+    use WithImageUpload, WithEditor;
 
     public $setting;
 
@@ -25,7 +25,7 @@ class Edit extends Component
      */
     public $listeners = [
         ImageUpload::EVENT_VALUE_UPDATED,
-        Trix::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -109,13 +109,13 @@ class Edit extends Component
 
     /**
      * Hooks for description property
-     * When trix editor has been updated,
+     * When editor editor has been updated,
      * Description property will be update
      *
      * @param  string $value
      * @return void
      */
-    public function trix_value_updated($value)
+    public function editor_value_updated($value)
     {
         $this->value = $value;
     }

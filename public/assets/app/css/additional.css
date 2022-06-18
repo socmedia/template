@@ -636,3 +636,25 @@ article.vertical figcaption p {
   cursor: -webkit-grab;
   cursor: grab;
 }
+
+.note-editor.note-airframe.fullscreen,
+.note-editor.note-frame.fullscreen {
+  background: white;
+}
+
+.note-toolbar {
+  border: none;
+}
+.note-toolbar .dropdown-toggle::after {
+  display: none;
+}
+.note-toolbar .note-btn {
+  font-size: 10px;
+  background: #f5f5f5;
+  border: none;
+}
+.note-toolbar .note-btn:hover, .note-toolbar .note-btn:active, .note-toolbar .note-btn:focus, .note-toolbar .note-btn.focus, .note-toolbar .note-btn.active {
+  border: none;
+  background: #eaeaea;
+  box-shadow: none;
+}
