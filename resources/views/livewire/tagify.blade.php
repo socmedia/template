@@ -2,9 +2,7 @@
     <input type="text" name="tagify" id="{{ $component_id }}" value="{{ $value }}" />
 
     {{-- Tagify --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.js"
-            integrity="sha512-uDMk0LmYVhMq6mKY7QfiJAXBchLmLiCZjh5hmZ6UUEJ/iNDk2s8maQDx4lOPCqLJqvhktN/g7oZTesQ6SOIjhw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('vendor/tagify/tagify.min.js') }}"></script>
     <script>
         function initTagify() {
             const input = document.querySelector('#{{ $component_id }}');

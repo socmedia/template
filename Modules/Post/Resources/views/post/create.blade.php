@@ -4,17 +4,16 @@
     <link rel="stylesheet" href="{{ asset('assets/app/css/additional.css') }}">
 
     {{-- Tagify --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.css"
-          integrity="sha512-jA7mpoCCM3ue73dSro5PB6aLApcpF1ADflCsevAUN2SHy28rruGseQQAKKDpb8olrZRsNk/vGIPk8mpnRHI0zg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('vendor/tagify/tagify.css') }}" />
 
     {{-- Filepond --}}
-    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
-    <link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
+    <link href="{{ asset('vendor/filepond/css/filepond.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('vendor/filepond/plugins/image-preview/filepond-plugin-image-preview.min.css') }}"
+          rel="stylesheet" />
+    <link href="{{ asset('vendor/filepond/plugins/file-poster/filepond-plugin-file-poster.min.css') }}" rel="stylesheet" />
 
     {{-- Summernote --}}
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/summernote/css/summernote-lite.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('wrapper')
@@ -55,18 +54,16 @@
 
 @push('script')
     {{-- Summernote --}}
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="{{ asset('vendor/summernote/js/summernote-lite.min.js') }}"></script>
 
     {{-- Filepond --}}
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
-    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <script src="{{ asset('vendor/filepond/js/filepond.js') }}"></script>
+    <script src="{{ asset('vendor/filepond/plugins/image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+    <script src="{{ asset('vendor/filepond/plugins/file-poster/filepond-plugin-file-poster.min.js') }}"></script>
+    <script src="{{ asset('vendor/filepond/plugins/jquery/filepond.jquery.js') }}"></script>
 
     {{-- Tagify --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.js"
-            integrity="sha512-uDMk0LmYVhMq6mKY7QfiJAXBchLmLiCZjh5hmZ6UUEJ/iNDk2s8maQDx4lOPCqLJqvhktN/g7oZTesQ6SOIjhw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('vendor/tagify/tagify.min.js') }}"></script>
 
     <script src="{{ asset('assets/app/js/additional.js') }}"></script>
 @endpush
