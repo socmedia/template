@@ -3,10 +3,10 @@
 namespace Modules\Post\Http\Livewire\Post;
 
 use App\Contracts\WithEditor;
-use App\Contracts\WithImageUpload;
+use App\Contracts\WithImageFilepond;
 use App\Contracts\WithTagify;
 use App\Http\Livewire\Editor;
-use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Filepond\Image;
 use App\Http\Livewire\Tagify;
 use App\Services\PostService;
 use Illuminate\Support\Str;
@@ -18,7 +18,7 @@ use Modules\Post\Services\PostType\PostTypeQuery;
 
 class Create extends Component
 {
-    use WithEditor, WithImageUpload, WithTagify;
+    use WithEditor, WithImageFilepond, WithTagify;
 
     /**
      * Define form props
@@ -35,7 +35,7 @@ class Create extends Component
      */
     public $listeners = [
         Editor::EVENT_VALUE_UPDATED,
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
         Tagify::EVENT_VALUE_UPDATED,
     ];
 
@@ -128,7 +128,9 @@ class Create extends Component
     public function updatedType($value)
     {
         $type = PostType::find($value);
-        $this->allowed_column = json_decode($type->allow_column);
+        if ($type) {
+            $this->allowed_column = json_decode($type->allow_column);
+        }
     }
 
     /**
@@ -174,13 +176,11 @@ class Create extends Component
             'subject',
             'description',
             'tags',
-            'tags',
-            'tag'
         );
 
         // Emit to editor editor, reset text ditor
         $this->resetEditor();
-        $this->resetImageUpload();
+        $this->resetImageFilepond();
         $this->resetTagify();
         session()->flash('success', 'Postingan berhasil ditambahkan.');
     }
@@ -224,7 +224,7 @@ class Create extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->thumbnail = $value;
     }

@@ -25,8 +25,7 @@
                     <div class="card-body p-4">
 
                         <div class="form-group">
-                            {{-- <livewire:image-upload :images="$thumbnail" height="200px" /> --}}
-                            <livewire:dropzone-image />
+                            <livewire:filepond.image />
 
                             @error('thumbnail')
                                 <small class="text-danger">{{ $message }}</small>
@@ -95,7 +94,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group" wire:ignore>
+                        <div class="form-group">
                             <label for="description">Konten</label>
                             {{-- <livewire:trix></livewire:trix> --}}
                             <livewire:editor />
@@ -147,7 +146,8 @@
 
                             <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="type">Tipe Postingan</label>
-                                <select class="form-control" title="Jenis" name="type" id="type" wire:model="type">
+                                <select class="form-control" title="Jenis" name="type" id="type"
+                                        wire:model="type">
                                     <option value="">Pilih Tipe</option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}">{{ $type->name }} </option>

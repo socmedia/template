@@ -3,26 +3,29 @@
 namespace Modules\Post\Http\Livewire\Post;
 
 use App\Contracts\WithEditor;
-use App\Contracts\WithImageUpload;
+use App\Contracts\WithImageFilepond;
+use App\Contracts\WithTagify;
 use App\Http\Livewire\Editor;
-use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Filepond\Image;
+use App\Http\Livewire\Tagify;
+use App\Services\ImageService;
 use App\Services\PostService;
 use Livewire\Component;
 use Modules\Master\Entities\Category;
-use Modules\Post\Entities\Post as PostEntities;
+use Modules\Post\Entities\Post;
 use Modules\Post\Entities\PostType;
 
 class Edit extends Component
 {
-    use WithEditor, WithImageUpload;
+    use WithEditor, WithImageFilepond, WithTagify;
 
     /**
      * Define form props
      *
      * @var array
      */
-    public $thumbnail, $category, $type, $tags = [], $publish, $allowed_column = [],
-    $tagsInString, $tag, $title, $slug_title, $subject, $description;
+    public $thumbnail, $category, $type, $tags, $publish, $allowed_column = [],
+    $title, $slug_title, $subject, $description;
 
     public $post, $oldThumbnail;
 
@@ -33,7 +36,8 @@ class Edit extends Component
      */
     public $listeners = [
         Editor::EVENT_VALUE_UPDATED,
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
+        Tagify::EVENT_VALUE_UPDATED,
     ];
 
     public function mount($post)
@@ -41,8 +45,7 @@ class Edit extends Component
         $this->post = $post;
         $this->category = $post->category_id;
         $this->type = $post->type_id;
-        $this->tags = explode(',', $post->tags);
-        $this->tagsInString = $post->tags;
+        $this->tags = $post->tags;
         $this->title = $post->title;
         $this->slug_title = $post->slug_title;
         $this->subject = $post->subject;
@@ -118,10 +121,22 @@ class Edit extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->thumbnail = $value;
-        $this->oldThumbnail = null;
+    }
+
+    /**
+     * Hooks for tags property
+     * When tags has been updated,
+     * Tags property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function tagify_value_updated($value)
+    {
+        $this->tags = $value;
     }
 
     /**
@@ -181,6 +196,8 @@ class Edit extends Component
         // Validation
         $this->validate();
 
+        $service = new ImageService();
+
         $data = [
             'title' => $this->title,
             'slug_title' => $this->slug_title,
@@ -198,10 +215,13 @@ class Edit extends Component
         ];
 
         if ($this->thumbnail) {
+            $path = explode('/', $this->oldThumbnail);
+            $shortPath = implode('/', array_slice($path, -2, 2));
+            $service->removeImage('images', $shortPath);
             $data['thumbnail'] = $this->thumbnail;
         }
 
-        $post = PostEntities::find($this->post->id);
+        $post = Post::find($this->post->id);
         $post->update($data);
 
         session()->flash('success', 'Postingan berhasil diperbarui.');

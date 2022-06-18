@@ -2,9 +2,6 @@
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('assets/app/css/additional.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css"
-          integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Tagify --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.css"
@@ -14,8 +11,9 @@
     {{-- Filepond --}}
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
 
-    {{-- Quill --}}
+    {{-- Summernote --}}
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 @endpush
 
@@ -56,20 +54,19 @@
 @endsection
 
 @push('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"
-            integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.js"
-            integrity="sha512-uDMk0LmYVhMq6mKY7QfiJAXBchLmLiCZjh5hmZ6UUEJ/iNDk2s8maQDx4lOPCqLJqvhktN/g7oZTesQ6SOIjhw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- Summernote --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
     {{-- Filepond --}}
     <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
     <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    {{-- Tagify --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.12.0/tagify.min.js"
+            integrity="sha512-uDMk0LmYVhMq6mKY7QfiJAXBchLmLiCZjh5hmZ6UUEJ/iNDk2s8maQDx4lOPCqLJqvhktN/g7oZTesQ6SOIjhw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="{{ asset('assets/app/js/additional.js') }}"></script>
 @endpush

@@ -27,7 +27,7 @@
                     <div class="card-body p-4">
 
                         <div class="form-group">
-                            <livewire:image-upload :images="$thumbnail" :oldImages="$oldThumbnail" height="200px" />
+                            <livewire:filepond.image :oldImages="$oldThumbnail" />
 
                             @error('thumbnail')
                                 <small class="text-danger">{{ $message }}</small>
@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label for="title">Judul</label>
                             <input id="title" type="text" class="form-control" name="title"
-                                   value="{{ old('title') }}" wire:model.lazy="title">
+                                   wire:model.lazy="title">
 
                             @error('title')
                                 <small class="text-danger">
@@ -51,7 +51,7 @@
                             <div class="input-group">
                                 <small class="input-group-text text-muted">{{ url('/berita') }}/</small>
                                 <input id="slug_title" type="text" class="form-control text" name="slug_title"
-                                       value="{{ old('slug') }}" wire:model.lazy="slug_title">
+                                       wire:model.lazy="slug_title">
                             </div>
 
                             @error('slug_title')
@@ -88,7 +88,7 @@
                             <div class="form-group">
                                 <label for="">Subjek</label>
                                 <textarea class="form-control" name="subject" autocomplete="subject" style="height: 100px; resize:none"
-          wire:model="subject"></textarea>
+                                          wire:model="subject"></textarea>
 
                                 @error('subject')
                                     <small class="text-danger">{{ $message }}</small>
@@ -98,7 +98,7 @@
 
                         <div class="form-group" wire:ignore>
                             <label for="description">Konten</label>
-                            <livewire:trix :value="$description"></livewire:trix>
+                            <livewire:editor :value="$description"></livewire:editor>
 
                             @error('description')
                                 <small class="text-danger">{{ $message }}</small>
@@ -147,7 +147,8 @@
 
                             <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="type">Tipe Postingan</label>
-                                <select class="form-control" title="Jenis" name="type" id="type" wire:model="type">
+                                <select class="form-control" title="Jenis" name="type" id="type"
+                                        wire:model="type">
                                     <option value="">Pilih Tipe</option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}">{{ $type->name }} </option>
@@ -161,24 +162,9 @@
                         </div>
 
                         @if (in_array('tags', $allowed_column))
-                            <div class="form-group row">
+                            <div class="form-group" wire:ignore>
                                 <label for="tags">Tag</label>
-                                <div class="d-flex flex-wrap">
-                                    @foreach ($tags as $index => $tag)
-                                        <x-badge icon="" state="primary mb-2 custom-badge">
-                                            {{ $tag }}
-                                            <x-button-close wire:click="removeTag('{{ $index }}')" />
-                                        </x-badge>
-                                    @endforeach
-                                    <div class="col-4 col-md-3 me-2">
-                                        <div class="input-group">
-                                            <input type="text" name="tags" id="tags"
-                                                   class="form-control form-control-sm" wire:model="tag">
-                                            <button type="button" wire:click="addTag"
-                                                    class="btn btn-btn-sm btn-outline-primary">+</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <livewire:tagify :value='$post->tags' />
                                 <div class="col-12">
                                     @error('tagsInString')
                                         <small class="text-danger">{{ $message }}</small>
