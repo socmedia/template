@@ -2,14 +2,15 @@
 
 namespace Modules\Marketing\Http\Livewire\Testimonial;
 
-use App\Contracts\WithImageUpload;
-use App\Http\Livewire\ImageUpload;
+use App\Contracts\WithImageFilepond;
+use App\Http\Livewire\Filepond\Image;
+use App\Services\ImageService;
 use Livewire\Component;
 use Modules\Marketing\Entities\Testimonial;
 
 class Edit extends Component
 {
-    use WithImageUpload;
+    use WithImageFilepond;
 
     /**
      * Form properties
@@ -24,7 +25,7 @@ class Edit extends Component
      * @var array
      */
     public $listeners = [
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
     ];
 
     public function mount($testimonial)
@@ -59,7 +60,7 @@ class Edit extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->image = $value;
     }
@@ -79,7 +80,11 @@ class Edit extends Component
             'is_active' => $this->is_active ? 1 : 0,
         ];
 
+        $service = new ImageService();
         if ($this->image) {
+            $path = explode('/', $this->oldImage);
+            $shortPath = implode('/', array_slice($path, -2, 2));
+            $service->removeImage('images', $shortPath);
             $data['media_path'] = $this->image;
         }
 

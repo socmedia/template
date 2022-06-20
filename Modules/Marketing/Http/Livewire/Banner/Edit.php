@@ -3,24 +3,34 @@
 namespace Modules\Marketing\Http\Livewire\Banner;
 
 use App\Constants\BackgroundPosition;
+use App\Contracts\WithImageFilepond;
+use App\Http\Livewire\Filepond\Image;
 use App\Services\ImageService;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Modules\Marketing\Entities\Banner;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithImageFilepond;
 
     public $banner, $oldThumbnail, $thumbnail, $type = 'image', $name, $alt, $reference_url, $position, $is_active = true,
     $background_position, $with_caption, $caption_title, $caption_text, $with_button, $button_text, $button_link;
 
     public $backgroundPositions = [], $pluckBackgroundPositions = null;
 
+    /**
+     * Define event listeners
+     *
+     * @var array
+     */
+    public $listeners = [
+        Image::EVENT_VALUE_UPDATED,
+    ];
+
     protected function rules()
     {
         return [
-            'thumbnail' => 'nullable|mimes:png,jpg,jpeg|max:512',
+            'thumbnail' => 'required',
             'name' => 'required|max:191|unique:banners,id,' . $this->banner->id . ',id',
             'alt' => 'nullable|max:191',
             'reference_url' => 'nullable|url',
@@ -32,6 +42,19 @@ class Edit extends Component
             'button_text' => 'nullable|max:191',
             'button_link' => 'nullable|max:191',
         ];
+    }
+
+    /**
+     * Hooks for thumbnail property
+     * When image-upload has been updated,
+     * Thumbnail property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function images_value_updated($value)
+    {
+        $this->thumbnail = $value;
     }
 
     public function mount($banner)
@@ -92,7 +115,8 @@ class Edit extends Component
             $path = explode('/', $this->oldThumbnail);
             $shortPath = implode('/', array_slice($path, -2, 2));
             $service->removeImage('images', $shortPath);
-            $data['desktop_media_path'] = url($service->storeImage($this->thumbnail, 1920, 100));
+            // $data['desktop_media_path'] = url($service->storeImage($this->thumbnail, 1920, 100));
+            $data['desktop_media_path'] = $this->thumbnail;
         }
 
         $this->banner->update($data);

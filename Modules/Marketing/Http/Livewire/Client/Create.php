@@ -2,15 +2,15 @@
 
 namespace Modules\Marketing\Http\Livewire\Client;
 
-use App\Contracts\WithImageUpload;
-use App\Http\Livewire\ImageUpload;
+use App\Contracts\WithImageFilepond;
+use App\Http\Livewire\Filepond\Image;
 use Livewire\Component;
 use Modules\Marketing\Entities\Client;
 use Modules\Marketing\Services\Client\ClientQuery;
 
 class Create extends Component
 {
-    use WithImageUpload;
+    use WithImageFilepond;
 
     /**
      * Form properties
@@ -25,7 +25,7 @@ class Create extends Component
      * @var array
      */
     public $listeners = [
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -50,7 +50,7 @@ class Create extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->image = $value;
     }
@@ -83,7 +83,7 @@ class Create extends Component
             'image',
             'is_active',
         );
-        $this->resetImageUpload();
+        $this->resetImageFilepond();
 
         return session()->flash('success', 'Partner berhasil ditambahkan');
     }

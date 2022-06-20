@@ -2,6 +2,7 @@
 
 namespace Modules\Marketing\Http\Livewire\Client;
 
+use App\Services\ImageService;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Marketing\Entities\Client;
@@ -96,6 +97,15 @@ class Table extends Component
 
         // Check if client have a thumbnail
         if ($client) {
+
+            $service = new ImageService();
+            // Check if post have a thumbnail
+            if ($client->media_path) {
+                // Remove existing thumbnail
+                $path = explode('/', $client->media_path);
+                $shortPath = implode('/', array_slice($path, -2, 2));
+                $service->removeImage('images', $shortPath);
+            }
 
             $client->delete();
             return session()->flash('success', 'Client berhasil dihapus.');

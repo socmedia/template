@@ -658,3 +658,11 @@ article.vertical figcaption p {
   background: #eaeaea;
   box-shadow: none;
 }
+
+.precision-image {
+  margin-bottom: 0;
+  padding-top: 54%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
