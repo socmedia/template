@@ -2,19 +2,21 @@
 
 namespace Modules\AppSetting\Http\Livewire\Cms;
 
-use App\Contracts\WithImageUpload;
-use App\Http\Livewire\ImageUpload;
+use App\Contracts\WithEditor;
+use App\Contracts\WithImageFilepond;
+use App\Http\Livewire\Editor;
+use App\Http\Livewire\Filepond\Image;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Modules\AppSetting\Entities\AppSetting;
 
 class Edit extends Component
 {
-    use WithImageUpload;
+    use WithImageFilepond, WithEditor;
 
     public $setting;
 
-    public $group, $key, $value, $oldValue, $type, $form_type;
+    public $group, $key, $alias, $value, $oldValue, $type, $form_type;
 
     /**
      * Define event listeners
@@ -22,7 +24,8 @@ class Edit extends Component
      * @var array
      */
     public $listeners = [
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
+        Editor::EVENT_VALUE_UPDATED,
     ];
 
     /**
@@ -47,6 +50,7 @@ class Edit extends Component
 
         $this->group = $setting->group;
         $this->key = $setting->key;
+        $this->alias = $setting->alias;
         $this->value = $setting->type == 'string' ? $setting->value : null;
         $this->oldValue = $setting->type == 'image' ? $setting->value : null;
         $this->type = $setting->type;
@@ -97,6 +101,19 @@ class Edit extends Component
     }
 
     /**
+     * Hooks for description property
+     * When editor editor has been updated,
+     * Description property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function editor_value_updated($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
      * Hooks for value property
      * When image-upload has been updated,
      * Value property will be update
@@ -104,7 +121,7 @@ class Edit extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->value = $value;
         $this->oldValue = null;

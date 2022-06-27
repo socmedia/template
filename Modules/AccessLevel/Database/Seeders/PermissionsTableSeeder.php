@@ -328,7 +328,31 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now()->toDateTimeString(),
             ],
             [
+                'name' => 'cms.create',
+                'guard_name' => 'web',
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ],
+            [
+                'name' => 'cms.edit',
+                'guard_name' => 'web',
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ],
+            [
                 'name' => 'seo.access',
+                'guard_name' => 'web',
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ],
+            [
+                'name' => 'seo.create',
+                'guard_name' => 'web',
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ],
+            [
+                'name' => 'seo.edit',
                 'guard_name' => 'web',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString(),

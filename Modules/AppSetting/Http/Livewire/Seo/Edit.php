@@ -14,7 +14,7 @@ class Edit extends Component
 
     public $setting;
 
-    public $group, $key, $value, $oldValue, $type, $form_type;
+    public $group, $key, $alias, $value, $oldValue, $type, $form_type;
 
     /**
      * Define event listeners
@@ -47,6 +47,7 @@ class Edit extends Component
 
         $this->group = $setting->group;
         $this->key = $setting->key;
+        $this->alias = $setting->alias;
         $this->value = $setting->type == 'string' ? $setting->value : null;
         $this->oldValue = $setting->type == 'image' ? $setting->value : null;
         $this->type = $setting->type;

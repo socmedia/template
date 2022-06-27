@@ -25,16 +25,22 @@
                 <div class="card">
                     <div class="card-body p-4">
 
-                        <div class="form-group">
-                            <label for="key">Key</label>
-                            <div class="form-control bg-light">{{ title(unslug(substr($setting->key, 4))) }}</div>
+                        <div class="form-group row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="key">Key</label>
+                                <div class="form-control bg-light">{{ $key }}</div>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="key">Alias</label>
+                                <div class="form-control bg-light">{{ $alias }}</div>
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @if ($type == 'string')
                                 <label for="value">Value</label>
                                 <textarea class="form-control" name="value" autocomplete="value" style="height: 100px; resize:none"
-          wire:model.defer="value"></textarea>
+                                          wire:model.defer="value"></textarea>
                             @elseif ($type == 'image')
                                 <livewire:image-upload :images="$value" :oldImages="$oldValue" height="200px" />
                             @endif

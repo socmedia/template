@@ -30,6 +30,11 @@ class Image extends Component
         'reset_images' => 'resetImages',
     ];
 
+    public function initFilepond()
+    {
+        $this->dispatchBrowserEvent('init_filepond');
+    }
+
     public function updated($component, $value)
     {
         if ($component == 'uploaded_image') {

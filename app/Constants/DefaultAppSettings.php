@@ -3,7 +3,7 @@
 namespace App\Constants;
 
 use Illuminate\Support\Facades\Schema;
-use Modules\AppSetting\Models\Entities\AppSetting;
+use Modules\AppSetting\Entities\AppSetting;
 
 class DefaultAppSettings
 {
@@ -18,6 +18,7 @@ class DefaultAppSettings
             [
                 'group' => 'app',
                 'key' => 'app_name',
+                'alias' => 'app_name',
                 'value' => config('app.name'),
                 'type' => 'string',
                 'form_type' => 'input',
@@ -27,6 +28,7 @@ class DefaultAppSettings
             [
                 'group' => 'app',
                 'key' => 'copyright',
+                'alias' => 'copyright',
                 'value' => 'Copyright © ' . config('app.name') . ' ' . date('Y') . '. All rights reserved.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -36,6 +38,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'default_logo_square',
+                'alias' => 'default_logo_square',
                 'value' => '/assets/default/images/brand_logo_square.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -45,6 +48,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'default_logo_16_9',
+                'alias' => 'default_logo_16_9',
                 'value' => '/assets/default/images/brand_logo_long.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -54,6 +58,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'favicon',
+                'alias' => 'favicon',
                 'value' => '/assets/default/images/brand_logo_square.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -63,6 +68,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'default_user_avatar',
+                'alias' => 'default_user_avatar',
                 'value' => '/assets/default/images/user_avatar.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -72,6 +78,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'default_thumbnail_square',
+                'alias' => 'default_thumbnail_square',
                 'value' => '/assets/default/images/thumbnail_square.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -81,6 +88,7 @@ class DefaultAppSettings
             [
                 'group' => 'asset',
                 'key' => 'default_thumbnail_16_9',
+                'alias' => 'default_thumbnail_16_9',
                 'value' => '/assets/default/images/thumbnail_16_9.png',
                 'type' => 'image',
                 'form_type' => 'input',
@@ -90,6 +98,7 @@ class DefaultAppSettings
             [
                 'group' => 'login',
                 'key' => 'login_title',
+                'alias' => 'login_title',
                 'value' => 'Login',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -99,6 +108,7 @@ class DefaultAppSettings
             [
                 'group' => 'login',
                 'key' => 'login_caption',
+                'alias' => 'login_caption',
                 'value' => 'Use your registered account.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -108,6 +118,7 @@ class DefaultAppSettings
             [
                 'group' => 'login',
                 'key' => 'login_poster',
+                'alias' => 'login_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -117,6 +128,7 @@ class DefaultAppSettings
             [
                 'group' => 'register',
                 'key' => 'register_title',
+                'alias' => 'register_title',
                 'value' => 'Register',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -126,6 +138,7 @@ class DefaultAppSettings
             [
                 'group' => 'register',
                 'key' => 'register_caption',
+                'alias' => 'register_caption',
                 'value' => 'Create a new account.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -135,6 +148,7 @@ class DefaultAppSettings
             [
                 'group' => 'register',
                 'key' => 'register_poster',
+                'alias' => 'register_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -144,6 +158,7 @@ class DefaultAppSettings
             [
                 'group' => 'forgot_password',
                 'key' => 'forgot_password_title',
+                'alias' => 'forgot_password_title',
                 'value' => 'Forgot Password',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -153,6 +168,7 @@ class DefaultAppSettings
             [
                 'group' => 'forgot_password',
                 'key' => 'forgot_password_caption',
+                'alias' => 'forgot_password_caption',
                 'value' => 'Enter your registered email ID to reset the password.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -162,6 +178,7 @@ class DefaultAppSettings
             [
                 'group' => 'forgot_password',
                 'key' => 'forgot_password_poster',
+                'alias' => 'forgot_password_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -171,6 +188,7 @@ class DefaultAppSettings
             [
                 'group' => 'confirm_password',
                 'key' => 'confirm_password_title',
+                'alias' => 'confirm_password_title',
                 'value' => 'Confirm Password',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -180,6 +198,7 @@ class DefaultAppSettings
             [
                 'group' => 'confirm_password',
                 'key' => 'confirm_password_caption',
+                'alias' => 'confirm_password_caption',
                 'value' => 'This is a secure area of the application. Please confirm your password before continuing.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -189,6 +208,7 @@ class DefaultAppSettings
             [
                 'group' => 'confirm_password',
                 'key' => 'confirm_password_poster',
+                'alias' => 'confirm_password_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -198,6 +218,7 @@ class DefaultAppSettings
             [
                 'group' => 'reset_password',
                 'key' => 'reset_password_title',
+                'alias' => 'reset_password_title',
                 'value' => 'Generate New Password',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -207,6 +228,7 @@ class DefaultAppSettings
             [
                 'group' => 'reset_password',
                 'key' => 'reset_password_caption',
+                'alias' => 'reset_password_caption',
                 'value' => 'We received your reset password request. Please enter your new password!',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -216,6 +238,7 @@ class DefaultAppSettings
             [
                 'group' => 'reset_password',
                 'key' => 'reset_password_poster',
+                'alias' => 'reset_password_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -225,6 +248,7 @@ class DefaultAppSettings
             [
                 'group' => 'verify_email',
                 'key' => 'verify_email_title',
+                'alias' => 'verify_email_title',
                 'value' => 'Verify Your Email',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -234,6 +258,7 @@ class DefaultAppSettings
             [
                 'group' => 'verify_email',
                 'key' => 'verify_email_caption',
+                'alias' => 'verify_email_caption',
                 'value' => 'Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.',
                 'type' => 'string',
                 'form_type' => 'input',
@@ -243,6 +268,7 @@ class DefaultAppSettings
             [
                 'group' => 'verify_email',
                 'key' => 'verify_email_poster',
+                'alias' => 'verify_email_poster',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -252,6 +278,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'whatsapp_icon',
+                'alias' => 'whatsapp_icon',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -261,6 +288,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'instagram_icon',
+                'alias' => 'instagram_icon',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -270,6 +298,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'facebook_icon',
+                'alias' => 'facebook_icon',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -279,6 +308,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'email_icon',
+                'alias' => 'email_icon',
                 'value' => null,
                 'type' => 'image',
                 'form_type' => 'input',
@@ -288,6 +318,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'whatsapp_link',
+                'alias' => 'whatsapp_link',
                 'value' => null,
                 'type' => 'string',
                 'form_type' => 'input',
@@ -297,6 +328,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'whatsapp_message',
+                'alias' => 'whatsapp_message',
                 'value' => null,
                 'type' => 'string',
                 'form_type' => 'textarea',
@@ -306,6 +338,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'instagram_link',
+                'alias' => 'instagram_link',
                 'value' => null,
                 'type' => 'string',
                 'form_type' => 'input',
@@ -315,6 +348,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'facebook_link',
+                'alias' => 'facebook_link',
                 'value' => null,
                 'type' => 'string',
                 'form_type' => 'input',
@@ -324,6 +358,7 @@ class DefaultAppSettings
             [
                 'group' => 'contact',
                 'key' => 'email',
+                'alias' => 'email',
                 'value' => null,
                 'type' => 'string',
                 'form_type' => 'input',

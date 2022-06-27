@@ -41,7 +41,7 @@
                         <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#seo-{{ $loop->iteration }}" aria-expanded="false"
                                 aria-controls="seo-{{ $loop->iteration }}">
-                            {{ title(unslug(substr($setting->key, 6))) }}
+                            {{ $setting->alias }}
                         </button>
                         <div class="collapse" id="seo-{{ $loop->iteration }}">
 

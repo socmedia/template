@@ -1,4 +1,4 @@
-@extends("layouts.master")
+@extends('layouts.master')
 
 @push('style')
     <style>
@@ -6,7 +6,6 @@
         table td div {
             white-space: normal;
         }
-
     </style>
 @endpush
 
@@ -17,6 +16,12 @@
             <x-breadcrumb pageTitle="Content Management System">
                 <x-slot name="link">
                     <x-breadcrumb.link active="true" pageTitle="Content Management System" />
+                </x-slot>
+
+                <x-slot name="button">
+                    @can('cms.create')
+                        <x-button.create text="CMS" href="{{ route('adm.settings.create', ['group' => 'front.']) }}" />
+                    @endcan
                 </x-slot>
             </x-breadcrumb>
 

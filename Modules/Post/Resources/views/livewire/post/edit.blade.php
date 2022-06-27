@@ -9,31 +9,20 @@
 
     <form wire:submit.prevent="update">
 
-
         <div class="row">
-            <div class="col-md-3 mb-3 mb-md-0">
-                <ul class="list-group sidebar">
+            <div class="col-md-8 mb-3 mb-md-0">
+                <ul class="list-group sidebar mb-3">
                     <li class="list-group-item d-flex">
                         <i class="bx bx-news font-18 align-middle me-2"></i>
                         <div>
                             <p>Tentang Postingan</p>
-                            <small>Tambahkan gambar dan judul postingan yang akan ditampilkan ke publik.</small>
+                            <small>Tambahkan gambar dan judul postingan <br> yang akan ditampilkan ke publik.</small>
                         </div>
                     </li>
                 </ul>
-            </div>
-            <div class="col-md-6">
+
                 <div class="card">
                     <div class="card-body p-4">
-
-                        <div class="form-group">
-                            <livewire:filepond.image :oldImages="$oldThumbnail" />
-
-                            @error('thumbnail')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
                         <div class="form-group">
                             <label for="title">Judul</label>
                             <input id="title" type="text" class="form-control" name="title"
@@ -49,7 +38,7 @@
                         <div class="form-group">
                             <label for="slug_title">Slug</label>
                             <div class="input-group">
-                                <small class="input-group-text text-muted">{{ url('/berita') }}/</small>
+                                <small class="input-group-text text-muted">/</small>
                                 <input id="slug_title" type="text" class="form-control text" name="slug_title"
                                        wire:model.lazy="slug_title">
                             </div>
@@ -62,27 +51,6 @@
                                 </small>
                             @enderror
                         </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 mb-3 mb-md-0">
-                <ul class="list-group sidebar">
-                    <li class="list-group-item d-flex">
-                        <i class="bx bx-paragraph font-18 align-middle me-2"></i>
-                        <div>
-                            <p>Konten</p>
-                            <small>Tuliskan deskripsi singkat beserta penjelasannya pada form disamping.</small>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body p-4">
 
                         @if (in_array('subject', $allowed_column))
                             <div class="form-group">
@@ -108,50 +76,53 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-3 mb-3 mb-md-0">
-                <ul class="list-group sidebar">
+            <div class="col-md-4">
+                <ul class="list-group sidebar mb-3">
                     <li class="list-group-item d-flex">
                         <i class="bx bx-cog font-18 align-middle me-2"></i>
                         <div>
                             <p>Pengaturan</p>
-                            <small>Pengaturan kategori, jenis, tag postingan beserta visibilitas postingan.</small>
+                            <small>Pengaturan kategori, jenis, tag postingan beserta visibilitas
+                                postingan.</small>
                         </div>
                     </li>
                 </ul>
-            </div>
-            <div class="col-md-6">
+
                 <div class="card">
                     <div class="card-body p-4">
 
-                        <div class="form-group row">
+                        <div class="form-group">
+                            <livewire:filepond.image :oldImages="$oldThumbnail" />
 
-                            @if (in_array('category', $allowed_column))
-                                <div class="col-md-6 mb-3 mb-md-0" wire:ignore>
-                                    <label for="category">Kategori</label>
-                                    <select class="form-control" title="Kategori" name="category" id="category"
-                                            wire:model="category">
-                                        <option value="">Pilih Kategori</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }} </option>
-                                        @endforeach
-                                    </select>
+                            @error('thumbnail')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                                    @error('category')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            @endif
+                        <div class="form-group">
+                            <label for="type">Tipe Postingan</label>
+                            <select class="form-control" title="Jenis" name="type" id="type"
+                                    wire:model="type">
+                                <option value="">Pilih Tipe</option>
+                                @foreach ($types as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }} </option>
+                                @endforeach
+                            </select>
 
-                            <div class="col-md-6 mb-3 mb-md-0">
-                                <label for="type">Tipe Postingan</label>
-                                <select class="form-control" title="Jenis" name="type" id="type"
-                                        wire:model="type">
-                                    <option value="">Pilih Tipe</option>
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}">{{ $type->name }} </option>
+                            @error('category')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        @if (in_array('category', $allowed_column))
+                            <div class="form-group" wire:ignore>
+                                <label for="category">Kategori</label>
+                                <select class="form-control" title="Kategori" name="category" id="category"
+                                        wire:model="category">
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }} </option>
                                     @endforeach
                                 </select>
 
@@ -159,7 +130,7 @@
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                        </div>
+                        @endif
 
                         @if (in_array('tags', $allowed_column))
                             <div class="form-group" wire:ignore>
@@ -186,12 +157,13 @@
                         </div>
 
                         <div class="text-end">
-                            <x-button state="dark" loadingState="true" wireTarget="update" text="Simpan" />
+                            <x-button state="dark" loadingState="true" wireTarget="store" text="Simpan" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </form>
     <script src="{{ asset('assets/app/js/additional.js') }}"></script>
 </div>

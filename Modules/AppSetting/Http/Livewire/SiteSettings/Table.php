@@ -2,6 +2,8 @@
 
 namespace Modules\AppSetting\Http\Livewire\SiteSettings;
 
+use App\Contracts\WithEditor;
+use App\Http\Livewire\Editor;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -10,7 +12,7 @@ use Modules\AppSetting\Entities\AppSetting;
 
 class Table extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithEditor;
 
     /**
      * Define available props in the component
@@ -18,6 +20,15 @@ class Table extends Component
      * @var array
      */
     public $groups, $activeTabs, $settingsByGroup, $images = [];
+
+    /**
+     * Define event listeners
+     *
+     * @var array
+     */
+    public $listeners = [
+        Editor::EVENT_VALUE_UPDATED,
+    ];
 
     /**
      * Define props default value before component rendered
@@ -46,6 +57,10 @@ class Table extends Component
     {
         return AppSetting::select('group')
             ->groupBy('group')
+            ->where(function ($query) {
+                $query->where('group', 'NOT LIKE', '%front%')
+                    ->orWhere('group', 'NOT LIKE', '%seo%');
+            })
             ->get()
             ->pluck('group')
             ->toArray();
@@ -62,7 +77,8 @@ class Table extends Component
 
         if (count($this->getAllGroups()) > 0) {
             foreach ($this->getAllGroups() as $group) {
-                $settings = AppSetting::where('group', $group)->get(['id', 'key', 'value', 'type', 'form_type'])->toArray();
+                $settings = AppSetting::where('group', $group)
+                    ->get(['id', 'key', 'value', 'type', 'form_type'])->toArray();
                 $groupbBySettings[$group] = $settings;
             }
         }
@@ -70,11 +86,19 @@ class Table extends Component
         return $groupbBySettings;
     }
 
-    public function updated($prop)
+    /**
+     * Hooks for description property
+     * When editor editor has been updated,
+     * Description property will be update
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function editor_value_updated($response)
     {
-        // $this->validateOnly([
-        //     $prop => 'required|max:191',
-        // ]);
+        $input = explode('.', $response['element_name']);
+        $value = $response['value'];
+        $this->settingsByGroup[$input[1]][$input[2]]['value'] = $value;
     }
 
     /**

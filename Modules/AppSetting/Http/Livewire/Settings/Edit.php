@@ -3,20 +3,20 @@
 namespace Modules\AppSetting\Http\Livewire\Settings;
 
 use App\Contracts\WithEditor;
-use App\Contracts\WithImageUpload;
+use App\Contracts\WithImageFilepond;
 use App\Http\Livewire\Editor;
-use App\Http\Livewire\ImageUpload;
+use App\Http\Livewire\Filepond\Image;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Modules\AppSetting\Services\SettingsQuery;
 
 class Edit extends Component
 {
-    use WithImageUpload, WithEditor;
+    use WithImageFilepond, WithEditor;
 
     public $setting;
 
-    public $group, $key, $value, $oldValue, $type, $form_type;
+    public $group, $key, $alias, $value, $oldValue, $type, $form_type;
 
     /**
      * Define event listeners
@@ -24,7 +24,7 @@ class Edit extends Component
      * @var array
      */
     public $listeners = [
-        ImageUpload::EVENT_VALUE_UPDATED,
+        Image::EVENT_VALUE_UPDATED,
         Editor::EVENT_VALUE_UPDATED,
     ];
 
@@ -37,7 +37,8 @@ class Edit extends Component
     {
         return [
             'group' => 'required|max:191',
-            'key' => 'required|max:191|unique:app_settings,key,' . $this->setting->id,
+            'key' => 'required|max:191',
+            'alias' => 'nullable|max:191',
             'type' => 'required|max:191|in:string,image',
             'form_type' => 'required|max:191|in:input,textarea,editor',
         ];
@@ -55,6 +56,7 @@ class Edit extends Component
 
         $this->group = $setting->group;
         $this->key = $setting->key;
+        $this->alias = $setting->alias;
         $this->value = $setting->type == 'string' ? $setting->value : null;
         $this->oldValue = $setting->type == 'image' ? $setting->value : null;
         $this->type = $setting->type;
@@ -86,6 +88,7 @@ class Edit extends Component
         $data = [
             'group' => $this->group,
             'key' => $this->key,
+            'alias' => $this->alias,
             'type' => $this->type,
             'form_type' => $this->form_type,
         ];
@@ -128,7 +131,7 @@ class Edit extends Component
      * @param  string $value
      * @return void
      */
-    public function image_uploaded($value)
+    public function images_value_updated($value)
     {
         $this->value = $value;
         $this->oldValue = null;

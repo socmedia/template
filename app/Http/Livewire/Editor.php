@@ -25,15 +25,30 @@ class Editor extends Component
         if ($name) {
             $this->elementName = $name;
         }
+
+    }
+
+    public function init()
+    {
+        $this->component_loaded = true;
+    }
+
+    public function initEditor()
+    {
+        $this->dispatchBrowserEvent('init_editor');
     }
 
     public function updatedValue($value)
     {
-        $this->emit(self::EVENT_VALUE_UPDATED, $this->value);
-        $this->emit(self::ELEMENT_VALUE_UPDATED, [
-            'element_name' => $this->elementName,
-            'value' => $value,
-        ]);
+        if ($this->elementName) {
+            $data = [
+                'element_name' => $this->elementName,
+                'value' => $value,
+            ];
+            $this->emit(self::EVENT_VALUE_UPDATED, $data);
+        } else {
+            $this->emit(self::EVENT_VALUE_UPDATED, $value);
+        }
     }
 
     public function resetEditor()

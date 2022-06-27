@@ -15,8 +15,8 @@
         <x-slot name="table_headers">
             @foreach ($headers as $header)
                 <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                              sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                              wire:click="sort('{{ $header['column_name'] }}')" />
+                    sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                    wire:click="sort('{{ $header['column_name'] }}')" />
             @endforeach
         </x-slot>
 
@@ -40,8 +40,8 @@
                     <x-table.cell :cell="$setting->alias" />
                     <x-table.cell width="60%">
                         <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#seo-{{ $loop->iteration }}" aria-expanded="false"
-                                aria-controls="seo-{{ $loop->iteration }}">
+                            data-bs-target="#seo-{{ $loop->iteration }}" aria-expanded="false"
+                            aria-controls="seo-{{ $loop->iteration }}">
                             {{ title(unslug($setting->key)) }}
                         </button>
                         <div class="collapse" id="seo-{{ $loop->iteration }}">
