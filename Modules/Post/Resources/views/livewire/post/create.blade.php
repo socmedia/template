@@ -101,8 +101,7 @@
 
                         <div class="form-group">
                             <label for="type">Tipe Postingan</label>
-                            <select class="form-control" title="Jenis" name="type" id="type"
-                                    wire:model="type">
+                            <select class="form-control" title="Jenis" name="type" id="type" wire:model="type">
                                 <option value="">Pilih Tipe</option>
                                 @foreach ($types as $type)
                                     <option value="{{ $type->id }}">{{ $type->name }} </option>

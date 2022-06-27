@@ -2,6 +2,7 @@
 
 namespace Modules\Marketing\Http\Livewire\Testimonial;
 
+use App\Services\ImageService;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Marketing\Entities\Testimonial;
@@ -96,6 +97,14 @@ class Table extends Component
 
         // Check if testimonial have a thumbnail
         if ($testimonial) {
+            $service = new ImageService();
+            // Check if post have a thumbnail
+            if ($testimonial->media_path) {
+                // Remove existing thumbnail
+                $path = explode('/', $testimonial->media_path);
+                $shortPath = implode('/', array_slice($path, -2, 2));
+                $service->removeImage('images', $shortPath);
+            }
 
             $testimonial->delete();
             return session()->flash('success', 'Testimonial berhasil dihapus.');

@@ -1,10 +1,10 @@
 <div>
     @if (session()->has('success'))
-    <x-alert state="primary" color="white" title="Sukses !" :message="session('success')" />
+        <x-alert state="primary" color="white" title="Sukses !" :message="session('success')" />
     @endif
 
     @if (session()->has('failed'))
-    <x-alert state="warning" color="white" title="Gagal !" :message="session('failed')" />
+        <x-alert state="warning" color="white" title="Gagal !" :message="session('failed')" />
     @endif
 
     <form wire:submit.prevent="store">
@@ -34,7 +34,7 @@
                             </div>
 
                             @error('is_active')
-                            <small class="text-danger">{{$message}}</small>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
 
@@ -61,23 +61,24 @@
 
                         <div class="form-group row">
                             <div class="col-6">
-                                <label>Foto</label>
-                                <livewire:image-upload :images="$image" :oldImages="$image" height="80px" />
+                                {{-- <livewire:image-upload :images="$image" :oldImages="$image" height="80px" /> --}}
+                                <livewire:filepond.image />
 
                                 @error('image')
-                                <small class="text-danger">{{$message}}</small>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="name">Nama</label>
-                            <input id="name" type="text" class="form-control" name="name" wire:model.defer="name">
+                            <input id="name" type="text" class="form-control" name="name"
+                                wire:model.defer="name">
 
                             @error('name')
-                            <small class="text-danger">
-                                {{$message}}
-                            </small>
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
                             @enderror
                         </div>
 

@@ -9,7 +9,7 @@
     {{-- Filepond --}}
     <link href="{{ asset('vendor/filepond/css/filepond.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/filepond/plugins/image-preview/filepond-plugin-image-preview.min.css') }}"
-          rel="stylesheet" />
+        rel="stylesheet" />
     <link href="{{ asset('vendor/filepond/plugins/file-poster/filepond-plugin-file-poster.min.css') }}" rel="stylesheet" />
 
     {{-- Summernote --}}
@@ -24,9 +24,9 @@
                 <x-slot name="link">
                     @if (request('type'))
                         <x-breadcrumb.link pageTitle="Postingan"
-                                           href="{{ route('adm.post.index', [
-                                               'type' => request('type'),
-                                           ]) }}" />
+                            href="{{ route('adm.post.index', [
+                                'type' => request('type'),
+                            ]) }}" />
                     @else
                         <x-breadcrumb.link href="{{ route('adm.post.index') }}" pageTitle="Postingan" />
                     @endif
@@ -36,9 +36,9 @@
                 <x-slot name="button">
                     @if (request('type'))
                         <x-button.back
-                                       href="{{ route('adm.post.index', [
-                                           'type' => request('type'),
-                                       ]) }}" />
+                            href="{{ route('adm.post.index', [
+                                'type' => request('type'),
+                            ]) }}" />
                     @else
                         <x-button.back href="{{ route('adm.post.index') }}" />
                     @endif
