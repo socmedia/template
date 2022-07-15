@@ -15,7 +15,7 @@ trait Filterable
     {
         $request = (object) $request;
         return $query->whereHas('category', function ($query) use ($request) {
-            $query->where('name', $request->category);
+            $query->where('name', $request->category)->orWhere('slug_name', $request->category);
         });
     }
 

@@ -30,6 +30,18 @@ trait Filterable
     }
 
     /**
+     * Handle query to find featured post
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @param  object $request
+     * @return void
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', 1);
+    }
+
+    /**
      * Find specific user with trashed user
      *
      * @param  Illuminate\Database\Eloquent\Builder $query

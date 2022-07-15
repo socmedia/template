@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Master\Entities\Category;
+use Modules\Master\Entities\SubCategory;
 use Modules\Post\Traits\Post\Filterable;
 
 class Post extends Model
@@ -61,6 +62,7 @@ class Post extends Model
      * @var array
      */
     protected $withCount = [
+        'views',
         'comments',
     ];
 
@@ -74,8 +76,10 @@ class Post extends Model
         'title',
         'slug_title',
         'category_id',
+        'sub_category_id',
         'type_id',
         'thumbnail',
+        'thumbnail_source',
         'subject',
         'description',
         'tags',
@@ -84,6 +88,7 @@ class Post extends Model
         'number_of_shares',
         'author',
         'published_at',
+        'published_by',
         'archived_at',
         'created_at',
         'updated_at',
@@ -94,6 +99,7 @@ class Post extends Model
         'title' => 'required',
         'slug_title' => 'required',
         'thumbnail' => 'required',
+        'thumbnail_source' => 'required',
         'category' => 'nullable',
         'type' => 'required',
         'subject' => 'nullable',
@@ -120,6 +126,16 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    /**
+     * Category relation
+     *
+     * @return void
+     */
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id', 'id');
     }
 
     /**
@@ -150,5 +166,15 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(PostComment::class, 'posts_id', 'id');
+    }
+
+    public function countCommentsApproved()
+    {
+        return numberShortner($this->comments->whereNotNull('approved_by')->count());
+    }
+
+    public function views()
+    {
+        return $this->hasMany(PostsView::class, 'posts_id', 'id');
     }
 }

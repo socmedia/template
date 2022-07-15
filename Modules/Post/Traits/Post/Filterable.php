@@ -72,6 +72,22 @@ trait Filterable
     }
 
     /**
+     * Handle query to find post category
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @param  object $request
+     * @return void
+     */
+
+    public function scopeSubcategory($query, $request)
+    {
+        $request = (object) $request;
+        return $query->whereHas('subCategory', function ($query) use ($request) {
+            $query->where('slug_name', $request->subCategory);
+        });
+    }
+
+    /**
      * Handle query to find post type
      *
      * @param  Illuminate\Database\Eloquent\Builder $query
@@ -83,6 +99,21 @@ trait Filterable
         $request = (object) $request;
         return $query->whereHas('type', function ($query) use ($request) {
             $query->where('slug_name', $request->type);
+        });
+    }
+
+    /**
+     * Handle query to find post author
+     *
+     * @param  Illuminate\Database\Eloquent\Builder $query
+     * @param  object $request
+     * @return void
+     */
+    public function scopeAuthor($query, $request)
+    {
+        $request = (object) $request;
+        return $query->whereHas('writer', function ($query) use ($request) {
+            $query->where('id', $request->author);
         });
     }
 

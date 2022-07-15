@@ -16,9 +16,9 @@
             <div class="list-group">
                 @foreach ($tableReferences as $reference)
                     <div
-                        class="list-group-item text-capitalize {{ $table_reference == $reference->table_reference ? 'bg-dark text-white' : null }}">
+                         class="list-group-item text-capitalize {{ $table_reference == $reference->table_reference ? 'bg-dark text-white' : null }}">
                         <a class="{{ $table_reference == $reference->table_reference ? 'text-white' : 'text-dark' }}"
-                            href="javascript:void(0)" wire:click="changeTab('{{ $reference->table_reference }}')">
+                           href="javascript:void(0)" wire:click="changeTab('{{ $reference->table_reference }}')">
                             {{ $reference->table_reference }}
                         </a>
                     </div>
@@ -32,18 +32,19 @@
                 <x-slot name="table_headers">
                     @foreach ($headers as $header)
                         <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                            sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                            wire:click="sort('{{ $header['column_name'] }}')" />
+                                      sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                                      wire:click="sort('{{ $header['column_name'] }}')" />
                     @endforeach
                 </x-slot>
 
                 <x-slot name="filters">
                     <div class="list-group-item border-0">
                         <select wire:model.defer="table_reference"
-                            class="form-select form-select-sm text-capitalize h-100">
+                                class="form-select form-select-sm text-capitalize h-100">
                             <option value="">-- Pilih Table Reference --</option>
                             @foreach ($tableReferences as $references)
-                                <option class="text-capitalize" value="{{ strtolower($references->table_reference) }}">
+                                <option class="text-capitalize"
+                                        value="{{ strtolower($references->table_reference) }}">
                                     {{ $references->table_reference }}
                                 </option>
                             @endforeach
@@ -54,23 +55,35 @@
                 <x-slot name="table_body">
                     @forelse ($categories->where('table_reference', $table_reference) as $category)
                         <x-table.row wire:key="{{ $category->table_reference }}-{{ $category->id }}"
-                            wire:sortable.item="{{ $category->id }}">
+                                     wire:sortable.item="{{ $category->id }}">
                             <x-table.cell wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                class="cursor-grab">
+                                          class="cursor-grab">
                                 @if ($category->with_icon)
                                     <span class="me-1 px-2"><i class="{{ $category->icon_class }}"></i></span>
                                 @endif
 
                                 @if ($category->with_image)
                                     <span class="me-1"><img src="{{ $category->media_path }}"
-                                            style="width: 100%; max-width: 30px" alt=""></span>
+                                             style="width: 100%; max-width: 30px" alt=""></span>
                                 @endif
                                 {{ $category->name }}
+
+                                @if ($category->is_featured == 1)
+                                    <span class="me-1 p-1"><i class='bx bxs-check-circle text-success'></i></span>
+                                @endif
                             </x-table.cell>
                             <x-table.cell wire:sortable.handle title="Tahan untuk memindahkan posisi"
-                                class="cursor-grab" :cell="$category->slug_name" />
+                                          class="cursor-grab" :cell="$category->slug_name" />
                             <x-table.cell :cell="$category->table_reference" />
                             <x-table.cell :cell="$category->position" />
+                            <x-table.cell class="text-center">
+                                <button type="button" wire:click="featured('{{ $category->id }}')"
+                                        class="btn btn-sm text-center {{ $category->is_featured ? 'btn-outline-primary' : 'btn-outline-dark' }}">
+                                    <i
+                                       class="bx {{ $category->is_featured ? 'bxs-check-circle' : 'bxs-x-circle' }}"></i>
+                                    {{ $category->is_featured ? 'Unggulan' : 'Bukan' }}
+                                </button>
+                            </x-table.cell>
                             <x-table.cell>
                                 <div class="btn-group" role="group">
                                     @can('category.edit')
@@ -81,7 +94,7 @@
                                     @can('category.delete')
                                         <div class="btn-group" role="group">
                                             <button id="dropdown" type="button" class="btn btn-light btn-sm"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="bx bx-trash"></i>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdown">
@@ -89,14 +102,14 @@
                                                 @if ($onlyTrashed)
                                                     <li>
                                                         <a href="javascript:void(0)" class="dropdown-item"
-                                                            wire:click="restore('{{ $category->id }}')">
+                                                           wire:click="restore('{{ $category->id }}')">
                                                             Pulihkan
                                                         </a>
                                                     </li>
                                                 @else
                                                     <li>
                                                         <a href="javascript:void(0)" class="dropdown-item"
-                                                            wire:click="trash('{{ $category->id }}')">
+                                                           wire:click="trash('{{ $category->id }}')">
                                                             Sampah
                                                         </a>
                                                     </li>
@@ -104,8 +117,8 @@
 
                                                 <li>
                                                     <a href="javascript:void(0)" class="dropdown-item"
-                                                        data-bs-toggle="modal" data-bs-target="#remove-modal"
-                                                        wire:click="$set('destroyId','{{ $category->id }}')">
+                                                       data-bs-toggle="modal" data-bs-target="#remove-modal"
+                                                       wire:click="$set('destroyId','{{ $category->id }}')">
                                                         Hapus Permanen
                                                     </a>
                                                 </li>

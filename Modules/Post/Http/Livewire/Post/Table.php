@@ -106,6 +106,15 @@ class Table extends Component
         'search',
     ];
 
+    public function getCategories()
+    {
+        if ($this->type) {
+            return Category::where('table_reference', 'like', '%posts.' . $this->type . '%')->get();
+        }
+
+        return Category::where('table_reference', 'like', '%posts%')->get();
+    }
+
     /**
      * Get all posts from database
      *
@@ -175,7 +184,7 @@ class Table extends Component
     {
         return view('post::livewire.post.table', [
             'posts' => $this->getAllPosts(),
-            'categories' => Category::where('table_reference', 'posts')->get(),
+            'categories' => $this->getCategories(),
             'types' => PostType::all('name', 'slug_name'),
             'statuses' => [
                 [

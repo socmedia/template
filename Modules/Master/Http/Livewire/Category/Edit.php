@@ -5,6 +5,7 @@ namespace Modules\Master\Http\Livewire\Category;
 use App\Constants\BoxIcons;
 use App\Contracts\WithImageUpload;
 use App\Http\Livewire\ImageUpload;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Modules\Master\Entities\Category;
@@ -19,7 +20,7 @@ class Edit extends Component
      *
      * @var mixed
      */
-    public $category, $name, $slug_name, $table_reference, $icon, $image, $oldImage;
+    public $category, $name, $slug_name, $table_reference, $icon, $image, $oldImage, $is_featured;
     public $with, $icon_type, $icons = [];
 
     /**
@@ -46,6 +47,7 @@ class Edit extends Component
         $this->category = $category;
         $this->name = $category->name;
         $this->slug_name = $category->slug_name;
+        $this->is_featured = $category->is_featured;
         $this->table_reference = $category->table_reference;
 
         if ($category->with_icon) {
@@ -151,6 +153,7 @@ class Edit extends Component
             'name' => $this->name,
             'slug_name' => $this->slug_name,
             'table_reference' => $this->table_reference,
+            'is_featured' => $this->is_featured,
         ];
 
         if ($this->with == 'icon') {
@@ -169,6 +172,10 @@ class Edit extends Component
 
         $category = Category::find($this->category->id);
         $category->update($data);
+
+        $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+        Cache::forget('categories');
+        Cache::forever('categories', $featured);
 
         // Flash message
         session()->flash('success', 'Kategori berhasil diperbarui.');

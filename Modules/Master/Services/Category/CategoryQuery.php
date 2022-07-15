@@ -40,6 +40,37 @@ class CategoryQuery extends Category
     }
 
     /**
+     * Get featured position from specific table reference
+     *
+     * @param  string $tableReference
+     * @return void
+     */
+    public function getFeatured($tableReference, $limit = 4)
+    {
+        $category = Category::query()
+            ->with('subCategory')
+            ->where(function ($query) use ($tableReference) {
+                $query->featured()
+                    ->where('table_reference', $tableReference);
+            });
+        return $category->orderBy('position', 'asc')
+            ->limit($limit)->get();
+    }
+
+    public function getAllCategory()
+    {
+        $category = Category::query();
+        return $category->orderBy('position', 'asc')->get();
+    }
+
+    public function getByTableReference($tableReference)
+    {
+        $category = Category::query();
+        $category->where('table_reference', $tableReference);
+        return $category->orderBy('position', 'asc')->get();
+    }
+
+    /**
      * Get table_reference group
      *
      * @param  int $total

@@ -6,9 +6,11 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Modules\Dashboard\Traits\GoogleAnalytics;
 
 class DashboardController extends Controller
 {
+    use GoogleAnalytics;
     /**
      * Display a listing of the resource.
      * @return Renderable

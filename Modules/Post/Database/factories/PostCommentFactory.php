@@ -2,8 +2,8 @@
 namespace Modules\Post\Database\factories;
 
 use App\Models\User;
-use App\Utillities\Generate;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Modules\Post\Entities\Post;
 
 class PostCommentFactory extends Factory
@@ -35,11 +35,11 @@ class PostCommentFactory extends Factory
         ];
 
         $res = $userId[array_rand($userId)];
-        $posts = Post::all()->pluck('id')->toArray();
+        $posts = Post::published()->get()->pluck('id')->toArray();
 
         return [
-            'id' => strtolower(Generate::ID(32)),
-            'posts_id' => $posts[rand(0, count($posts) - 1)],
+            'id' => Str::random(8),
+            'posts_id' => $posts[array_rand($posts)],
             'user_id' => $res,
             'name' => $res ? null : $this->faker->name(),
             'email' => $res ? null : $this->faker->email(),

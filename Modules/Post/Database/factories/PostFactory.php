@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Modules\Master\Entities\Category;
+use Modules\Master\Entities\SubCategory;
 use Modules\Post\Entities\PostType;
 
 class PostFactory extends Factory
@@ -34,7 +35,11 @@ class PostFactory extends Factory
         $user = User::all('id')->pluck('id')->toArray();
         $categories = Category::all('id')->pluck('id')->toArray();
         $types = PostType::all('id')->pluck('id')->toArray();
-        $createdAt = $this->faker->dateTimeBetween('-5 years', 'now', 'Asia/Jakarta');
+        $createdAt = $this->faker->dateTimeBetween('-1 years', 'now', 'Asia/Jakarta');
+
+        $category = $categories[array_rand($categories)];
+        $findSubCategory = SubCategory::where('category_id', $category)->first();
+        $subCategory = $findSubCategory ? $findSubCategory->id : null;
 
         $arrPublished = [
             Carbon::parse($createdAt)->addDays(rand(0, 300)),
@@ -44,10 +49,11 @@ class PostFactory extends Factory
         $randPublished = $arrPublished[array_rand($arrPublished)];
 
         return [
-            'id' => Str::random(32),
+            'id' => Str::random(8),
             'title' => $title,
             'slug_title' => slug($title),
-            'category_id' => $categories[array_rand($categories)],
+            'category_id' => $category,
+            'sub_category_id' => $subCategory,
             'type_id' => $types[array_rand($types)],
             'thumbnail' => $this->faker->imageUrl(),
             'subject' => $this->faker->text(170),

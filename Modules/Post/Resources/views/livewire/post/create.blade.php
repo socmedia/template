@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for="title">Judul</label>
                             <input id="title" type="text" class="form-control" name="title"
-                                   wire:model.lazy="title">
+                                wire:model.lazy="title">
 
                             @error('title')
                                 <small class="text-danger">
@@ -39,7 +39,7 @@
                             <div class="input-group">
                                 <small class="input-group-text text-muted">/</small>
                                 <input id="slug_title" type="text" class="form-control text" name="slug_title"
-                                       wire:model.lazy="slug_title">
+                                    wire:model.lazy="slug_title">
                             </div>
 
                             @error('slug_title')
@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label for="">Subjek</label>
                                 <textarea class="form-control" name="subject" autocomplete="subject" style="height: 100px; resize:none"
-                                          wire:model="subject"></textarea>
+                                    wire:model="subject"></textarea>
 
                                 @error('subject')
                                     <small class="text-danger">{{ $message }}</small>
@@ -100,6 +100,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="thumbnail_source">Sumber Gambar</label>
+                            <input id="thumbnail_source" type="text" class="form-control" name="thumbnail_source"
+                                wire:model.lazy="thumbnail_source">
+
+                            @error('thumbnail_source')
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label for="type">Tipe Postingan</label>
                             <select class="form-control" title="Jenis" name="type" id="type" wire:model="type">
                                 <option value="">Pilih Tipe</option>
@@ -114,13 +126,13 @@
                         </div>
 
                         @if (in_array('category', $allowed_column))
-                            <div class="form-group" wire:ignore>
+                            <div class="form-group">
                                 <label for="category">Kategori</label>
                                 <select class="form-control" title="Kategori" name="category" id="category"
-                                        wire:model="category">
+                                    wire:model="category">
                                     <option value="">Pilih Kategori</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }} </option>
+                                    @foreach ($categories as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->name }} </option>
                                     @endforeach
                                 </select>
 
@@ -128,12 +140,33 @@
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
+
+                            @if (!$sub_categories->isEmpty())
+                                <div class="form-group">
+                                    <label for="sub_category">Sub Kategori</label>
+                                    <select class="form-control" title="Sub Kategori" name="sub_category"
+                                        id="sub_category" wire:model="sub_category">
+                                        <option value="">Pilih Sub Kategori</option>
+                                        @foreach ($sub_categories as $sub)
+                                            <option value="{{ $sub->id }}">
+                                                {{ $sub->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('sub_category')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            @endif
+
                         @endif
 
+
                         @if (in_array('tags', $allowed_column))
-                            <div class="form-group" wire:ignore>
+                            <div class="form-group">
                                 <label for="tags">Tag</label>
-                                <livewire:tagify />
+                                <livewire:tagify-list :list="$tagsList->toArray()" />
                                 <div class="col-12">
                                     @error('tags')
                                         <small class="text-danger">{{ $message }}</small>
@@ -141,19 +174,22 @@
                                 </div>
                             </div>
                         @endif
+                        @can('post.status')
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select class="form-control" title="Status" name="status" id="status"
+                                    wire:model.defer="status">
+                                    <option value="">Pilih Status</option>
+                                    <option value="{{ slug('Published') }}">Published</option>
+                                    <option value="{{ slug('Draft') }}">Draft</option>
+                                    <option value="{{ slug('Archived') }}">Archived</option>
+                                </select>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="publish" id="publish"
-                                   wire:model="publish">
-                            <label class="form-check-label" for="publish">
-                                Publish Postingan
-                            </label>
-
-                            @error('publised')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
+                                @error('status')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        @endcan
                         <div class="text-end">
                             <x-button state="dark" loadingState="true" wireTarget="store" text="Simpan" />
                         </div>

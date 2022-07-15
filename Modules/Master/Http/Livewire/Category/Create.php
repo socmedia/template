@@ -5,6 +5,7 @@ namespace Modules\Master\Http\Livewire\Category;
 use App\Constants\BoxIcons;
 use App\Contracts\WithImageUpload;
 use App\Http\Livewire\ImageUpload;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Modules\Master\Entities\Category;
@@ -20,7 +21,7 @@ class Create extends Component
      *
      * @var mixed
      */
-    public $name, $slug_name, $table_reference, $icon, $image;
+    public $name, $slug_name, $table_reference, $icon, $image, $is_featured = 0;
 
     public $with, $icon_type, $icons = [];
 
@@ -134,6 +135,7 @@ class Create extends Component
             'slug_name' => $this->slug_name,
             'table_reference' => $this->table_reference,
             'position' => $position,
+            'is_featured' => $this->is_featured,
         ];
         if ($this->with == 'icon') {
             $data['with_icon'] = 1;
@@ -151,6 +153,10 @@ class Create extends Component
 
         // Create Categories
         Category::create($data);
+
+        $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+        Cache::forget('categories');
+        Cache::forever('categories', $featured);
 
         // Reset all props
         $this->reset();

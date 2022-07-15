@@ -3,6 +3,7 @@
 namespace Modules\Master\Http\Livewire\Category;
 
 use App\Contracts\DatabaseTable;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Master\Entities\Category;
@@ -71,6 +72,24 @@ class Table extends Component
         return (new CategoryQuery())->getTableReferences();
     }
 
+    public function featured($id)
+    {
+        $category = Category::find($id);
+
+        if ($category) {
+            $category->is_featured = $category->is_featured == 1 ? 0 : 1;
+            $category->save();
+
+            $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+            Cache::forget('categories');
+            Cache::forever('categories', $featured);
+
+            return session()->flash('success', 'Kategori berhasil diperbarui');
+        }
+
+        return session()->flash('failed', 'Kategori tidak ditemukan.');
+    }
+
     /**
      * Restore categories from the trash
      *
@@ -86,6 +105,12 @@ class Table extends Component
         }
 
         $category->restore();
+
+        $category->delete();
+        $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+        Cache::forget('categories');
+        Cache::forever('categories', $featured);
+
         return session()->flash('success', 'Kategori berhasil dipulihkan.');
     }
 
@@ -98,12 +123,16 @@ class Table extends Component
     public function trash($id)
     {
         $category = Category::find($id);
-        $category->delete();
 
         if (!$category) {
             // Flash message
             return session()->flash('failed', 'Kategori tidak ditemukan.');
         }
+
+        $category->delete();
+        $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+        Cache::forget('categories');
+        Cache::forever('categories', $featured);
 
         // Flash message
         return session()->flash('success', 'Kategori berhasil dipindahkan ke tong sampah.');
@@ -120,6 +149,10 @@ class Table extends Component
 
         if ($category) {
             $category->forceDelete();
+
+            $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+            Cache::forget('categories');
+            Cache::forever('categories', $featured);
 
             // Flash message
             $this->reset('destroyId');
@@ -144,6 +177,10 @@ class Table extends Component
                 'position' => $item['order'],
             ]);
         }
+
+        $featured = (new CategoryQuery())->getByTableReference('posts.berita');
+        Cache::forget('categories');
+        Cache::forever('categories', $featured);
     }
 
     /**

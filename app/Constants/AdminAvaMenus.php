@@ -22,7 +22,7 @@ class AdminAvaMenus
                 'path' => route('adm.user.profile.index'),
                 'route_name' => 'adm.user.profile.index',
                 'visible' => true,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.profile',
                 'icon' => 'bx bx-user',
             ],
             'admin-preferences' => [
@@ -30,7 +30,7 @@ class AdminAvaMenus
                 'path' => route('adm.user.theme.index'),
                 'route_name' => 'adm.user.theme.index',
                 'visible' => true,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.preferences',
                 'icon' => 'bx bx-paint',
             ],
             // 'preferences' => [
@@ -46,7 +46,7 @@ class AdminAvaMenus
                 'path' => route('adm.settings.index'),
                 'route_name' => 'adm.settings.index',
                 'visible' => true,
-                'role' => 'Developer',
+                'role' => 'avamenu.settings',
                 'icon' => 'bx bx-shield-quarter',
             ],
             'site_settings' => [
@@ -54,7 +54,7 @@ class AdminAvaMenus
                 'path' => route('adm.apps.index'),
                 'route_name' => 'adm.apps.index',
                 'visible' => true,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.site_settings',
                 'icon' => 'bx bx-cog',
             ],
             'artisan' => [
@@ -62,7 +62,7 @@ class AdminAvaMenus
                 'path' => route('adm.artisan.index'),
                 'route_name' => 'adm.artisan.index',
                 'visible' => true,
-                'role' => 'Developer',
+                'role' => 'avamenu.artisan',
                 'icon' => 'bx bx-command',
             ],
             'menu_manager' => [
@@ -70,7 +70,7 @@ class AdminAvaMenus
                 'path' => 'javascript:void(0)',
                 'route_name' => null,
                 'visible' => false,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.menu_manager',
                 'icon' => 'bx bx-layer',
             ],
             'template' => [
@@ -78,7 +78,7 @@ class AdminAvaMenus
                 'path' => url('/template'),
                 'route_name' => null,
                 'visible' => false,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.template',
                 'icon' => 'bx bx-devices',
             ],
             'documentation' => [
@@ -86,7 +86,7 @@ class AdminAvaMenus
                 'path' => route('adm.docs.index'),
                 'route_name' => 'adm.docs.index',
                 'visible' => true,
-                'role' => 'Developer|Admin',
+                'role' => 'avamenu.dokumentasi',
                 'icon' => 'bx bx-book',
             ],
         ];

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Master\Traits\Category\Filterable;
+use Modules\Post\Entities\Post;
 
 class Category extends Model
 {
@@ -20,7 +21,16 @@ class Category extends Model
     public $table = 'categories';
 
     protected $fillable = [
-        'name', 'slug_name', 'pattern', 'table_reference', 'position', 'with_icon', 'icon_class', 'with_image', 'media_path',
+        'name',
+        'slug_name',
+        'pattern',
+        'table_reference',
+        'position',
+        'with_icon',
+        'icon_class',
+        'with_image',
+        'media_path',
+        'is_featured',
     ];
 
     protected $keyType = 'string';
@@ -43,6 +53,31 @@ class Category extends Model
     public function place()
     {
         return $this->hasMany(Place::class, 'category_id', 'id');
+    }
+
+    /**
+     * Sub Categories relation
+     *
+     * @return void
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category_id', 'id');
+    }
+
+    /**
+     * Sub Categories relation
+     *
+     * @return void
+     */
+    public function activePost()
+    {
+        return $this->posts()->published()->orderBy('published_at', 'desc');
+    }
+
+    public function postWithLimit()
+    {
+        return $this->activePost()->limit(4);
     }
 
     protected static function newFactory()

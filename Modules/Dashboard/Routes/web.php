@@ -14,8 +14,7 @@
 Route::group([
     'as' => 'adm.',
     'prefix' => 'admin',
-    'middleware' => ['auth', 'verified'],
-    // 'role:developer|admin|pemilik_komunitas'
+    'middleware' => ['auth', 'verified', 'role:Developer|Admin|Editor|Writer'],
 ], function () {
-    Route::get('/', 'DashboardController@index')->name('index');
+    Route::get('/', 'DashboardController@index')->middleware(['can:dashboard.access'])->name('index');
 });

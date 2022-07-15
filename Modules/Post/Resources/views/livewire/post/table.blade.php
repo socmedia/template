@@ -14,8 +14,8 @@
         <x-slot name="table_headers">
             @foreach ($headers as $header)
                 <x-table.cell cell="{{ $header['cell_name'] }}" isHeader="true" :sortable="$header['sortable']"
-                    sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
-                    wire:click="sort('{{ $header['column_name'] }}')" />
+                              sortableOrder="{{ $header['column_name'] == $sort ? $order : null }}"
+                              wire:click="sort('{{ $header['column_name'] }}')" />
             @endforeach
         </x-slot>
 
@@ -75,7 +75,8 @@
             @forelse ($posts as $post)
                 <x-table.row>
                     <x-table.cell>
-                        <img src="{{ $post->thumbnail }}" style="width: 100%; max-width: 200px" alt="">
+                        <img src="{{ $post->thumbnail ? url($post->thumbnail) : 'https://via.placeholder.com/600x400/181818/ddd?text=soclyfe.com' }}"
+                             style="width: 100%; max-width: 200px" alt="">
                     </x-table.cell>
                     <x-table.cell>
                         <p class="mb-2 fw-bold fs-6" style="width: 400px; white-space: normal;">
@@ -91,13 +92,12 @@
                                 <small>Author,
                                     <strong>{{ $post->writer ? $post->writer->name : null }}</strong></small>
                             </div>
-
                             <div>
-                                <small class="with-icon me-2 text-success">
-                                    <i class="bx bx-paper-plane"></i> {{ $post->number_of_views }}
-                                </small>
                                 <small class="with-icon me-2 text-primary">
-                                    <i class="lni lni-eye"></i> {{ $post->number_of_shares }}
+                                    <i class="lni lni-eye"></i> {{ $post->views_count }}
+                                </small>
+                                <small class="with-icon me-2 text-success">
+                                    <i class="bx bx-paper-plane"></i> {{ $post->number_of_shares }}
                                 </small>
                                 <small class="with-icon text-muted">
                                     <i class='bx bx-comment-dots'></i> {{ $post->comments_count }}
@@ -115,6 +115,7 @@
                         @if ($post->category)
                             <small class="px-2 py-1 bg-secondary text-white rounded-pill">
                                 {{ $post->category ? $post->category->name : null }}
+                                {{ $post->subCategory ? ' - ' . $post->subCategory->name : null }}
                             </small>
                         @endif
                     </x-table.cell>
@@ -139,14 +140,13 @@
                         <div class="btn-group" role="group">
                             @can('post.archive')
                                 <x-action-button href="javascript:void(0)" wire:click="archive('{{ $post->id }}')"
-                                    title="{{ !$post->archived_at ? 'Arsipkan' : 'Pulihkan' }}">
+                                                 title="{{ !$post->archived_at ? 'Arsipkan' : 'Pulihkan' }}">
                                     <i class="bx bx-{{ !$post->archived_at ? 'archive-in' : 'upload' }}"></i>
                                 </x-action-button>
                             @endcan
                             @can('post.show')
-                                <x-action-button
-                                    href="{{ route('front.post.show', ['slug_title' => $post->slug_title]) }}"
-                                    target="_blank" title="Lihat Postingan">
+                                <x-action-button href="{{ route('front.post.show', ['slug_title' => $post->slug_title]) }}"
+                                                 target="_blank" title="Lihat Postingan">
                                     <i class="bx bx-show"></i>
                                 </x-action-button>
                             @endcan
@@ -157,7 +157,7 @@
                             @endcan
                             @can('post.delete')
                                 <x-remove.button title="Hapus Postingan"
-                                    wire:click="$set('destroyId', '{{ $post->id }}')" />
+                                                 wire:click="$set('destroyId', '{{ $post->id }}')" />
                             @endcan
                         </div>
                     </x-table.cell>

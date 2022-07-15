@@ -23,7 +23,7 @@ class PostComment extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'posts_id', 'user_id', 'name', 'email', 'number_of_likes', 'comment',
+        'id', 'posts_id', 'user_id', 'name', 'email', 'number_of_likes', 'comment', 'approved_by', 'approved_by',
     ];
 
     protected $with = [

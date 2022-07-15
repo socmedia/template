@@ -68,6 +68,13 @@ trait TableConfig
             'additional_class' => null,
         ],
         [
+            'cell_name' => 'Unggulan?',
+            'column_name' => 'is_featured',
+            'sortable' => false,
+            'order' => null,
+            'additional_class' => null,
+        ],
+        [
             'cell_name' => 'Aksi',
             'column_name' => null,
             'sortable' => false,

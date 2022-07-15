@@ -17,6 +17,6 @@ class MasterDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(CategoryTableSeeder::class);
-        // $this->call(SubCategoryTableSeeder::class);
+        $this->call(SubCategoryTableSeeder::class);
     }
 }
