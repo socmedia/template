@@ -12,6 +12,26 @@ $(function () {
         for (var e = window.location, o = $(".metismenu li a").filter(function () {
                 return this.href == e
             }).addClass("").parent().addClass("mm-active"); o.is("li");) o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
+    }), $(".mobile-toggle-menu").on("click", function () {
+        $(".wrapper").addClass("toggled")
+    }), $(".toggle-icon").click(function () {
+        $(".wrapper").hasClass("toggled") ? ($(".wrapper").removeClass("toggled"), $(".sidebar-wrapper").unbind("hover")) : ($(".wrapper").addClass("toggled"), $(".sidebar-wrapper").hover(function () {
+            $(".wrapper").addClass("sidebar-hovered")
+        }, function () {
+            $(".wrapper").removeClass("sidebar-hovered")
+        }))
+    }), $(document).ready(function () {
+        $(window).on("scroll", function () {
+            $(this).scrollTop() > 300 ? $(".back-to-top").fadeIn() : $(".back-to-top").fadeOut()
+        }), $(".back-to-top").on("click", function () {
+            return $("html, body").animate({
+                scrollTop: 0
+            }, 600), !1
+        })
+    }), $(function () {
+        for (var e = window.location, o = $(".metismenu li a").filter(function () {
+                return this.href == e
+            }).addClass("").parent().addClass("mm-active"); o.is("li");) o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
     }), $(function () {
         $("#menu").metisMenu()
     }), $(".chat-toggle-btn").on("click", function () {
@@ -56,11 +76,7 @@ $(function () {
         $("html").addClass("color-header headercolor8"), $("html").removeClass("headercolor1 headercolor2 headercolor4 headercolor5 headercolor6 headercolor7 headercolor3")
     })
 
-
-
     // sidebar colors
-
-
     $('#sidebarcolor1').click(theme1);
     $('#sidebarcolor2').click(theme2);
     $('#sidebarcolor3').click(theme3);
@@ -101,12 +117,4 @@ $(function () {
     function theme8() {
         $('html').attr('class', 'color-sidebar sidebarcolor8');
     }
-
-
-
-
-
-
-
-
 });

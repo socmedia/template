@@ -25,6 +25,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--favicon-->
     <link rel="icon" href="{{ cache('favicon') }}" type="image/png" />
     <!--plugins-->
@@ -51,9 +52,9 @@
     {{-- Filepond --}}
     <link href="{{ asset('vendor/filepond/css/filepond.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('vendor/filepond/plugins/image-preview/filepond-plugin-image-preview.min.css') }}"
-        rel="stylesheet" />
+          rel="stylesheet" />
     <link href="{{ asset('vendor/filepond/plugins/file-poster/filepond-plugin-file-poster.min.css') }}"
-        rel="stylesheet" />
+          rel="stylesheet" />
 
     {{-- Summernote --}}
     <link href="{{ asset('vendor/summernote/css/summernote-lite.min.css') }}" rel="stylesheet">
@@ -102,6 +103,11 @@
 
     <script>
         $(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             const modalEl = document.getElementById('remove-modal');
             if (modalEl) {

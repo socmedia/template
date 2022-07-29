@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Constants\filterLabel;
 use Livewire\Component;
 use Modules\Dashboard\Traits\GoogleAnalytics;
-use Spatie\Analytics\Period;
 
 class AnalyticsPerform extends Component
 {
@@ -12,68 +12,65 @@ class AnalyticsPerform extends Component
 
     public $period = 7, $isHomePage;
 
+    public $analyticsConfig = [
+        'label' => null,
+        'active' => 'this-month',
+    ];
+
     public function mount($isHomePage = false)
     {
         $this->isHomePage = $isHomePage;
+        $this->analyticsConfig['label'] = dateTimeTranslated(now()->startOfyear()->toDateString(), 'M d, Y') . ' - ' . dateTimeTranslated(now()->endOfYear()->toDateString(), 'M d, Y');
     }
 
-    public function getVisitorsAndPageViews($period)
+    public function sessionAndPageViews()
     {
-        return $this->fetchVisitorsAndPageViews(Period::days($period));
-    }
+        $switch = switchDate($this->analyticsConfig['active']);
+        $metric = $switch['metrics'];
+        $data = $this->performQuery($switch, $metric);
 
-    public function getMostVisitedPages($period)
-    {
-        return $this->fetchMostVisitedPages(Period::days($period));
-    }
+        $metrics = array_map(function ($row) use ($metric) {
+            if ($metric == 'ga:date') {
+                return dateTimeTranslated($row[0], 'd M');
+            } elseif ($metric == 'ga:week') {
+                return 'Ming. Ke ' . $row[0];
+            } elseif ($metric == 'ga:month') {
+                return dateTimeTranslated('01-' . $row[0] . '-' . date('Y'), 'M Y');
+            } elseif ($metric == 'ga:yearMonth') {
+                return dateTimeTranslated($row[0] . '01', 'M Y');
+            } else {
+                return $row[0];
+            }
+        }, $data->rows);
 
-    public function totalVisitors()
-    {
-        $visitors_and_page_views = [
-            // 'daily' => $this->getVisitorsAndPageViews(1),
-            'weekly' => $this->getVisitorsAndPageViews(7),
-            'monthly' => $this->getVisitorsAndPageViews(30),
-            'yearly' => $this->getVisitorsAndPageViews(365),
-        ];
+        $sessions = array_map(function ($row) {
+            return $row[1];
+        }, $data->rows);
 
-        // Daily
-        // $daily = null;
-        // foreach ($visitors_and_page_views['daily'] as $day) {
-        //     $daily += $day['visitors'];
-        // }
-
-        // Weekly
-        $weekly = null;
-        foreach ($visitors_and_page_views['weekly'] as $week) {
-            $weekly += $week['visitors'];
-        }
-
-        // Monthly
-        $monthly = null;
-        foreach ($visitors_and_page_views['monthly'] as $month) {
-            $monthly += $month['visitors'];
-        }
-
-        // Yearly
-        $yearly = null;
-        foreach ($visitors_and_page_views['yearly'] as $year) {
-            $yearly += $year['visitors'];
-        }
+        $pageViews = array_map(function ($row) {
+            return $row[2];
+        }, $data->rows);
 
         return [
-            // 'daily' => $daily,
-            'weekly' => $weekly,
-            'monthly' => $monthly,
-            'yearly' => $yearly,
+            'metrics' => $metrics,
+            'sessions' => $sessions,
+            'page_views' => $pageViews,
         ];
+    }
+
+    public function filterAnalyticsData($value, $label)
+    {
+        $this->analyticsConfig['active'] = $value;
+        $this->analyticsConfig['label'] = $label;
+        $this->dispatchBrowserEvent('update-chart');
     }
 
     public function render()
     {
+        // dd($this->sessionAndPageViews());
         return view('livewire.analytics-perform', [
-            'most_visited_pages' => $this->getMostVisitedPages($this->period),
-            'visitors_and_page_views' => $this->getVisitorsAndPageViews($this->period),
-            'visitors' => $this->totalVisitors(),
+            'analytics_data' => $this->sessionAndPageViews(),
+            'filter_labels' => FilterLabel::allFilters(),
         ]);
     }
 }

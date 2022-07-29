@@ -9,6 +9,13 @@ use Modules\Post\Entities\Post;
 
 class Count extends Component
 {
+    public $mode;
+
+    public function mount($mode = 'horizontal')
+    {
+        $this->mode = $mode;
+    }
+
     public function totalPosts()
     {
         return Post::count();

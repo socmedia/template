@@ -69,6 +69,92 @@ function numberShortner($n)
     return !empty($n_format . $suffix) ? $n_format . $suffix : 0;
 }
 
+function switchDate($slug)
+{
+    switch ($slug) {
+        case 'today':
+            return [
+                'startDate' => now(),
+                'endDate' => now(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'yesterday':
+            return [
+                'startDate' => now()->subDay(1),
+                'endDate' => now()->subDay(1),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'this-week':
+            return [
+                'startDate' => now()->startOfWeek(),
+                'endDate' => now()->endOfWeek(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'this-month':
+            return [
+                'startDate' => now()->startOfMonth(),
+                'endDate' => now(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'this-year':
+            return [
+                'startDate' => now()->startOfYear(),
+                'endDate' => now()->endOfYear(),
+                'metrics' => 'ga:month',
+            ];
+            break;
+
+        case 'last-7-days':
+            return [
+                'startDate' => now()->subDays(6),
+                'endDate' => now(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'last-30-days':
+            return [
+                'startDate' => now()->subDays(29),
+                'endDate' => now(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'last-90-days':
+            return [
+                'startDate' => now()->subDays(89),
+                'endDate' => now(),
+                'metrics' => 'ga:date',
+            ];
+            break;
+
+        case 'one-year':
+            return [
+                'startDate' => now()->subYear(1),
+                'endDate' => now()->endOfYear(),
+                'metrics' => 'ga:yearMonth',
+            ];
+            break;
+
+        default:
+            return [
+                'startDate' => now()->startOfYear(),
+                'endDate' => now()->endOfYear(),
+                'metrics' => 'ga:month',
+            ];
+            break;
+    }
+
+}
+
 function number($number, $decimals)
 {
     try {
